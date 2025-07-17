@@ -18,6 +18,15 @@ const inputDir = path.join(__dirname, 'data/input');
 const outputDir = path.join(__dirname, 'data/output');
 const cachePath = path.join(__dirname, '.cache.json');
 
+// ✅ Ensure output directory exists
+async function ensureOutputDir() {
+  try {
+    await fs.mkdir(outputDir, { recursive: true });
+  } catch (err) {
+    console.error('❌ Failed to create output directory:', err.message);
+  }
+}
+
 // Utility to get formatted timestamp
 const getFormattedTimestamp = () => {
   const now = new Date();
@@ -135,6 +144,9 @@ async function convert() {
       const outputFileName = `${timestamp}_${outputFileNameBase}.json`;
       const outputPath = path.join(outputDir, outputFileName);
 
+      // ✅ Ensure output directory before writing prompts
+      await ensureOutputDir();
+
       // Select prompts to generate based on CLI flags
       const promptTypes = [];
       if (generateAll || generateSummary) promptTypes.push('summary');
@@ -165,11 +177,6 @@ async function convert() {
           console.log(`⚠️  Skipped (same data exists): ${file}`);
           continue;
         }
-      }
-
-      if (!outputExists) {
-        await fs.mkdir(outputDir, { recursive: true });
-        outputExists = true;
       }
 
       await fs.writeFile(outputPath, JSON.stringify(normalized, null, 2), 'utf8');
