@@ -24,29 +24,29 @@
     npm install
 
 3. Run the following command to start the server and listen for incoming requests:
-    node index.js sample.pdf
+    `node index.js sample.pdf`
     This will convert the PDF file into a JSON format
     and save it in the output folder.
 
-    node index.js sample.md
+    `node index.js sample.md`
     This will convert the Markdown file into a JSON format
     and save it in the output folder.
 
-    node index.js sample.png
+    `node index.js sample.png`
     This will extract text from the OCR image and save it in the output folder.
     
-    node index.js sample.jpg
+    `node index.js sample.jpg`
     This will extract text from the OCR image and save it in the output folder.
 
-    node index.js sample.pdf --summary
+    `node index.js sample.pdf --summary`
     This will convert the PDF file into a JSON format, generate a summary of the content,
     and save it in the output folder.
 
-    node index.js sample.md --tags
+    `node index.js sample.md --tags`
     This will convert the Markdown file into a JSON format, extract tags from the content,
     and save them in the output folder.
 
-    node index.js sample.png --qna
+    `node index.js sample.png --qna`
     This will extract text from the OCR image and generate 5 detailed technical questions and answers
     
 ## Usage
