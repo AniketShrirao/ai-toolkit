@@ -1,6 +1,12 @@
-import Tesseract from 'tesseract.js';
+import { createWorker } from 'tesseract.js';
 
-export const extractTextFromImage = async (filePath) => {
-  const result = await Tesseract.recognize(filePath, 'eng');
-  return result.data.text;
-};
+export async function extractOCR(imagePath) {
+  const worker = await createWorker('eng');
+  const { data: { text } } = await worker.recognize(imagePath);
+  await worker.terminate();
+
+  return {
+    type: 'ocr',
+    content: text
+  };
+}
