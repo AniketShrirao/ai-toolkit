@@ -4,6 +4,7 @@
   "type": "module",
   "dependencies": {
     "pdf-parse": "^1.1.1",
+    "sharp": "^0.34.3",
     "tesseract.js": "^6.0.1"
   }
 }
