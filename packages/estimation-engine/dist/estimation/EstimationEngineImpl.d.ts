@@ -1,0 +1,66 @@
+import { Requirement, ComplexityScore, TimeEstimate, RiskAssessment, ProjectEstimate, RateConfiguration, ComplexityFactors, ProjectData, CodebaseAnalysis, ProcessingOptions } from "@ai-toolkit/shared";
+import { EstimationEngine } from "../interfaces/EstimationEngine.js";
+import { OllamaService } from "@ai-toolkit/ollama-interface";
+export declare class EstimationEngineImpl implements EstimationEngine {
+    private complexityAnalyzer;
+    private riskAnalyzer;
+    private rateConfiguration;
+    private historicalData;
+    constructor(ollamaService: OllamaService);
+    calculateComplexity(requirements: Requirement[], options?: ProcessingOptions): Promise<ComplexityScore>;
+    analyzeRequirementComplexity(requirement: Requirement, context?: string[]): Promise<number>;
+    generateTimeEstimate(complexity: ComplexityScore, historicalData?: ProjectData[], options?: ProcessingOptions): Promise<TimeEstimate>;
+    estimateByCategory(requirements: Requirement[], categories: string[]): Promise<Map<string, TimeEstimate>>;
+    assessRisks(requirements: Requirement[], codebase?: CodebaseAnalysis, options?: ProcessingOptions): Promise<RiskAssessment>;
+    identifyTechnicalRisks(requirements: Requirement[], codebase?: CodebaseAnalysis): Promise<string[]>;
+    assessIntegrationRisks(requirements: Requirement[], existingSystems?: string[]): Promise<string[]>;
+    generateProjectEstimate(requirements: Requirement[], options?: {
+        includeRisks?: boolean;
+        useHistoricalData?: boolean;
+        codebaseContext?: CodebaseAnalysis;
+        customFactors?: Partial<ComplexityFactors>;
+    }): Promise<ProjectEstimate>;
+    addHistoricalProject(projectData: ProjectData): Promise<void>;
+    getHistoricalData(filters?: {
+        technology?: string[];
+        size?: "small" | "medium" | "large";
+        domain?: string;
+    }): Promise<ProjectData[]>;
+    setHourlyRates(rates: RateConfiguration): void;
+    getHourlyRates(): RateConfiguration;
+    updateComplexityFactors(factors: Partial<ComplexityFactors>): void;
+    getComplexityFactors(): ComplexityFactors;
+    calibrateEstimates(actualProjects: ProjectData[]): Promise<{
+        accuracy: number;
+        bias: number;
+        recommendations: string[];
+    }>;
+    improveAccuracy(feedback: {
+        projectId: string;
+        actualHours: number;
+        estimatedHours: number;
+        factors: string[];
+    }[]): Promise<void>;
+    generateScenarios(requirements: Requirement[], scenarios: ("optimistic" | "realistic" | "pessimistic")[]): Promise<Map<string, ProjectEstimate>>;
+    validateEstimate(estimate: ProjectEstimate, requirements: Requirement[]): Promise<{
+        valid: boolean;
+        warnings: string[];
+        suggestions: string[];
+    }>;
+    private calculateBaseHours;
+    private calculateHistoricalAdjustment;
+    private createTimeBreakdown;
+    private calculateConfidence;
+    private generateAssumptions;
+    private categorizeRequirements;
+    private calculateTotalCost;
+    private isIntegrationRequirement;
+    private categorizeProjectSize;
+    private projectUsesAnyTechnology;
+    private isSimilarComplexity;
+    private generateCalibrationRecommendations;
+    private analyzeFeedbackPatterns;
+    private getScenarioFactors;
+    private applyScenarioAdjustments;
+}
+//# sourceMappingURL=EstimationEngineImpl.d.ts.map
