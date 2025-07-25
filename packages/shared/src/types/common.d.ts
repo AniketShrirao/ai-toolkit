@@ -6,7 +6,7 @@ export type AnalysisType = "requirements" | "summary" | "structure" | "estimatio
 export type SummaryLength = "short" | "medium" | "long";
 export type RequirementType = "functional" | "non-functional";
 export type Priority = "critical" | "high" | "medium" | "low";
-export type WorkflowStatus = "pending" | "running" | "completed" | "failed" | "cancelled";
+export type WorkflowStatus = "pending" | "running" | "completed" | "failed" | "cancelled" | "paused";
 export type DocumentStatus = "uploading" | "processing" | "completed" | "failed" | "queued";
 export interface BaseEntity {
     id: string;

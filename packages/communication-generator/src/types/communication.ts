@@ -102,7 +102,12 @@ export interface TemplateRenderContext {
   };
   project: {
     name: string;
-    requirements?: Requirement[];
+    requirements?:
+      | Requirement[]
+      | {
+          functional: Requirement[];
+          nonFunctional: Requirement[];
+        };
     estimate?: ProjectEstimate;
     analysis?: DocumentAnalysis;
   };

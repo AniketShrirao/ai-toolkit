@@ -24,7 +24,8 @@ export type WorkflowStatus =
   | "running"
   | "completed"
   | "failed"
-  | "cancelled";
+  | "cancelled"
+  | "paused";
 export type DocumentStatus =
   | "uploading"
   | "processing"

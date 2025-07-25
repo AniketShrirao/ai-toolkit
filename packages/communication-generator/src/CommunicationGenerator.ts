@@ -1,5 +1,10 @@
 import { OllamaService } from "@ai-toolkit/ollama-interface";
 import { TemplateManager } from "./templates/TemplateManager.js";
+import { ContentAdaptationService } from "./services/ContentAdaptationService.js";
+import {
+  MultiFormatOutputService,
+  FormattedOutput,
+} from "./services/MultiFormatOutputService.js";
 import {
   CommunicationRequest,
   GeneratedCommunication,
@@ -14,10 +19,14 @@ import {
 export class CommunicationGenerator {
   private templateManager: TemplateManager;
   private ollamaService: OllamaService;
+  private contentAdaptationService: ContentAdaptationService;
+  private multiFormatOutputService: MultiFormatOutputService;
 
   constructor(ollamaService: OllamaService) {
     this.ollamaService = ollamaService;
     this.templateManager = new TemplateManager();
+    this.contentAdaptationService = new ContentAdaptationService(ollamaService);
+    this.multiFormatOutputService = new MultiFormatOutputService();
   }
 
   /**
@@ -135,6 +144,122 @@ export class CommunicationGenerator {
   }
 
   /**
+   * Generate communication with advanced AI-powered content adaptation
+   */
+  public async generateAdaptedCommunication(
+    request: CommunicationRequest
+  ): Promise<GeneratedCommunication> {
+    // Generate base communication
+    const baseCommunication = await this.generateCommunication(request);
+
+    // Apply content adaptation based on audience and project context
+    const adaptedContent = await this.contentAdaptationService.adaptContent(
+      { subject: baseCommunication.subject, body: baseCommunication.content },
+      {
+        audienceType: request.audienceType,
+        communicationType: request.type,
+        projectAnalysis: request.context.projectAnalysis,
+        estimate: request.context.estimate,
+        includeDetails: request.audienceType === "technical",
+      }
+    );
+
+    // Ensure professional tone
+    const finalContent =
+      await this.contentAdaptationService.maintainProfessionalTone(
+        adaptedContent.body,
+        request.type
+      );
+
+    return {
+      ...baseCommunication,
+      subject: adaptedContent.subject,
+      content: finalContent,
+      wordCount: this.countWords(finalContent),
+      estimatedReadTime: Math.ceil(this.countWords(finalContent) / 200),
+      updatedAt: new Date(),
+    };
+  }
+
+  /**
+   * Generate communication in multiple formats
+   */
+  public async generateMultiFormatCommunication(
+    request: CommunicationRequest,
+    formats: OutputFormat[]
+  ): Promise<Record<OutputFormat, FormattedOutput>> {
+    const communication = await this.generateAdaptedCommunication(request);
+
+    return this.multiFormatOutputService.generateMultipleFormats(
+      communication,
+      formats,
+      {
+        includeMetadata: true,
+        styling: "professional",
+      }
+    );
+  }
+
+  /**
+   * Generate audience-specific variations of the same communication
+   */
+  public async generateAudienceVariations(
+    baseRequest: Omit<CommunicationRequest, "audienceType">,
+    audiences: AudienceType[]
+  ): Promise<Record<AudienceType, GeneratedCommunication>> {
+    const variations: Record<string, GeneratedCommunication> = {};
+
+    for (const audienceType of audiences) {
+      const request: CommunicationRequest = {
+        ...baseRequest,
+        audienceType,
+      };
+
+      const communication = await this.generateAdaptedCommunication(request);
+      variations[audienceType] = communication;
+    }
+
+    return variations as Record<AudienceType, GeneratedCommunication>;
+  }
+
+  /**
+   * Analyze and improve existing communication content
+   */
+  public async improveCommunication(
+    existingContent: { subject: string; body: string },
+    targetAudience: AudienceType,
+    communicationType: CommunicationType
+  ): Promise<{
+    improved: { subject: string; body: string };
+    improvements: string[];
+    confidence: number;
+  }> {
+    const adaptedContent = await this.contentAdaptationService.adaptContent(
+      existingContent,
+      {
+        audienceType: targetAudience,
+        communicationType,
+        toneAdjustment: "professional",
+      }
+    );
+
+    const improvedContent =
+      await this.contentAdaptationService.maintainProfessionalTone(
+        adaptedContent.body,
+        communicationType
+      );
+
+    return {
+      improved: {
+        subject: adaptedContent.subject,
+        body: improvedContent,
+      },
+      improvements: adaptedContent.adaptations,
+      confidence: adaptedContent.confidence,
+    };
+  }
+
+  /**
    * Validate personalization configuration
    */
   public validatePersonalization(config: PersonalizationConfig): string[] {
@@ -194,6 +319,13 @@ export class CommunicationGenerator {
   private buildRenderContext(
     request: CommunicationRequest
   ): TemplateRenderContext {
+    // Structure requirements properly for templates
+    const requirements = request.context.requirements || [];
+    const structuredRequirements = {
+      functional: requirements.filter((r) => r.type === "functional"),
+      nonFunctional: requirements.filter((r) => r.type === "non-functional"),
+    };
+
     return {
       client: {
         name: request.context.clientName,
@@ -202,7 +334,7 @@ export class CommunicationGenerator {
       },
       project: {
         name: request.context.projectName,
-        requirements: request.context.requirements,
+        requirements: structuredRequirements,
         estimate: request.context.estimate,
         analysis: request.context.projectAnalysis,
       },

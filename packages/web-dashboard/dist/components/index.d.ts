@@ -1,6 +1,0 @@
-export * from './Layout';
-export * from './Dashboard';
-export * from './Documents';
-export * from './Settings';
-export * from './UI';
-//# sourceMappingURL=index.d.ts.map

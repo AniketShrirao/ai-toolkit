@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "allowJs": false,
+    "composite": true,
+    "incremental": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/*.test.ts"],
+  "references": [
+    { "path": "../shared" },
+    { "path": "../document-analyzer" },
+    { "path": "../ollama-interface" },
+    { "path": "../data-layer" },
+    { "path": "../workflow-engine" }
+  ]
+}

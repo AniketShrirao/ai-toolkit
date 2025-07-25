@@ -140,7 +140,7 @@ describe("CommunicationGenerator Integration Tests", () => {
 
 Quick update on {{project.name}} - analysis complete!
 
-Found {{project.requirements.length}} requirements.
+Found {{#if project.requirements.functional}}{{project.requirements.functional.length}}{{else}}0{{/if}} functional and {{#if project.requirements.nonFunctional}}{{project.requirements.nonFunctional.length}}{{else}}0{{/if}} non-functional requirements.
 {{#if project.estimate}}Estimated: {{hours project.estimate.totalHours}} ({{currency project.estimate.totalCost}}){{/if}}
 
 Let's chat soon!
@@ -169,7 +169,9 @@ Let's chat soon!
       expect(result.templateId).toBe("custom-brief-contact");
       expect(result.subject).toBe("Quick update on E-commerce Platform");
       expect(result.content).toContain("Quick update on E-commerce Platform");
-      expect(result.content).toContain("Found 3 requirements");
+      expect(result.content).toContain(
+        "Found 2 functional and 1 non-functional requirements"
+      );
       expect(result.content).toContain("Jane Developer");
       expect(result.wordCount).toBeLessThan(100); // Should be brief
     });

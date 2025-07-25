@@ -6,7 +6,7 @@ export * from "./types/ollama.js";
 export * from "./types/analysis.js";
 
 // Workflow types (core workflow engine)
-export {
+export type {
   WorkflowDefinition as CoreWorkflowDefinition,
   WorkflowStep as CoreWorkflowStep,
   WorkflowStepType,
@@ -22,7 +22,7 @@ export {
 } from "./types/workflow.js";
 
 // Settings types (includes UI workflow definitions)
-export {
+export type {
   OllamaSettings,
   ProcessingSettings,
   WorkflowSettings,
@@ -35,3 +35,10 @@ export {
 
 // Constants
 export * from "./constants/index.js";
+
+// Error handling and logging
+export * from "./errors/index.js";
+export * from "./logging/index.js";
+
+// Integrity checking
+export * from "./integrity/index.js";

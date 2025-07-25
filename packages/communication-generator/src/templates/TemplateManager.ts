@@ -23,7 +23,12 @@ export class TemplateManager {
     Handlebars.registerHelper(
       "formatDate",
       (date: Date, formatStr: string = "PPP") => {
-        return format(date, formatStr);
+        try {
+          return format(date, formatStr);
+        } catch (error) {
+          // Fallback to simple date format if format string is invalid
+          return format(date, "yyyy-MM-dd");
+        }
       }
     );
 
@@ -31,9 +36,11 @@ export class TemplateManager {
     Handlebars.registerHelper(
       "currency",
       (amount: number, currency: string = "USD") => {
+        // Handle case where currency might be an object (from template context)
+        const currencyCode = typeof currency === "string" ? currency : "USD";
         return new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: currency,
+          currency: currencyCode,
         }).format(amount);
       }
     );
@@ -76,6 +83,15 @@ export class TemplateManager {
     // List formatting helper
     Handlebars.registerHelper("bulletList", (items: string[]) => {
       return items.map((item) => `• ${item}`).join("\n");
+    });
+
+    // Math helpers
+    Handlebars.registerHelper("multiply", (a: number, b: number) => {
+      return a * b;
+    });
+
+    Handlebars.registerHelper("divide", (a: number, b: number) => {
+      return Math.round(a / b);
     });
   }
 
@@ -169,10 +185,16 @@ export class TemplateManager {
     const errors: string[] = [];
 
     try {
-      Handlebars.compile(template.subject);
-      Handlebars.compile(template.body);
+      const compiledSubject = Handlebars.compile(template.subject);
+      const compiledBody = Handlebars.compile(template.body);
+
+      // Test compilation with empty context to catch runtime errors
+      compiledSubject({});
+      compiledBody({});
     } catch (error) {
-      errors.push(`Template compilation error: ${error.message}`);
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      errors.push(`Template compilation error: ${errorMessage}`);
     }
 
     return errors;

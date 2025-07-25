@@ -235,5 +235,20 @@ export const createTestRequest = (
   audienceType,
   context: createTestContext(),
   personalization: createTestPersonalization(),
-  customInstructions: "Make it more friendly and include technical details",
+  // Don't include customInstructions by default to avoid AI enhancement in basic tests
+});
+
+// Helper for creating requests with custom instructions for AI enhancement tests
+export const createTestRequestWithInstructions = (
+  type: CommunicationType = "initial-contact",
+  audienceType: AudienceType = "business",
+  format: OutputFormat = "email",
+  customInstructions: string = "Make it more professional and detailed"
+): CommunicationRequest => ({
+  type,
+  format,
+  audienceType,
+  context: createTestContext(),
+  personalization: createTestPersonalization(),
+  customInstructions,
 });

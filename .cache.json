@@ -1,27 +1,7 @@
 {
-  "notes.png": {
-    "hash": "3c2251dc8a7b005d91ddc4506ef618e4c32ee0ab02b21eede14d0fb0d4756140",
-    "lastModified": 1752783654375.4556,
-    "outputFile": "20250717203502._image_notes.json"
-  },
-  "sample.jpg": {
-    "hash": "82ae016f652e36a8b0721dca2e38f999c245c524dd1f2631968be8901123841d",
-    "lastModified": 1752783485193.6196,
-    "outputFile": "20250717203503._image_sample.json"
-  },
-  "sample.md": {
-    "hash": "86afa12c657975e7c1e79e9edd22cc902e60aa32743b60a36ae396c88c0360ed",
-    "lastModified": 1752781859909.823,
-    "outputFile": "20250717203503._markdown_sample.json"
-  },
-  "sample.pdf": {
-    "hash": "e75908c595d6615e7cd0408e898a18a697698f177f811e7281085f65c18ac09d",
-    "lastModified": 1752779047940.8335,
-    "outputFile": "20250717203503._pdf_sample.json"
-  },
-  "sample.txt": {
-    "hash": "387fa8c23f7b2222d3856e633051626cdbeac029c98308e4e4d2c5ee94fdc4cb",
-    "lastModified": 1752784559218.2605,
-    "outputFile": "20250717203712._text_sample.json"
+  "cap_round.pdf": {
+    "hash": "23e073107cf7e63abd093ab8f98a569ad89367bd082e7957adda87c5823969f1",
+    "lastModified": 1752917628052.3142,
+    "outputFile": "20250721142448._pdf_cap_round.json"
   }
 }

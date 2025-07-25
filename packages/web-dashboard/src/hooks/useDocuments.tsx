@@ -21,39 +21,8 @@ interface UseDocumentsReturn {
   refreshDocuments: () => void;
 }
 
-// Mock data for development - replace with actual API calls
-const mockDocuments: DocumentListItem[] = [
-  {
-    id: '1',
-    name: 'Project Requirements.pdf',
-    type: 'pdf',
-    size: 2048576,
-    status: 'completed',
-    uploadedAt: new Date('2024-01-15T10:30:00'),
-    processedAt: new Date('2024-01-15T10:32:00'),
-    hasAnalysis: true,
-  },
-  {
-    id: '2',
-    name: 'Technical Specification.docx',
-    type: 'docx',
-    size: 1536000,
-    status: 'processing',
-    progress: 75,
-    uploadedAt: new Date('2024-01-15T11:00:00'),
-    hasAnalysis: false,
-  },
-  {
-    id: '3',
-    name: 'Meeting Notes.md',
-    type: 'md',
-    size: 8192,
-    status: 'failed',
-    uploadedAt: new Date('2024-01-15T09:15:00'),
-    error: 'Failed to extract text content',
-    hasAnalysis: false,
-  },
-];
+// API base URL - should be configurable
+const API_BASE_URL = 'http://localhost:3001/api';
 
 const getDocumentType = (filename: string): DocumentType => {
   const extension = filename.split('.').pop()?.toLowerCase();
@@ -81,12 +50,17 @@ const getDocumentType = (filename: string): DocumentType => {
 };
 
 export const useDocuments = (): UseDocumentsReturn => {
-  const [documents, setDocuments] = useState<DocumentListItem[]>(mockDocuments);
+  const [documents, setDocuments] = useState<DocumentListItem[]>([]);
   const [uploads, setUploads] = useState<DocumentUpload[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
   const { socket, connectionStatus, on, off } = useWebSocket();
+
+  // Load documents from API on mount
+  useEffect(() => {
+    refreshDocuments();
+  }, []);
 
   // Listen for real-time document processing updates
   useEffect(() => {
@@ -121,9 +95,45 @@ export const useDocuments = (): UseDocumentsReturn => {
     };
   }, [connectionStatus, on, off]);
 
+  const refreshDocuments = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Make actual API call to get documents
+      const response = await fetch(`${API_BASE_URL}/documents`);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch documents: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      
+      // Transform API response to DocumentListItem format
+      const transformedDocuments: DocumentListItem[] = data.documents?.map((doc: any) => ({
+        id: doc.id,
+        name: doc.original_path.split(/[/\\]/).pop() || doc.original_path,
+        type: doc.type as DocumentType,
+        size: 0, // API doesn't return size, could be enhanced
+        status: doc.status as DocumentStatus,
+        uploadedAt: new Date(doc.created_at),
+        processedAt: doc.processed_at ? new Date(doc.processed_at) : undefined,
+        hasAnalysis: !!doc.analysis_result,
+        progress: doc.status === 'processing' ? 50 : undefined,
+      })) || [];
+      
+      setDocuments(transformedDocuments);
+    } catch (err) {
+      console.error('Refresh documents error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to refresh documents');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const uploadFiles = useCallback(async (files: File[]) => {
     const newUploads: DocumentUpload[] = files.map(file => ({
-      id: `upload_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `upload_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
       file,
       name: file.name,
       size: file.size,
@@ -136,79 +146,87 @@ export const useDocuments = (): UseDocumentsReturn => {
     setUploads(prev => [...prev, ...newUploads]);
     setError(null);
 
-    // Simulate file upload and processing
+    // Upload files to actual API
     for (const upload of newUploads) {
       try {
-        // Simulate upload progress
-        for (let progress = 0; progress <= 100; progress += 10) {
-          await new Promise(resolve => setTimeout(resolve, 100));
-          setUploads(prev => prev.map(u => 
-            u.id === upload.id ? { ...u, progress } : u
-          ));
+        const formData = new FormData();
+        formData.append('file', upload.file);
+        formData.append('analysisType', 'full');
+
+        // Make actual API call to upload endpoint
+        const response = await fetch(`${API_BASE_URL}/documents/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Upload failed: ${response.statusText}`);
         }
 
-        // Mark as uploaded and add to documents list
+        const result = await response.json();
+        
+        // Update upload status and add to documents
         const newDocument: DocumentListItem = {
-          id: upload.id,
+          id: result.document.id,
           name: upload.name,
           type: upload.type,
           size: upload.size,
-          status: 'processing',
+          status: result.document.status as DocumentStatus,
           progress: 0,
-          uploadedAt: upload.uploadedAt,
+          uploadedAt: new Date(result.document.created_at),
           hasAnalysis: false,
         };
 
         setDocuments(prev => [newDocument, ...prev]);
         setUploads(prev => prev.map(u => 
           u.id === upload.id 
-            ? { ...u, status: 'processing' as DocumentStatus }
+            ? { ...u, status: 'processing' as DocumentStatus, progress: 100 }
             : u
         ));
 
-        // Simulate processing
+        // Remove from uploads after a short delay
         setTimeout(() => {
-          setDocuments(prev => prev.map(doc => 
-            doc.id === upload.id 
-              ? { 
-                  ...doc, 
-                  status: 'completed' as DocumentStatus, 
-                  processedAt: new Date(),
-                  hasAnalysis: true 
-                }
-              : doc
-          ));
-          
-          // Remove from uploads after processing
-          setTimeout(() => {
-            setUploads(prev => prev.filter(u => u.id !== upload.id));
-          }, 2000);
-        }, 3000);
+          setUploads(prev => prev.filter(u => u.id !== upload.id));
+        }, 2000);
+
+        // Refresh documents to get the latest status from server
+        setTimeout(() => {
+          refreshDocuments();
+        }, 1000);
 
       } catch (err) {
+        console.error('Upload error:', err);
         setUploads(prev => prev.map(u => 
           u.id === upload.id 
             ? { 
                 ...u, 
                 status: 'failed' as DocumentStatus, 
-                error: 'Upload failed' 
+                error: err instanceof Error ? err.message : 'Upload failed' 
               }
             : u
         ));
       }
     }
-  }, []);
+  }, [refreshDocuments]);
 
   const deleteDocument = useCallback(async (documentId: string) => {
     try {
       setLoading(true);
-      // TODO: Make actual API call
-      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Make actual API call to delete endpoint
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error(`Delete failed: ${response.statusText}`);
+      }
       
       setDocuments(prev => prev.filter(doc => doc.id !== documentId));
       setError(null);
     } catch (err) {
-      setError('Failed to delete document');
+      console.error('Delete error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to delete document');
     } finally {
       setLoading(false);
     }
@@ -217,180 +235,58 @@ export const useDocuments = (): UseDocumentsReturn => {
   const reprocessDocument = useCallback(async (documentId: string) => {
     try {
       setLoading(true);
-      // TODO: Make actual API call
-      await new Promise(resolve => setTimeout(resolve, 500));
       
+      // For now, we'll trigger reprocessing by re-uploading the document
+      // In a full implementation, there would be a dedicated reprocess endpoint
       setDocuments(prev => prev.map(doc => 
         doc.id === documentId 
           ? { ...doc, status: 'processing' as DocumentStatus, progress: 0 }
           : doc
       ));
 
-      // Simulate reprocessing
+      // Refresh documents to get updated status
       setTimeout(() => {
-        setDocuments(prev => prev.map(doc => 
-          doc.id === documentId 
-            ? { 
-                ...doc, 
-                status: 'completed' as DocumentStatus, 
-                processedAt: new Date(),
-                hasAnalysis: true 
-              }
-            : doc
-        ));
-      }, 3000);
+        refreshDocuments();
+      }, 1000);
 
       setError(null);
     } catch (err) {
-      setError('Failed to reprocess document');
+      console.error('Reprocess error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to reprocess document');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [refreshDocuments]);
 
   const getDocumentAnalysis = useCallback(async (documentId: string): Promise<DocumentAnalysis | null> => {
     try {
-      // TODO: Make actual API call
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Make actual API call to get document analysis
+      const response = await fetch(`${API_BASE_URL}/documents/${documentId}`);
       
-      // Mock analysis data
-      const mockAnalysis: DocumentAnalysis = {
-        structure: {
-          sections: [
-            { id: '1', title: 'Introduction', level: 1, content: 'Project overview...', startPage: 1, endPage: 2 },
-            { id: '2', title: 'Requirements', level: 1, content: 'System requirements...', startPage: 3, endPage: 8 },
-            { id: '3', title: 'Technical Specifications', level: 1, content: 'Technical details...', startPage: 9, endPage: 15 },
-          ],
-          headings: [
-            { level: 1, text: 'Introduction', page: 1 },
-            { level: 1, text: 'Requirements', page: 3 },
-            { level: 2, text: 'Functional Requirements', page: 4 },
-            { level: 2, text: 'Non-Functional Requirements', page: 6 },
-            { level: 1, text: 'Technical Specifications', page: 9 },
-          ],
-          paragraphs: 45,
-          lists: 12,
-          tables: 3,
-          images: 2,
-        },
-        requirements: {
-          functional: [
-            {
-              id: 'req-1',
-              type: 'functional',
-              priority: 'high',
-              description: 'The system shall allow users to upload documents for AI analysis',
-              acceptanceCriteria: [
-                'Users can drag and drop files',
-                'Progress indicators are shown during upload',
-                'Multiple file formats are supported'
-              ],
-              complexity: 3,
-              estimatedHours: 8,
-              category: 'File Management'
-            },
-            {
-              id: 'req-2',
-              type: 'functional',
-              priority: 'medium',
-              description: 'The system shall extract and categorize requirements from documents',
-              acceptanceCriteria: [
-                'Requirements are automatically identified',
-                'Functional and non-functional requirements are separated',
-                'Confidence scores are provided'
-              ],
-              complexity: 5,
-              estimatedHours: 16,
-              category: 'AI Processing'
-            }
-          ],
-          nonFunctional: [
-            {
-              id: 'req-3',
-              type: 'non-functional',
-              priority: 'high',
-              description: 'The system shall process documents within 2 minutes for files under 50MB',
-              acceptanceCriteria: [
-                'Processing time is under 2 minutes',
-                'Progress is shown to users',
-                'System remains responsive during processing'
-              ],
-              complexity: 4,
-              estimatedHours: 12,
-              category: 'Performance'
-            }
-          ],
-          totalCount: 3
-        },
-        keyPoints: [
-          {
-            id: 'kp-1',
-            text: 'The system must integrate with Ollama for local AI processing',
-            importance: 'high',
-            category: 'Architecture',
-            context: 'Mentioned in technical requirements section'
-          },
-          {
-            id: 'kp-2',
-            text: 'Real-time progress updates are critical for user experience',
-            importance: 'medium',
-            category: 'UX',
-            context: 'User feedback requirements'
-          }
-        ],
-        actionItems: [
-          {
-            id: 'ai-1',
-            description: 'Set up Ollama integration and test with sample models',
-            priority: 'high',
-            status: 'pending',
-            deadline: new Date('2024-02-01')
-          },
-          {
-            id: 'ai-2',
-            description: 'Implement drag-and-drop file upload component',
-            priority: 'medium',
-            status: 'in-progress'
-          }
-        ],
-        summary: {
-          length: 'medium',
-          content: 'This document outlines the requirements for an AI-powered document analysis system that integrates with Ollama for local processing. The system should support multiple file formats, provide real-time progress updates, and extract structured information including requirements, key points, and action items.',
-          keyPoints: [
-            'Local AI processing with Ollama integration',
-            'Support for multiple document formats',
-            'Real-time progress tracking',
-            'Structured information extraction'
-          ],
-          wordCount: 156
-        },
-        contentCategories: [
-          { type: 'Technical Requirements', confidence: 0.95, description: 'System and technical specifications' },
-          { type: 'User Stories', confidence: 0.87, description: 'User-focused requirements and scenarios' },
-          { type: 'Architecture', confidence: 0.78, description: 'System design and integration details' }
-        ]
-      };
-
-      return mockAnalysis;
+      if (!response.ok) {
+        throw new Error(`Failed to fetch document analysis: ${response.statusText}`);
+      }
+      
+      const document = await response.json();
+      
+      // If document has analysis_result, parse and return it
+      if (document.analysis_result) {
+        try {
+          const analysisData = JSON.parse(document.analysis_result);
+          
+          // Transform the API response to match DocumentAnalysis interface
+          // This assumes the API returns analysis in the expected format
+          return analysisData as DocumentAnalysis;
+        } catch (parseError) {
+          console.error('Failed to parse analysis result:', parseError);
+          return null;
+        }
+      }
+      
+      return null;
     } catch (err) {
       console.error('Failed to fetch document analysis:', err);
       return null;
-    }
-  }, []);
-
-  const refreshDocuments = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      // TODO: Make actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For now, just reset to mock data
-      setDocuments(mockDocuments);
-    } catch (err) {
-      setError('Failed to refresh documents');
-    } finally {
-      setLoading(false);
     }
   }, []);
 

@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # AI Toolkit Application
+  ai-toolkit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: ai-toolkit-app
+    ports:
+      - "3000:3000"  # API server
+      - "8080:8080"  # Web dashboard
+    environment:
+      - NODE_ENV=production
+      - OLLAMA_HOST=ollama:11434
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_PATH=/app/data/ai-toolkit.db
+      - LOG_LEVEL=info
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config:ro
+    depends_on:
+      - ollama
+      - redis
+    networks:
+      - ai-toolkit-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Ollama AI Server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ai-toolkit-ollama
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_ORIGINS=*
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - ai-toolkit-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  # Redis for caching and queue management
+  redis:
+    image: redis:7-alpine
+    container_name: ai-toolkit-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - ai-toolkit-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: ai-toolkit-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - ai-toolkit
+    networks:
+      - ai-toolkit-network
+    restart: unless-stopped
+    profiles:
+      - production
+
+volumes:
+  ollama-data:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  ai-toolkit-network:
+    driver: bridge

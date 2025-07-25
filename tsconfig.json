@@ -13,7 +13,6 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./packages",
     "baseUrl": ".",
     "paths": {
       "@ai-toolkit/shared": ["./packages/shared/src"],
@@ -29,10 +28,13 @@
     "incremental": true,
     "types": ["node"]
   },
-  "include": ["packages/*/src/**/*"],
+  "include": [
+    "packages/*/src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "dist",
+    "packages/web-dashboard/**/*",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.spec.ts",
@@ -45,6 +47,7 @@
     { "path": "./packages/document-analyzer" },
     { "path": "./packages/estimation-engine" },
     { "path": "./packages/workflow-engine" },
-    { "path": "./packages/web-dashboard" }
+    { "path": "./packages/web-dashboard" },
+    { "path": "./packages/api-server" }
   ]
 }

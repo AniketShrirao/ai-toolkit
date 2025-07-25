@@ -28,16 +28,27 @@ export const OllamaSettings: React.FC = () => {
   const handleTestConnection = async () => {
     setTesting(true);
     try {
-      // In real implementation, this would test the actual connection
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      // Mock success/failure
-      if (Math.random() > 0.3) {
-        alert('Connection successful!');
+      // Make actual API call to test Ollama connection
+      const response = await fetch('http://localhost:3001/api/health');
+      
+      if (!response.ok) {
+        throw new Error(`Health check failed: ${response.statusText}`);
+      }
+      
+      const healthData = await response.json();
+      
+      if (healthData.ollama?.connected) {
+        alert(`Connection successful! 
+        
+Available models: ${healthData.ollama.availableModels.length}
+Response time: ${healthData.ollama.responseTime}ms
+Version: ${healthData.ollama.version}`);
       } else {
-        alert('Connection failed. Please check your settings.');
+        alert('Connection failed. Ollama server is not responding. Please check your settings and ensure Ollama is running.');
       }
     } catch (error) {
-      alert('Connection test failed.');
+      console.error('Connection test error:', error);
+      alert(`Connection test failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setTesting(false);
     }

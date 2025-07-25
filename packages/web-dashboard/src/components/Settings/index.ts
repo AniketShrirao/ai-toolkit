@@ -4,3 +4,4 @@ export { ProcessingSettings } from "./ProcessingSettings";
 export { SystemMonitoring } from "./SystemMonitoring";
 export { WorkflowConfiguration } from "./WorkflowConfiguration";
 export { UserPreferences } from "./UserPreferences";
+export { IntegrityCheck } from "./IntegrityCheck";

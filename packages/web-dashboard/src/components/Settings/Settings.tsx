@@ -4,9 +4,10 @@ import { ProcessingSettings } from './ProcessingSettings';
 import { SystemMonitoring } from './SystemMonitoring';
 import { WorkflowConfiguration } from './WorkflowConfiguration';
 import { UserPreferences } from './UserPreferences';
+import { IntegrityCheck } from './IntegrityCheck';
 import './Settings.css';
 
-type SettingsTab = 'ollama' | 'processing' | 'monitoring' | 'workflows' | 'preferences';
+type SettingsTab = 'ollama' | 'processing' | 'monitoring' | 'workflows' | 'preferences' | 'debug';
 
 export const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<SettingsTab>('ollama');
@@ -17,6 +18,7 @@ export const Settings: React.FC = () => {
     { id: 'monitoring' as const, label: 'Monitoring', icon: '📊' },
     { id: 'workflows' as const, label: 'Workflows', icon: '🔄' },
     { id: 'preferences' as const, label: 'Preferences', icon: '👤' },
+    { id: 'debug' as const, label: 'Debug', icon: '🔧' },
   ];
 
   const renderTabContent = () => {
@@ -31,6 +33,8 @@ export const Settings: React.FC = () => {
         return <WorkflowConfiguration />;
       case 'preferences':
         return <UserPreferences />;
+      case 'debug':
+        return <IntegrityCheck />;
       default:
         return <OllamaSettings />;
     }
