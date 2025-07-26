@@ -29,7 +29,7 @@ export const OllamaSettings: React.FC = () => {
     setTesting(true);
     try {
       // Make actual API call to test Ollama connection
-      const response = await fetch('http://localhost:3002/api/health');
+      const response = await fetch('http://localhost:3001/api/health');
       
       if (!response.ok) {
         throw new Error(`Health check failed: ${response.statusText}`);

@@ -22,7 +22,7 @@ interface UseDocumentsReturn {
 }
 
 // API base URL - should be configurable
-const API_BASE_URL = 'http://localhost:3002/api';
+const API_BASE_URL = 'http://localhost:3001/api';
 
 const getDocumentType = (filename: string): DocumentType => {
   const extension = filename.split('.').pop()?.toLowerCase();

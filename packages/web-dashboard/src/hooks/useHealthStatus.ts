@@ -76,7 +76,7 @@ export const useHealthStatus = (refreshInterval: number = 30000) => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:3002/api/health');
+      const response = await fetch('http://localhost:3001/api/health');
       if (!response.ok && response.status !== 503) {
         throw new Error(`Health check failed: ${response.status} ${response.statusText}`);
       }

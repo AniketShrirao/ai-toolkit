@@ -39,7 +39,7 @@ export const CloudLLMSettings: React.FC = () => {
   const handleTestConnection = async (provider: 'openai' | 'anthropic') => {
     setTesting(provider);
     try {
-      const response = await fetch(`http://localhost:3002/api/health/cloud-llm/${provider}`, {
+      const response = await fetch(`http://localhost:3001/api/health/cloud-llm/${provider}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

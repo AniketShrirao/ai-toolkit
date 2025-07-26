@@ -152,7 +152,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
   const refreshHealth = async () => {
     try {
       // Fetch real health data from API
-      const response = await fetch('http://localhost:3002/api/health');
+      const response = await fetch('http://localhost:3001/api/health');
       
       // Handle both successful and error responses (API returns 503 for unhealthy)
       if (response.ok || response.status === 503) {
