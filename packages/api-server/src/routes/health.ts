@@ -1,18 +1,19 @@
 import { Router } from "express";
-import { OllamaServiceImpl } from "@ai-toolkit/ollama-interface";
+import { HealthCheckService } from "../services/HealthCheckService";
 
 const router = Router();
+const healthCheckService = new HealthCheckService();
 
 /**
  * @swagger
  * /api/health:
  *   get:
- *     summary: Health check endpoint
+ *     summary: Comprehensive health check endpoint
  *     tags: [Health]
  *     security: []
  *     responses:
  *       200:
- *         description: Service is healthy
+ *         description: Service health status
  *         content:
  *           application/json:
  *             schema:
@@ -20,80 +21,149 @@ const router = Router();
  *               properties:
  *                 status:
  *                   type: string
- *                   example: "healthy"
+ *                   enum: [healthy, degraded, unhealthy]
  *                 timestamp:
  *                   type: string
  *                   format: date-time
+ *                 environment:
+ *                   type: string
+ *                   enum: [development, production, test]
  *                 uptime:
  *                   type: number
  *                   description: Process uptime in seconds
- *                 ollama:
+ *                 version:
+ *                   type: string
+ *                 components:
  *                   type: object
  *                   properties:
- *                     connected:
- *                       type: boolean
- *                     version:
- *                       type: string
- *                     availableModels:
- *                       type: array
- *                       items:
- *                         type: string
- *                     loadedModel:
- *                       type: string
- *                     memoryUsage:
- *                       type: number
- *                     responseTime:
- *                       type: number
+ *                     ollama:
+ *                       type: object
+ *                     database:
+ *                       type: object
+ *                     redis:
+ *                       type: object
+ *                     storage:
+ *                       type: object
+ *                     system:
+ *                       type: object
+ *                 diagnostics:
+ *                   type: array
+ *                   items:
+ *                     type: object
  */
 router.get("/", async (req, res) => {
-  const startTime = Date.now();
-  
-  // Check Ollama health
-  let ollamaHealth = {
-    connected: false,
-    version: 'Unknown',
-    availableModels: [] as string[],
-    loadedModel: null as string | null,
-    memoryUsage: 0,
-    responseTime: 0,
-  };
-
   try {
-    const ollamaService = new OllamaServiceImpl();
-    const connected = await ollamaService.connect();
+    const healthStatus = await healthCheckService.getHealthStatus();
     
-    if (connected) {
-      ollamaHealth.connected = true;
-      ollamaHealth.responseTime = Date.now() - startTime;
-      
-      try {
-        // Get available models
-        const models = await ollamaService.getAvailableModels();
-        ollamaHealth.availableModels = models.map(m => 
-          typeof m === 'string' ? m : (m.name || 'Unknown Model')
-        );
-        
-        // Get current model
-        const currentModel = ollamaService.getCurrentModel();
-        ollamaHealth.loadedModel = currentModel;
-        
-        // Mock version and memory usage for now
-        ollamaHealth.version = '0.1.17';
-        ollamaHealth.memoryUsage = Math.floor(Math.random() * 2000) + 1000; // Mock memory usage
-      } catch (error) {
-        console.warn('Failed to get detailed Ollama info:', error);
-      }
+    // Set appropriate HTTP status code based on health
+    let httpStatus = 200;
+    if (healthStatus.status === 'degraded') {
+      httpStatus = 200; // Still OK, but with warnings
+    } else if (healthStatus.status === 'unhealthy') {
+      httpStatus = 503; // Service Unavailable
+    }
+    
+    res.status(httpStatus).json(healthStatus);
+  } catch (error) {
+    console.error('Health check failed:', error);
+    res.status(500).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: 'Health check service failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/health/diagnostics:
+ *   get:
+ *     summary: Get detailed diagnostic information
+ *     tags: [Health]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Diagnostic information
+ */
+router.get("/diagnostics", async (req, res) => {
+  try {
+    const healthStatus = await healthCheckService.getHealthStatus();
+    res.json({
+      environment: healthStatus.environment,
+      diagnostics: healthStatus.diagnostics,
+      timestamp: healthStatus.timestamp,
+    });
+  } catch (error) {
+    console.error('Diagnostics check failed:', error);
+    res.status(500).json({
+      error: 'Diagnostics service failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * @swagger
+ * /api/health/readiness:
+ *   get:
+ *     summary: Readiness probe for deployment
+ *     tags: [Health]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Service is ready
+ *       503:
+ *         description: Service is not ready
+ */
+router.get("/readiness", async (req, res) => {
+  try {
+    const healthStatus = await healthCheckService.getHealthStatus();
+    
+    // Service is ready if it's healthy or degraded (but not unhealthy)
+    const isReady = healthStatus.status !== 'unhealthy';
+    
+    if (isReady) {
+      res.json({
+        status: 'ready',
+        timestamp: healthStatus.timestamp,
+        environment: healthStatus.environment,
+      });
+    } else {
+      res.status(503).json({
+        status: 'not ready',
+        timestamp: healthStatus.timestamp,
+        environment: healthStatus.environment,
+        issues: healthStatus.diagnostics.filter(d => d.level === 'error'),
+      });
     }
   } catch (error) {
-    console.warn('Ollama health check failed:', error);
-    ollamaHealth.responseTime = Date.now() - startTime;
+    console.error('Readiness check failed:', error);
+    res.status(503).json({
+      status: 'not ready',
+      error: 'Readiness check failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
   }
+});
 
+/**
+ * @swagger
+ * /api/health/liveness:
+ *   get:
+ *     summary: Liveness probe for deployment
+ *     tags: [Health]
+ *     security: []
+ *     responses:
+ *       200:
+ *         description: Service is alive
+ */
+router.get("/liveness", (req, res) => {
+  // Simple liveness check - if we can respond, we're alive
   res.json({
-    status: "healthy",
+    status: 'alive',
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
-    ollama: ollamaHealth,
   });
 });
 

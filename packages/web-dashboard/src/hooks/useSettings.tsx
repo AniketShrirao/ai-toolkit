@@ -32,6 +32,23 @@ const defaultSettings: SystemSettings = {
     maxRetries: 3,
     connectionPoolSize: 5,
   },
+  cloudLLM: {
+    provider: 'ollama',
+    fallbackEnabled: false,
+    fallbackProviders: ['ollama'],
+    openai: {
+      apiKey: '',
+      defaultModel: 'gpt-4o-mini',
+      timeout: 30000,
+      maxRetries: 3,
+    },
+    anthropic: {
+      apiKey: '',
+      defaultModel: 'claude-3-5-sonnet-20241022',
+      timeout: 30000,
+      maxRetries: 3,
+    },
+  },
   processing: {
     autoProcess: true,
     maxConcurrentJobs: 3,
@@ -134,33 +151,95 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const refreshHealth = async () => {
     try {
-      // Mock health data - in real implementation, this would fetch from API
-      const mockHealth: SystemHealth = {
-        ollama: {
-          connected: Math.random() > 0.2, // 80% chance of being connected
-          version: '0.1.17',
-          availableModels: ['llama2', 'codellama', 'mistral'],
-          loadedModel: settings?.ollama.defaultModel || null,
-          memoryUsage: Math.random() * 2048, // MB
-          responseTime: Math.random() * 1000 + 100, // ms
-        },
-        system: {
-          cpuUsage: Math.random() * 100,
-          memoryUsage: Math.random() * 100,
-          diskUsage: Math.random() * 100,
-          uptime: Date.now() - (Math.random() * 86400000), // Random uptime up to 24 hours
-        },
-        queue: {
-          activeJobs: Math.floor(Math.random() * 5),
-          pendingJobs: Math.floor(Math.random() * 10),
-          completedJobs: Math.floor(Math.random() * 100),
-          failedJobs: Math.floor(Math.random() * 5),
-        },
-      };
+      // Fetch real health data from API
+      const response = await fetch('http://localhost:3002/api/health');
       
-      setHealth(mockHealth);
+      // Handle both successful and error responses (API returns 503 for unhealthy)
+      if (response.ok || response.status === 503) {
+        const healthData = await response.json();
+        
+        // Transform API response to match our SystemHealth interface
+        const transformedHealth: SystemHealth = {
+          ollama: {
+            connected: healthData.components.ollama.connected,
+            version: healthData.components.ollama.version || '0.1.17',
+            availableModels: healthData.components.ollama.availableModels || [],
+            loadedModel: healthData.components.ollama.loadedModel || null,
+            memoryUsage: healthData.components.ollama.memoryUsage || 0,
+            responseTime: healthData.components.ollama.responseTime || 0,
+          },
+          cloudLLM: {
+            activeProvider: settings?.cloudLLM?.provider || 'ollama',
+            providers: {
+              ollama: { 
+                connected: healthData.components.ollama.connected, 
+                available: true 
+              },
+              openai: { 
+                connected: settings?.cloudLLM?.openai?.apiKey ? false : false, // Will be updated when cloud LLM health is implemented
+                available: !!settings?.cloudLLM?.openai?.apiKey,
+                rateLimitRemaining: 1000
+              },
+              anthropic: { 
+                connected: settings?.cloudLLM?.anthropic?.apiKey ? false : false, // Will be updated when cloud LLM health is implemented
+                available: !!settings?.cloudLLM?.anthropic?.apiKey,
+                rateLimitRemaining: 1000
+              },
+            },
+            fallbackActive: false,
+          },
+          system: {
+            cpuUsage: healthData.components.system.memory?.percentage || 0,
+            memoryUsage: healthData.components.system.memory?.percentage || 0,
+            diskUsage: 50, // Mock value since API doesn't provide this in the expected format
+            uptime: healthData.uptime * 1000, // Convert seconds to milliseconds
+          },
+          queue: {
+            activeJobs: 0, // Mock values - these would come from a queue service
+            pendingJobs: 0,
+            completedJobs: 0,
+            failedJobs: 0,
+          },
+        };
+        
+        setHealth(transformedHealth);
+      } else {
+        throw new Error(`Health check failed: ${response.status} ${response.statusText}`);
+      }
     } catch (err) {
       console.error('Failed to refresh health:', err);
+      // Set a fallback health state
+      setHealth({
+        ollama: {
+          connected: false,
+          version: 'Unknown',
+          availableModels: [],
+          loadedModel: null,
+          memoryUsage: 0,
+          responseTime: 0,
+        },
+        cloudLLM: {
+          activeProvider: 'ollama',
+          providers: {
+            ollama: { connected: false, available: false },
+            openai: { connected: false, available: false },
+            anthropic: { connected: false, available: false },
+          },
+          fallbackActive: false,
+        },
+        system: {
+          cpuUsage: 0,
+          memoryUsage: 0,
+          diskUsage: 0,
+          uptime: 0,
+        },
+        queue: {
+          activeJobs: 0,
+          pendingJobs: 0,
+          completedJobs: 0,
+          failedJobs: 0,
+        },
+      });
     }
   };
 

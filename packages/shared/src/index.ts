@@ -4,6 +4,7 @@ export * from "./types/document.js";
 export * from "./types/estimation.js";
 export * from "./types/ollama.js";
 export * from "./types/analysis.js";
+export * from "./types/cloud-llm.js";
 
 // Workflow types (core workflow engine)
 export type {
@@ -24,6 +25,7 @@ export type {
 // Settings types (includes UI workflow definitions)
 export type {
   OllamaSettings,
+  CloudLLMSettings,
   ProcessingSettings,
   WorkflowSettings,
   UserPreferences,

@@ -1,0 +1,83 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "cors": {
+      "origin": ["http://localhost:3000", "http://localhost:5173", "http://localhost:8080"],
+      "credentials": true
+    }
+  },
+  "ollama": {
+    "host": "localhost",
+    "port": 11434,
+    "timeout": 30000,
+    "retries": 3,
+    "defaultModel": "llama2:7b",
+    "models": {
+      "text": "llama2:7b",
+      "code": "codellama:7b",
+      "analysis": "mistral:7b"
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "./data/ai-toolkit-dev.db",
+    "logging": true
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "db": 0,
+    "keyPrefix": "ai-toolkit:dev:"
+  },
+  "storage": {
+    "inputPath": "./data/input",
+    "outputPath": "./data/output",
+    "tempPath": "./temp",
+    "maxFileSize": "100MB",
+    "allowedTypes": ["pdf", "docx", "txt", "md", "xlsx"]
+  },
+  "processing": {
+    "maxConcurrentJobs": 3,
+    "jobTimeout": 300000,
+    "retryAttempts": 2,
+    "queueName": "ai-toolkit-jobs"
+  },
+  "logging": {
+    "level": "debug",
+    "format": "combined",
+    "file": {
+      "enabled": true,
+      "path": "./logs/ai-toolkit.log",
+      "maxSize": "10MB",
+      "maxFiles": 5
+    },
+    "console": {
+      "enabled": true,
+      "colorize": true
+    }
+  },
+  "security": {
+    "rateLimiting": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 100
+    },
+    "fileUpload": {
+      "maxSize": "100MB",
+      "allowedMimeTypes": [
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain",
+        "text/markdown",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ]
+    }
+  },
+  "features": {
+    "webDashboard": true,
+    "apiDocumentation": true,
+    "healthChecks": true,
+    "metrics": true
+  }
+}

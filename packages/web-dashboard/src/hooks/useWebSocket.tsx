@@ -21,7 +21,7 @@ interface WebSocketProviderProps {
 
 export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
   children,
-  url = 'http://localhost:3001', // Default API server URL
+  url = 'http://localhost:3002', // Default API server URL
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>('connecting');

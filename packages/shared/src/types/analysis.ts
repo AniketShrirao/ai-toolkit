@@ -1,19 +1,26 @@
 import { AnalysisType } from './common.js';
-import { DocumentAnalysis } from './document.js';
+import { DocumentAnalysis, KeyPoint, ActionItem } from './document.js';
 import { ProjectEstimate } from './estimation.js';
 
 export interface AnalysisResult {
   type: AnalysisType;
+  summary: string;
+  keyPoints: KeyPoint[];
+  actionItems: ActionItem[];
   confidence: number;
-  data: any;
+  data?: any;
   metadata: AnalysisMetadata;
 }
 
+
+
 export interface AnalysisMetadata {
   model: string;
-  processingTime: number;
-  tokensUsed: number;
-  version: string;
+  provider?: string;
+  processingTime?: number;
+  tokensUsed?: number;
+  version?: string;
+  timestamp: Date;
 }
 
 export interface CodebaseAnalysis {

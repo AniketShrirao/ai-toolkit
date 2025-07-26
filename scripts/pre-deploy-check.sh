@@ -99,18 +99,43 @@ else
     fi
 fi
 
-# Step 6: Generate deployment report
+# Step 6: Run system readiness check
+print_status "Running comprehensive system readiness check..."
+npm run readiness-check:prod
+READINESS_EXIT_CODE=$?
+
+if [ $READINESS_EXIT_CODE -eq 0 ]; then
+    print_success "System readiness check passed"
+else
+    print_error "System readiness check failed"
+    
+    # Ask user if they want to continue despite issues
+    echo ""
+    read -p "Do you want to continue with deployment despite readiness issues? (y/N): " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_error "Deployment cancelled due to readiness issues"
+        exit 1
+    else
+        print_warning "Proceeding with deployment despite readiness issues"
+    fi
+fi
+
+# Step 7: Generate deployment report
 REPORT_FILE="deployment-report-$(date +%Y%m%d-%H%M%S).json"
 print_status "Generating deployment report..."
 
-npm run check-integrity -- --format json --output "$REPORT_FILE"
+# Generate both integrity and readiness reports
+npm run check-integrity -- --format json --output "integrity-$REPORT_FILE"
+npm run readiness-check:prod -- --json > "readiness-$REPORT_FILE"
+
 if [ $? -eq 0 ]; then
-    print_success "Deployment report generated: $REPORT_FILE"
+    print_success "Deployment reports generated: integrity-$REPORT_FILE, readiness-$REPORT_FILE"
 else
-    print_warning "Failed to generate deployment report"
+    print_warning "Failed to generate some deployment reports"
 fi
 
-# Step 7: Final checks
+# Step 8: Final checks
 print_status "Running final deployment readiness checks..."
 
 # Check if essential files exist

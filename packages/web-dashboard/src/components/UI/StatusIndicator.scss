@@ -1,0 +1,288 @@
+// StatusIndicator component styles with enhanced status colors
+@use '../../styles/colors' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+}
+
+.status-dot {
+    width: space(2);
+    height: space(2);
+    border-radius: map-get($border-radius, full);
+    flex-shrink: 0;
+    position: relative;
+    transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+
+    // Enhanced visual feedback with pulse animation for active states
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: map-get($border-radius, full);
+        opacity: 0.3;
+        transition: opacity map-get($transitions, base) map-get($easing, ease-in-out);
+    }
+}
+
+// Enhanced status colors with better contrast and visual feedback
+.status-dot.success {
+    background-color: var(--success);
+
+    &::before {
+        background-color: var(--success);
+    }
+
+    // Pulse animation for connected state
+    &.pulse {
+        @include pulse(2s);
+    }
+}
+
+.status-dot.warning {
+    background-color: var(--warning);
+
+    &::before {
+        background-color: var(--warning);
+    }
+
+    // Subtle pulse for warning states
+    &.pulse {
+        @include pulse(1.5s);
+    }
+}
+
+.status-dot.error {
+    background-color: var(--error);
+
+    &::before {
+        background-color: var(--error);
+    }
+
+    // Faster pulse for error states to draw attention
+    &.pulse {
+        @include pulse(1s);
+    }
+}
+
+.status-dot.info {
+    background-color: var(--info);
+
+    &::before {
+        background-color: var(--info);
+    }
+}
+
+// Alternative dot styles for different emphasis levels
+.status-dot.subtle {
+    background-color: var(--bg-tertiary);
+    border: 2px solid currentColor;
+
+    &.success {
+        color: var(--success);
+    }
+
+    &.warning {
+        color: var(--warning);
+    }
+
+    &.error {
+        color: var(--error);
+    }
+
+    &.info {
+        color: var(--info);
+    }
+}
+
+.status-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0; // Allow text to shrink
+}
+
+.status-label {
+    @include font-size(sm);
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    line-height: map-get($line-heights, tight);
+
+    // Ensure proper contrast
+    @include high-contrast {
+        font-weight: $font-weight-semibold;
+    }
+}
+
+.status-time {
+    @include font-size(xs);
+    color: var(--text-tertiary);
+    line-height: map-get($line-heights, tight);
+    margin-top: space(0.5);
+}
+
+// Status indicator variants
+.status-indicator.compact {
+    gap: space(1.5);
+
+    .status-dot {
+        width: space(1.5);
+        height: space(1.5);
+    }
+
+    .status-label {
+        @include font-size(xs);
+    }
+
+    .status-time {
+        @include font-size(xs);
+    }
+}
+
+.status-indicator.large {
+    gap: space(3);
+
+    .status-dot {
+        width: space(3);
+        height: space(3);
+    }
+
+    .status-label {
+        @include font-size(base);
+    }
+}
+
+// Interactive status indicator (clickable)
+.status-indicator.interactive {
+    cursor: pointer;
+    padding: space(1) space(2);
+    border-radius: map-get($border-radius, md);
+    transition: background-color map-get($transitions, base) map-get($easing, ease-in-out);
+
+    &:hover {
+        background-color: var(--interactive-hover);
+    }
+
+    &:active {
+        background-color: var(--interactive-active);
+    }
+
+    &:focus {
+        @include focus-ring;
+    }
+}
+
+// Status indicator with background for emphasis
+.status-indicator.with-background {
+    padding: space(2) space(3);
+    border-radius: map-get($border-radius, lg);
+    border: 1px solid var(--border);
+
+    &.success {
+        background-color: var(--success-bg);
+        border-color: var(--success-border);
+    }
+
+    &.warning {
+        background-color: var(--warning-bg);
+        border-color: var(--warning-border);
+    }
+
+    &.error {
+        background-color: var(--error-bg);
+        border-color: var(--error-border);
+    }
+
+    &.info {
+        background-color: var(--info-bg);
+        border-color: var(--info-border);
+    }
+}
+
+// Responsive behavior
+@include breakpoint(sm) {
+    .status-indicator {
+        gap: space(1.5);
+
+        &.hide-text-mobile .status-text {
+            display: none;
+        }
+
+        &.compact-mobile {
+            .status-dot {
+                width: space(1.5);
+                height: space(1.5);
+            }
+
+            .status-label {
+                @include font-size(xs);
+            }
+        }
+    }
+}
+
+// Accessibility enhancements
+.status-indicator {
+
+    // High contrast mode adjustments
+    @include high-contrast {
+        .status-dot {
+            border: 2px solid currentColor;
+
+            &.success {
+                color: var(--success);
+            }
+
+            &.warning {
+                color: var(--warning);
+            }
+
+            &.error {
+                color: var(--error);
+            }
+
+            &.info {
+                color: var(--info);
+            }
+        }
+    }
+
+    // Respect reduced motion preferences
+    @include reduced-motion {
+        .status-dot {
+            &::before {
+                transition: none;
+            }
+
+            &.pulse {
+                animation: none;
+            }
+        }
+    }
+}
+
+// Status list for multiple status indicators
+.status-list {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    &.horizontal {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: space(4);
+    }
+
+    @include breakpoint(sm) {
+        &.responsive-horizontal {
+            flex-direction: row;
+            gap: space(3);
+        }
+    }
+}

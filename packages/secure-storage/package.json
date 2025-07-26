@@ -7,9 +7,14 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "api-key": "node dist/cli/api-key-cli.js"
+  },
+  "bin": {
+    "ai-toolkit-api-key": "dist/cli/api-key-cli.js"
   },
   "dependencies": {
+    "@ai-toolkit/shared": "^1.0.0",
     "fs-extra": "^11.2.0"
   },
   "devDependencies": {

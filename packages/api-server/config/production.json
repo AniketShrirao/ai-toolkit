@@ -1,0 +1,84 @@
+{
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "cors": {
+      "origin": ["https://your-domain.com"],
+      "credentials": true
+    }
+  },
+  "ollama": {
+    "host": "ollama",
+    "port": 11434,
+    "timeout": 60000,
+    "retries": 5,
+    "defaultModel": "llama2:7b",
+    "models": {
+      "text": "llama2:7b",
+      "code": "codellama:7b",
+      "analysis": "mistral:7b"
+    }
+  },
+  "database": {
+    "type": "sqlite",
+    "path": "/app/data/ai-toolkit.db",
+    "logging": false
+  },
+  "redis": {
+    "host": "redis",
+    "port": 6379,
+    "db": 0,
+    "keyPrefix": "ai-toolkit:prod:",
+    "password": null
+  },
+  "storage": {
+    "inputPath": "/app/data/input",
+    "outputPath": "/app/data/output",
+    "tempPath": "/app/temp",
+    "maxFileSize": "500MB",
+    "allowedTypes": ["pdf", "docx", "txt", "md", "xlsx"]
+  },
+  "processing": {
+    "maxConcurrentJobs": 10,
+    "jobTimeout": 600000,
+    "retryAttempts": 3,
+    "queueName": "ai-toolkit-jobs"
+  },
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "file": {
+      "enabled": true,
+      "path": "/app/logs/ai-toolkit.log",
+      "maxSize": "50MB",
+      "maxFiles": 10
+    },
+    "console": {
+      "enabled": true,
+      "colorize": false
+    }
+  },
+  "security": {
+    "rateLimiting": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 1000
+    },
+    "fileUpload": {
+      "maxSize": "500MB",
+      "allowedMimeTypes": [
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "text/plain",
+        "text/markdown",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ]
+    }
+  },
+  "features": {
+    "webDashboard": true,
+    "apiDocumentation": false,
+    "healthChecks": true,
+    "metrics": true
+  }
+}

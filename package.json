@@ -25,10 +25,21 @@
     "quality:check": "npm run lint && npm run format:check && npm run test:coverage",
     "quality:fix": "npm run lint:fix && npm run format",
     "check-integrity": "npm run --workspace=@ai-toolkit/api-server check-integrity",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "start": "npm run --workspace=@ai-toolkit/api-server start",
+    "start:dev": "npm run --workspace=@ai-toolkit/api-server start -- --env=development",
+    "start:prod": "npm run --workspace=@ai-toolkit/api-server start -- --env=production",
+    "dev": "npm run --workspace=@ai-toolkit/api-server dev",
+    "env:check": "node -e \"console.log('Environment:', process.env.NODE_ENV || 'development')\"",
+    "env:switch": "node scripts/switch-env.js",
+    "readiness-check": "node scripts/system-readiness-check.js",
+    "readiness-check:prod": "node scripts/system-readiness-check.js --env=production",
+    "readiness-check:server": "node scripts/system-readiness-check.js --check-server",
+    "pre-deploy": "npm run readiness-check:prod && npm run build && npm run test"
   },
   "dependencies": {
     "cheerio": "^1.1.0",
+    "dotenv": "^16.0.0",
     "node-fetch": "^3.3.2",
     "pdf-parse": "^1.1.1",
     "sharp": "^0.34.3",

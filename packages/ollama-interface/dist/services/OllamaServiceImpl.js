@@ -305,13 +305,17 @@ export class OllamaServiceImpl {
             const processingTime = Date.now() - startTime;
             return {
                 type: analysisType,
+                summary: response,
+                keyPoints: [],
+                actionItems: [],
                 confidence: 0.8, // Default confidence
                 data: response,
                 metadata: {
                     model: this.currentModel || 'unknown',
                     processingTime,
                     tokensUsed: Math.ceil(response.length / 4), // Rough estimate
-                    version: '1.0.0'
+                    version: '1.0.0',
+                    timestamp: new Date()
                 }
             };
         }

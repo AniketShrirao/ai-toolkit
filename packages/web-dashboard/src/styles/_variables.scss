@@ -1,0 +1,81 @@
+// Global variables and configuration
+// This file contains global variables that are used across the entire application
+
+// Font families
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+// Font weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Font sizes
+$font-sizes: (
+  xs: 0.75rem,    // 12px
+  sm: 0.875rem,   // 14px
+  base: 1rem,     // 16px
+  lg: 1.125rem,   // 18px
+  xl: 1.25rem,    // 20px
+  2xl: 1.5rem,    // 24px
+  3xl: 1.875rem,  // 30px
+  4xl: 2.25rem    // 36px
+);
+
+// Line heights
+$line-heights: (
+  tight: 1.25,
+  normal: 1.5,
+  relaxed: 1.625,
+  loose: 2
+);
+
+// Border radius
+$border-radius: (
+  none: 0,
+  sm: 0.125rem,   // 2px
+  base: 0.25rem,  // 4px
+  md: 0.375rem,   // 6px
+  lg: 0.5rem,     // 8px
+  xl: 0.75rem,    // 12px
+  2xl: 1rem,      // 16px
+  full: 9999px
+);
+
+// Shadows
+$shadows: (
+  sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05),
+  base: (0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1)),
+  md: (0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)),
+  lg: (0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1)),
+  xl: (0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)),
+  2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25)
+);
+
+// Z-index scale
+$z-index: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070
+);
+
+// Transition durations
+$transitions: (
+  fast: 150ms,
+  base: 200ms,
+  slow: 300ms
+);
+
+// Animation easing
+$easing: (
+  linear: linear,
+  ease: ease,
+  ease-in: ease-in,
+  ease-out: ease-out,
+  ease-in-out: ease-in-out
+);

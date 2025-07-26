@@ -226,24 +226,49 @@
     - Run as part of pre-production readiness check (Task 14.4)
     - _Requirements: Deployment safety, automation_
 
-  - [ ] 15. Implement environment testing support
-  - [ ] 15.1 Add environment toggle (development, production) using `.env` and CLI flags
-  - [ ] 15.2 Create health check and diagnostic endpoints to validate local vs prod setup
-  - [ ] 15.3 Add a status panel in the dashboard to show:
+  - [x] 15. Implement environment testing support
+
+
+
+
+
+  - [x] 15.1 Add environment toggle (development, production) using `.env` and CLI flags
+
+
+  - [x] 15.2 Create health check and diagnostic endpoints to validate local vs prod setup
+
+
+
+  - [x] 15.3 Add a status panel in the dashboard to show:
+
     - Current environment
     - Ollama health
     - Active models
     - Redis/DB status
-  - [ ] 15.4 Create CLI script to test complete system readiness before deployment
+  - [x] 15.4 Create CLI script to test complete system readiness before deployment
+
+
   - _Requirements: Local testing, production validation, developer usability_
 
-- [ ] 16. Add optional ChatGPT & Claude API integration
-  - [ ] 16.1 Build `CloudLLMService` interface (with adapter pattern) for:
+- [-] 16. Add optional ChatGPT & Claude API integration
+
+
+
+  - [x] 16.1 Build `CloudLLMService` interface (with adapter pattern) for:
+
+
     - OpenAI ChatGPT API
     - Anthropic Claude API
-  - [ ] 16.2 Allow model provider selection from settings UI (`Ollama`, `ChatGPT`, `Claude`)
-  - [ ] 16.3 Implement secure API key storage (via `.env` or encrypted local config)
-  - [ ] 16.4 Extend `PromptManager` to support provider-specific templating
+  - [x] 16.2 Allow model provider selection from settings UI (`Ollama`, `ChatGPT`, `Claude`)
+
+
+
+  - [x] 16.3 Implement secure API key storage (via `.env` or encrypted local config)
+
+
+  - [x] 16.4 Extend `PromptManager` to support provider-specific templating
+
+
   - [ ] 16.5 Log and show cost estimation when using cloud APIs
   - [ ] 16.6 Allow fallback between local and cloud (if selected)
   - _Requirements: Flexible model sourcing, user preference, cloud override_

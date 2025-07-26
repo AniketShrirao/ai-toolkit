@@ -10,6 +10,26 @@ export interface OllamaSettings {
   connectionPoolSize: number;
 }
 
+export interface CloudLLMSettings {
+  provider: 'ollama' | 'openai' | 'anthropic';
+  fallbackEnabled: boolean;
+  fallbackProviders: ('ollama' | 'openai' | 'anthropic')[];
+  openai?: {
+    apiKey: string;
+    defaultModel: string;
+    baseUrl?: string;
+    timeout: number;
+    maxRetries: number;
+  };
+  anthropic?: {
+    apiKey: string;
+    defaultModel: string;
+    baseUrl?: string;
+    timeout: number;
+    maxRetries: number;
+  };
+}
+
 export interface ProcessingSettings {
   autoProcess: boolean;
   maxConcurrentJobs: number;
@@ -40,6 +60,7 @@ export interface UserPreferences {
 
 export interface SystemSettings {
   ollama: OllamaSettings;
+  cloudLLM: CloudLLMSettings;
   processing: ProcessingSettings;
   workflows: WorkflowSettings;
   preferences: UserPreferences;
@@ -53,6 +74,15 @@ export interface SystemHealth {
     loadedModel: string | null;
     memoryUsage: number;
     responseTime: number;
+  };
+  cloudLLM: {
+    activeProvider: 'ollama' | 'openai' | 'anthropic';
+    providers: {
+      ollama: { connected: boolean; available: boolean };
+      openai: { connected: boolean; available: boolean; rateLimitRemaining?: number };
+      anthropic: { connected: boolean; available: boolean; rateLimitRemaining?: number };
+    };
+    fallbackActive: boolean;
   };
   system: {
     cpuUsage: number;

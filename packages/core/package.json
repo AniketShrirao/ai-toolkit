@@ -10,7 +10,8 @@
     "clean": "tsc --build --clean"
   },
   "dependencies": {
-    "@ai-toolkit/shared": "^1.0.0"
+    "@ai-toolkit/shared": "^1.0.0",
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

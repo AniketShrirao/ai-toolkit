@@ -397,4 +397,145 @@ ditional styles for new components */
   .status-grid {
     grid-template-columns: 1fr;
   }
+}/* 
+Cloud LLM Settings specific styles */
+.provider-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.provider-option {
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.provider-option:hover {
+  border-color: var(--primary-color);
+  background: var(--hover-color);
+}
+
+.provider-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.provider-label input[type="radio"] {
+  margin-top: 0.25rem;
+  accent-color: var(--primary-color);
+}
+
+.provider-info {
+  flex: 1;
+}
+
+.provider-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.provider-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.provider-status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.provider-status.connected {
+  color: var(--success-color, #16a34a);
+  background: var(--success-bg, #dcfce7);
+}
+
+.provider-status.disconnected {
+  color: var(--error-color, #dc2626);
+  background: var(--error-bg, #fef2f2);
+}
+
+.fallback-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+}
+
+.fallback-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.fallback-option input[type="checkbox"] {
+  accent-color: var(--primary-color);
+}
+
+.fallback-alert {
+  padding: 0.75rem;
+  background: var(--warning-bg, #fef3c7);
+  color: var(--warning-color, #d97706);
+  border: 1px solid var(--warning-border, #fbbf24);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.api-key-input {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.api-key-input input {
+  flex: 1;
+}
+
+.space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+/* Cost information styling */
+.model-cost {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Rate limit indicators */
+.rate-limit-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.rate-limit-remaining {
+  color: var(--success-color, #16a34a);
+  font-weight: 500;
+}
+
+.rate-limit-reset {
+  color: var(--text-secondary);
 }

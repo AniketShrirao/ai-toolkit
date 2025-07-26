@@ -1,29 +1,49 @@
 import React from 'react';
 import { ConnectionStatus } from '@hooks/useWebSocket';
-import './StatusIndicator.css';
+import './StatusIndicator.scss';
 
-type StatusType = ConnectionStatus | 'connected' | 'disconnected' | 'warning' | 'success' | 'error';
+type StatusType = ConnectionStatus | 'connected' | 'disconnected' | 'warning' | 'success' | 'error' | 'info';
 
 interface StatusIndicatorProps {
   status: StatusType;
   lastUpdate?: Date | null;
   label?: string;
+  size?: 'compact' | 'default' | 'large';
+  variant?: 'default' | 'subtle' | 'with-background';
+  showPulse?: boolean;
+  hideTextOnMobile?: boolean;
+  interactive?: boolean;
+  onClick?: () => void;
+  className?: string;
+  'aria-label'?: string;
 }
 
 export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
   status,
   lastUpdate,
   label,
+  size = 'default',
+  variant = 'default',
+  showPulse = false,
+  hideTextOnMobile = false,
+  interactive = false,
+  onClick,
+  className = '',
+  'aria-label': ariaLabel,
 }) => {
   const getStatusColor = () => {
     switch (status) {
       case 'connected':
+      case 'success':
         return 'success';
       case 'connecting':
+      case 'warning':
         return 'warning';
       case 'disconnected':
       case 'error':
         return 'error';
+      case 'info':
+        return 'info';
       default:
         return 'warning';
     }
@@ -42,6 +62,12 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
         return 'Disconnected';
       case 'error':
         return 'Connection Error';
+      case 'success':
+        return 'Success';
+      case 'warning':
+        return 'Warning';
+      case 'info':
+        return 'Info';
       default:
         return 'Unknown';
     }
@@ -60,15 +86,46 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
     return `${hours}h ago`;
   };
 
+  const shouldShowPulse = showPulse || (status === 'connecting');
+  const statusColor = getStatusColor();
+  
+  const containerClasses = [
+    'status-indicator',
+    size !== 'default' && `status-indicator ${size}`,
+    variant !== 'default' && variant,
+    variant === 'with-background' && statusColor,
+    hideTextOnMobile && 'hide-text-mobile',
+    interactive && 'interactive',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const dotClasses = [
+    'status-dot',
+    statusColor,
+    variant === 'subtle' && 'subtle',
+    shouldShowPulse && 'pulse',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const Component = interactive && onClick ? 'button' : 'div';
+
   return (
-    <div className="status-indicator">
-      <div className={`status-dot ${getStatusColor()}`} />
-      <div className="status-text">
-        <span className="status-label">{label || getStatusText()}</span>
-        {lastUpdate && status === 'connected' && (
+    <Component 
+      className={containerClasses}
+      onClick={onClick}
+      aria-label={ariaLabel || `Status: ${getStatusText()}`}
+      type={interactive && onClick ? 'button' : undefined}
+    >
+      <div className={dotClasses} />
+      <div className="status-text" aria-hidden={ariaLabel ? true : undefined}>
+        <span className="status-label">{getStatusText()}</span>
+        {lastUpdate && (status === 'connected' || status === 'success') && (
           <span className="status-time">{formatLastUpdate()}</span>
         )}
       </div>
-    </div>
+    </Component>
   );
 };
