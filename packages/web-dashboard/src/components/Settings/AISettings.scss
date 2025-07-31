@@ -1,0 +1,163 @@
+@use '../../styles/spacing' as *;
+@use '../../styles/colors' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.ai-settings {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ai-settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: task-space(lg);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: task-space(sm);
+
+  label {
+    @include text-style(sm, $font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .form-help {
+    @include text-style(xs);
+    color: var(--text-tertiary);
+    margin-top: task-space(xs);
+  }
+}
+
+.form-select {
+  @include input-base;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right task-space(md) center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: task-space(2xl);
+}
+
+.form-actions {
+  display: flex;
+  gap: task-space(md);
+  justify-content: flex-end;
+  margin-top: task-space(xl);
+
+  @include breakpoint(sm) {
+    flex-direction: column;
+  }
+}
+
+.test-result {
+  margin-top: task-space(lg);
+  padding: task-space(lg);
+  border-radius: map-get($border-radius, lg);
+  border: 1px solid;
+
+  &.success {
+    background-color: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+  }
+
+  &.error {
+    background-color: var(--error-bg);
+    border-color: var(--error-border);
+    color: var(--error-text);
+  }
+
+  .test-result-message {
+    @include text-style(sm, $font-weight-semibold);
+    margin-bottom: task-space(md);
+  }
+
+  .available-models {
+    h4 {
+      @include text-style(sm, $font-weight-semibold);
+      margin-bottom: task-space(sm);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: task-space(xs);
+
+      li {
+        @include text-style(xs);
+        padding: task-space(xs) task-space(sm);
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: map-get($border-radius, sm);
+        font-family: monospace;
+      }
+    }
+  }
+}
+
+.current-status {
+  margin-top: task-space(xl);
+  padding-top: task-space(lg);
+  border-top: 1px solid var(--border);
+
+  h4 {
+    @include text-style(sm, $font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: task-space(md);
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: task-space(md);
+  }
+
+  .status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: task-space(sm) task-space(md);
+    background: var(--bg-secondary);
+    border-radius: map-get($border-radius, md);
+
+    .status-label {
+      @include text-style(xs, $font-weight-medium);
+      color: var(--text-secondary);
+    }
+
+    .status-value {
+      @include text-style(xs, $font-weight-semibold);
+      color: var(--text-primary);
+      font-family: monospace;
+
+      &.connected {
+        color: var(--success);
+      }
+
+      &.connecting {
+        color: var(--warning);
+      }
+
+      &.disconnected,
+      &.error {
+        color: var(--error);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@include breakpoint(sm) {
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .available-models ul {
+    grid-template-columns: 1fr;
+  }
+}

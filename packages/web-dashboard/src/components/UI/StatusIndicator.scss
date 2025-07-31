@@ -1,103 +1,257 @@
-// StatusIndicator component styles with enhanced status colors
-@use '../../styles/colors' as *;
+// StatusIndicator component styles with enhanced status colors and accessibility
+// Task 5.3: Convert StatusIndicator component to SCSS with more distinct status colors,
+// improved animations, and enhanced accessibility support
+// Requirements: 1.1, 1.2, 3.3, 4.1, 4.3
+
 @use '../../styles/variables' as *;
+@use '../../styles/colors' as *;
+@use '../../styles/spacing' as *;
 @use '../../styles/mixins' as *;
 
 .status-indicator {
     display: flex;
     align-items: center;
-    gap: space(2);
+    gap: task-space(sm); // 8px consistent spacing
+    font-family: $font-family-base;
+    
+    // Improved base styling
+    position: relative;
+    
+    // Better focus management for accessibility
+    &:focus-within {
+        outline: none;
+    }
 }
 
 .status-dot {
-    width: space(2);
-    height: space(2);
+    width: task-space(sm); // 8px
+    height: task-space(sm); // 8px
     border-radius: map-get($border-radius, full);
     flex-shrink: 0;
     position: relative;
-    transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+    transition: all map-get($transitions, base) map-get($easing, ease-out);
+    
+    // Improved shadow for better visual depth
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
     // Enhanced visual feedback with pulse animation for active states
     &::before {
         content: '';
         position: absolute;
-        top: -2px;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
         border-radius: map-get($border-radius, full);
-        opacity: 0.3;
-        transition: opacity map-get($transitions, base) map-get($easing, ease-in-out);
+        opacity: 0;
+        transition: opacity map-get($transitions, base) map-get($easing, ease-out);
+        pointer-events: none;
+    }
+    
+    // Subtle glow effect on hover for interactive elements
+    &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     }
 }
 
-// Enhanced status colors with better contrast and visual feedback
+// More distinct status colors with proper contrast ratios (Requirement 1.1, 1.2)
 .status-dot.success {
     background-color: var(--success);
+    border: 2px solid var(--success-border);
+    box-shadow: 0 0 0 1px rgba(var(--success), 0.2);
 
     &::before {
         background-color: var(--success);
+        opacity: 0.15;
+        border-radius: inherit;
     }
 
-    // Pulse animation for connected state
+    // Enhanced pulse animation for connected state with more distinct visual feedback
     &.pulse {
-        @include pulse(2s);
+        animation: success-pulse 2s ease-in-out infinite;
+        
+        &::before {
+            opacity: 0.3;
+            animation: success-glow 2s ease-in-out infinite;
+        }
+    }
+    
+    &:hover {
+        background-color: var(--success-hover);
+        border-color: var(--success-hover);
+        box-shadow: 0 0 0 2px rgba(var(--success-hover), 0.3);
+        transform: scale(1.05);
+    }
+    
+    // High contrast mode support (Requirement 4.1)
+    @include high-contrast {
+        background-color: var(--success-active);
+        border-color: var(--success-active);
+        border-width: 3px;
     }
 }
 
 .status-dot.warning {
     background-color: var(--warning);
+    border: 2px solid var(--warning-border);
+    box-shadow: 0 0 0 1px rgba(var(--warning), 0.25);
 
     &::before {
         background-color: var(--warning);
+        opacity: 0.2;
+        border-radius: inherit;
     }
 
-    // Subtle pulse for warning states
+    // More noticeable pulse for warning states with distinct timing
     &.pulse {
-        @include pulse(1.5s);
+        animation: warning-pulse 1.2s ease-in-out infinite;
+        
+        &::before {
+            opacity: 0.4;
+            animation: warning-glow 1.2s ease-in-out infinite;
+        }
+    }
+    
+    &:hover {
+        background-color: var(--warning-hover);
+        border-color: var(--warning-hover);
+        box-shadow: 0 0 0 2px rgba(var(--warning-hover), 0.35);
+        transform: scale(1.05);
+    }
+    
+    // High contrast mode support (Requirement 4.1)
+    @include high-contrast {
+        background-color: var(--warning-active);
+        border-color: var(--warning-active);
+        border-width: 3px;
     }
 }
 
 .status-dot.error {
     background-color: var(--error);
+    border: 2px solid var(--error-border);
+    box-shadow: 0 0 0 1px rgba(var(--error), 0.3);
 
     &::before {
         background-color: var(--error);
+        opacity: 0.25;
+        border-radius: inherit;
     }
 
-    // Faster pulse for error states to draw attention
+    // Urgent pulse for error states to draw immediate attention with distinct pattern
     &.pulse {
-        @include pulse(1s);
+        animation: error-pulse 0.8s ease-in-out infinite;
+        
+        &::before {
+            opacity: 0.5;
+            animation: error-glow 0.8s ease-in-out infinite;
+        }
+    }
+    
+    &:hover {
+        background-color: var(--error-hover);
+        border-color: var(--error-hover);
+        box-shadow: 0 0 0 2px rgba(var(--error-hover), 0.4);
+        transform: scale(1.05);
+    }
+    
+    // High contrast mode support (Requirement 4.1)
+    @include high-contrast {
+        background-color: var(--error-active);
+        border-color: var(--error-active);
+        border-width: 3px;
     }
 }
 
 .status-dot.info {
     background-color: var(--info);
+    border: 2px solid var(--info-border);
+    box-shadow: 0 0 0 1px rgba(var(--info), 0.2);
 
     &::before {
         background-color: var(--info);
+        opacity: 0.18;
+        border-radius: inherit;
+    }
+    
+    // Gentle pulse for info states with subtle animation
+    &.pulse {
+        animation: info-pulse 2.2s ease-in-out infinite;
+        
+        &::before {
+            opacity: 0.25;
+            animation: info-glow 2.2s ease-in-out infinite;
+        }
+    }
+    
+    &:hover {
+        background-color: var(--info-hover);
+        border-color: var(--info-hover);
+        box-shadow: 0 0 0 2px rgba(var(--info-hover), 0.3);
+        transform: scale(1.05);
+    }
+    
+    // High contrast mode support (Requirement 4.1)
+    @include high-contrast {
+        background-color: var(--info-active);
+        border-color: var(--info-active);
+        border-width: 3px;
     }
 }
 
-// Alternative dot styles for different emphasis levels
+// Alternative dot styles for different emphasis levels with improved contrast
 .status-dot.subtle {
-    background-color: var(--bg-tertiary);
+    background-color: var(--surface);
     border: 2px solid currentColor;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 
     &.success {
         color: var(--success);
+        background-color: var(--success-alpha-10);
+        
+        &:hover {
+            background-color: var(--success-alpha-20);
+            color: var(--success-hover);
+        }
     }
 
     &.warning {
         color: var(--warning);
+        background-color: var(--warning-alpha-10);
+        
+        &:hover {
+            background-color: var(--warning-alpha-20);
+            color: var(--warning-hover);
+        }
     }
 
     &.error {
         color: var(--error);
+        background-color: var(--error-alpha-10);
+        
+        &:hover {
+            background-color: var(--error-alpha-20);
+            color: var(--error-hover);
+        }
     }
 
     &.info {
         color: var(--info);
+        background-color: var(--info-alpha-10);
+        
+        &:hover {
+            background-color: var(--info-alpha-20);
+            color: var(--info-hover);
+        }
+    }
+    
+    // Enhanced pulse for subtle variants
+    &.pulse {
+        &::before {
+            border: 2px solid currentColor;
+            background-color: transparent;
+        }
     }
 }
 
@@ -106,6 +260,7 @@
     flex-direction: column;
     align-items: flex-start;
     min-width: 0; // Allow text to shrink
+    gap: task-space(xs); // 4px consistent spacing
 }
 
 .status-label {
@@ -113,10 +268,15 @@
     font-weight: $font-weight-medium;
     color: var(--text-primary);
     line-height: map-get($line-heights, tight);
+    
+    // Better text rendering
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-    // Ensure proper contrast
+    // Ensure proper contrast and readability
     @include high-contrast {
-        font-weight: $font-weight-semibold;
+        font-weight: $font-weight-bold;
+        color: var(--text-primary);
     }
 }
 
@@ -124,20 +284,34 @@
     @include font-size(xs);
     color: var(--text-tertiary);
     line-height: map-get($line-heights, tight);
-    margin-top: space(0.5);
+    font-weight: $font-weight-normal;
+    
+    // Improved contrast for better readability
+    @include high-contrast {
+        color: var(--text-secondary);
+        font-weight: $font-weight-medium;
+    }
 }
 
-// Status indicator variants
+// Status indicator size variants with consistent spacing
 .status-indicator.compact {
-    gap: space(1.5);
+    gap: task-space(xs); // 4px
 
     .status-dot {
-        width: space(1.5);
-        height: space(1.5);
+        width: task-space(xs); // 4px
+        height: task-space(xs); // 4px
+        
+        &::before {
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+        }
     }
 
     .status-label {
         @include font-size(xs);
+        font-weight: $font-weight-medium;
     }
 
     .status-time {
@@ -146,69 +320,169 @@
 }
 
 .status-indicator.large {
-    gap: space(3);
+    gap: task-space(md); // 12px
 
     .status-dot {
-        width: space(3);
-        height: space(3);
+        width: task-space(md); // 12px
+        height: task-space(md); // 12px
+        
+        &::before {
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+        }
     }
 
     .status-label {
         @include font-size(base);
+        font-weight: $font-weight-semibold;
+    }
+    
+    .status-time {
+        @include font-size(sm);
     }
 }
 
-// Interactive status indicator (clickable)
+// Interactive status indicator (clickable) with enhanced accessibility
 .status-indicator.interactive {
     cursor: pointer;
-    padding: space(1) space(2);
+    padding: task-space(xs) task-space(sm); // 4px 8px
     border-radius: map-get($border-radius, md);
-    transition: background-color map-get($transitions, base) map-get($easing, ease-in-out);
+    transition: all map-get($transitions, base) map-get($easing, ease-out);
+    border: 1px solid transparent;
+    
+    // Ensure minimum touch target size for accessibility
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: flex-start;
 
     &:hover {
         background-color: var(--interactive-hover);
+        border-color: var(--border-secondary);
+        transform: translateY(-1px);
+        box-shadow: map-get($shadows, sm);
     }
 
     &:active {
         background-color: var(--interactive-active);
+        transform: translateY(0);
+        box-shadow: none;
     }
 
+    // Enhanced focus state for accessibility
     &:focus {
         @include focus-ring;
+        outline-offset: 2px;
+    }
+    
+    // Focus-visible for keyboard navigation
+    &:focus-visible {
+        @include focus-ring;
+    }
+    
+    // Disabled state
+    &:disabled,
+    &[aria-disabled="true"] {
+        cursor: not-allowed;
+        opacity: 0.6;
+        
+        &:hover {
+            background-color: transparent;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+    
+    // Respect reduced motion
+    @include reduced-motion {
+        &:hover {
+            transform: none;
+        }
+        
+        &:active {
+            transform: none;
+        }
     }
 }
 
-// Status indicator with background for emphasis
+// Status indicator with background for emphasis using consistent spacing
 .status-indicator.with-background {
-    padding: space(2) space(3);
+    padding: task-space(sm) task-space(md); // 8px 12px
     border-radius: map-get($border-radius, lg);
     border: 1px solid var(--border);
+    box-shadow: map-get($shadows, sm);
 
     &.success {
         background-color: var(--success-bg);
         border-color: var(--success-border);
+        
+        .status-label {
+            color: var(--success-text);
+        }
+        
+        &:hover {
+            background-color: var(--success-light);
+            border-color: var(--success);
+        }
     }
 
     &.warning {
         background-color: var(--warning-bg);
         border-color: var(--warning-border);
+        
+        .status-label {
+            color: var(--warning-text);
+        }
+        
+        &:hover {
+            background-color: var(--warning-light);
+            border-color: var(--warning);
+        }
     }
 
     &.error {
         background-color: var(--error-bg);
         border-color: var(--error-border);
+        
+        .status-label {
+            color: var(--error-text);
+        }
+        
+        &:hover {
+            background-color: var(--error-light);
+            border-color: var(--error);
+        }
     }
 
     &.info {
         background-color: var(--info-bg);
         border-color: var(--info-border);
+        
+        .status-label {
+            color: var(--info-text);
+        }
+        
+        &:hover {
+            background-color: var(--info-light);
+            border-color: var(--info);
+        }
+    }
+    
+    // High contrast mode support
+    @include high-contrast {
+        border-width: 2px;
+        
+        .status-label {
+            font-weight: $font-weight-bold;
+        }
     }
 }
 
-// Responsive behavior
+// Responsive behavior with consistent spacing
 @include breakpoint(sm) {
     .status-indicator {
-        gap: space(1.5);
+        gap: task-space(xs); // 4px on mobile
 
         &.hide-text-mobile .status-text {
             display: none;
@@ -216,73 +490,546 @@
 
         &.compact-mobile {
             .status-dot {
-                width: space(1.5);
-                height: space(1.5);
+                width: task-space(xs); // 4px
+                height: task-space(xs); // 4px
             }
 
             .status-label {
                 @include font-size(xs);
             }
+            
+            .status-time {
+                display: none; // Hide timestamp on mobile compact mode
+            }
+        }
+        
+        // Ensure adequate touch targets on mobile
+        &.interactive {
+            min-height: 48px; // Larger touch target on mobile
+            padding: task-space(sm) task-space(md); // 8px 12px
         }
     }
 }
 
-// Accessibility enhancements
+// Enhanced accessibility features (Requirements 4.1, 4.3)
 .status-indicator {
-
-    // High contrast mode adjustments
-    @include high-contrast {
-        .status-dot {
-            border: 2px solid currentColor;
-
-            &.success {
-                color: var(--success);
-            }
-
-            &.warning {
-                color: var(--warning);
-            }
-
-            &.error {
-                color: var(--error);
-            }
-
-            &.info {
-                color: var(--info);
+    // Screen reader support with proper ARIA implementation
+    &[aria-label] {
+        position: relative;
+    }
+    
+    // Live region support for dynamic status updates
+    &[aria-live] {
+        // Ensure screen readers announce status changes
+        .status-label {
+            // Force screen reader update on content change
+            &::after {
+                content: '';
+                position: absolute;
+                left: -9999px;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
             }
         }
     }
+    
+    // Enhanced role support for interactive and status elements
+    &[role="button"] {
+        &:focus {
+            @include focus-ring;
+            outline-offset: 3px;
+        }
+        
+        &:focus-visible {
+            @include focus-ring;
+            outline-width: 3px;
+        }
+    }
+    
 
-    // Respect reduced motion preferences
+    // High contrast mode adjustments with enhanced visibility
+    @include high-contrast {
+        .status-dot {
+            border-width: 4px;
+            border-style: solid;
+            background-color: transparent;
+
+            &.success {
+                color: var(--success-active);
+                border-color: var(--success-active);
+                background-color: var(--success-bg);
+            }
+
+            &.warning {
+                color: var(--warning-active);
+                border-color: var(--warning-active);
+                background-color: var(--warning-bg);
+            }
+
+            &.error {
+                color: var(--error-active);
+                border-color: var(--error-active);
+                background-color: var(--error-bg);
+            }
+
+            &.info {
+                color: var(--info-active);
+                border-color: var(--info-active);
+                background-color: var(--info-bg);
+            }
+            
+            // Enhanced pulse visibility in high contrast
+            &.pulse {
+                &::before {
+                    border: 2px solid currentColor;
+                    background-color: transparent;
+                }
+            }
+        }
+        
+        .status-label {
+            font-weight: $font-weight-bold;
+            color: var(--text-primary);
+            text-shadow: none;
+        }
+        
+        .status-time {
+            font-weight: $font-weight-semibold;
+            color: var(--text-secondary);
+        }
+    }
+
+    // Respect reduced motion preferences (Requirement 4.3)
     @include reduced-motion {
         .status-dot {
+            transition: none;
+            
             &::before {
                 transition: none;
+                animation: none;
             }
 
             &.pulse {
                 animation: none;
+                
+                // Provide alternative visual feedback without motion
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: -2px;
+                    left: -2px;
+                    right: -2px;
+                    bottom: -2px;
+                    border: 2px solid currentColor;
+                    border-radius: inherit;
+                    opacity: 0.5;
+                }
+            }
+            
+            &:hover {
+                transform: none;
+                // Provide alternative hover feedback
+                box-shadow: 0 0 0 3px var(--border-focus);
+            }
+        }
+        
+        &.interactive:hover {
+            transform: none;
+            // Alternative hover state without motion
+            background-color: var(--interactive-hover);
+            box-shadow: inset 0 0 0 2px var(--border-focus);
+        }
+    }
+    
+    // Enhanced keyboard navigation support
+    &:focus-within {
+        .status-dot {
+            outline: 2px solid var(--border-focus);
+            outline-offset: 2px;
+        }
+    }
+    
+    // Improved touch target size for mobile accessibility
+    @include breakpoint(sm) {
+        &.interactive {
+            min-height: 48px; // WCAG AA minimum touch target
+            min-width: 48px;
+            
+            // Ensure adequate spacing for touch
+            padding: task-space(sm) task-space(md);
+        }
+    }
+}
+
+// Enhanced and more distinct animations for different status types (Requirement 3.3)
+@keyframes success-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 1px rgba(var(--success), 0.2);
+    }
+    50% {
+        opacity: 0.85;
+        transform: scale(1.08);
+        box-shadow: 0 0 0 3px rgba(var(--success), 0.3);
+    }
+}
+
+@keyframes success-glow {
+    0%, 100% {
+        opacity: 0.15;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes warning-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 1px rgba(var(--warning), 0.25);
+    }
+    33% {
+        opacity: 0.7;
+        transform: scale(1.12);
+        box-shadow: 0 0 0 4px rgba(var(--warning), 0.4);
+    }
+    66% {
+        opacity: 0.9;
+        transform: scale(1.04);
+        box-shadow: 0 0 0 2px rgba(var(--warning), 0.3);
+    }
+}
+
+@keyframes warning-glow {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+    }
+    33% {
+        opacity: 0.5;
+        transform: scale(1.3);
+    }
+    66% {
+        opacity: 0.3;
+        transform: scale(1.1);
+    }
+}
+
+@keyframes error-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 1px rgba(var(--error), 0.3);
+    }
+    25% {
+        opacity: 0.6;
+        transform: scale(1.18);
+        box-shadow: 0 0 0 5px rgba(var(--error), 0.5);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.06);
+        box-shadow: 0 0 0 2px rgba(var(--error), 0.35);
+    }
+    75% {
+        opacity: 0.7;
+        transform: scale(1.12);
+        box-shadow: 0 0 0 4px rgba(var(--error), 0.45);
+    }
+}
+
+@keyframes error-glow {
+    0%, 100% {
+        opacity: 0.25;
+        transform: scale(1);
+    }
+    25% {
+        opacity: 0.6;
+        transform: scale(1.4);
+    }
+    50% {
+        opacity: 0.35;
+        transform: scale(1.15);
+    }
+    75% {
+        opacity: 0.5;
+        transform: scale(1.25);
+    }
+}
+
+@keyframes info-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 0 1px rgba(var(--info), 0.2);
+    }
+    50% {
+        opacity: 0.88;
+        transform: scale(1.05);
+        box-shadow: 0 0 0 2px rgba(var(--info), 0.25);
+    }
+}
+
+@keyframes info-glow {
+    0%, 100% {
+        opacity: 0.18;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(1.15);
+    }
+}
+
+// Status list for multiple status indicators with consistent spacing
+.status-list {
+    display: flex;
+    flex-direction: column;
+    gap: task-space(sm); // 8px consistent spacing
+
+    &.horizontal {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: task-space(lg); // 16px horizontal spacing
+        align-items: center;
+    }
+
+    @include breakpoint(sm) {
+        gap: task-space(xs); // 4px on mobile
+        
+        &.horizontal {
+            gap: task-space(md); // 12px on mobile
+        }
+        
+        &.responsive-horizontal {
+            flex-direction: row;
+            gap: task-space(md); // 12px
+        }
+    }
+}
+
+// Status group for related status indicators
+.status-group {
+    display: flex;
+    flex-direction: column;
+    gap: task-space(xs); // 4px
+    padding: task-space(md); // 12px
+    border-radius: map-get($border-radius, lg);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    
+    .status-group-title {
+        @include font-size(sm);
+        font-weight: $font-weight-semibold;
+        color: var(--text-secondary);
+        margin-bottom: task-space(xs); // 4px
+    }
+    
+    .status-indicator {
+        margin: 0; // Reset any default margins
+    }
+}
+
+// Enhanced color contrast validation (Requirement 1.1, 1.2)
+.status-indicator {
+    // Ensure minimum 4.5:1 contrast ratio for all text
+    .status-label {
+        // Force high contrast for better readability
+        color: var(--text-primary);
+        font-weight: $font-weight-medium;
+        
+        // Additional contrast enhancement
+        text-shadow: 0 0 1px rgba(var(--text-primary), 0.1);
+    }
+    
+    .status-time {
+        // Ensure secondary text meets contrast requirements
+        color: var(--text-secondary);
+        font-weight: $font-weight-normal;
+        
+        // Minimum contrast fallback
+        @supports not (color: var(--text-secondary)) {
+            color: #4a5568; // Fallback with 4.5:1 contrast on white
+        }
+    }
+    
+    // Status-specific text colors for better semantic meaning
+    &.with-background {
+        &.success .status-label {
+            color: var(--success-text);
+            font-weight: $font-weight-semibold;
+        }
+        
+        &.warning .status-label {
+            color: var(--warning-text);
+            font-weight: $font-weight-semibold;
+        }
+        
+        &.error .status-label {
+            color: var(--error-text);
+            font-weight: $font-weight-semibold;
+        }
+        
+        &.info .status-label {
+            color: var(--info-text);
+            font-weight: $font-weight-semibold;
+        }
+    }
+}
+
+// Enhanced focus management for better accessibility (Requirement 4.1)
+.status-indicator {
+    // Improved focus indicators
+    &:focus,
+    &:focus-within {
+        .status-dot {
+            outline: 3px solid var(--border-focus);
+            outline-offset: 2px;
+        }
+    }
+    
+    // Skip link support for screen readers
+    &.sr-skip-target {
+        &:focus {
+            position: relative;
+            z-index: map-get($z-index, tooltip);
+        }
+    }
+    
+    // Enhanced ARIA live region support
+    &[aria-live="polite"] {
+        // Ensure proper announcement timing
+        .status-label {
+            transition: color map-get($transitions, base) ease-out;
+        }
+    }
+}
+
+// Print styles with accessibility considerations
+@media print {
+    .status-indicator {
+        .status-dot {
+            background-color: transparent !important;
+            border: 3px solid var(--text-primary) !important;
+            
+            // Add pattern for different statuses in print
+            &.success::after {
+                content: '✓';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 8px;
+                color: var(--text-primary);
+            }
+            
+            &.warning::after {
+                content: '!';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 8px;
+                font-weight: bold;
+                color: var(--text-primary);
+            }
+            
+            &.error::after {
+                content: '✗';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 8px;
+                color: var(--text-primary);
+            }
+            
+            &.info::after {
+                content: 'i';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 8px;
+                font-weight: bold;
+                color: var(--text-primary);
+            }
+            
+            &::before {
+                display: none;
+            }
+            
+            &.pulse {
+                animation: none;
+            }
+        }
+        
+        .status-label {
+            color: var(--text-primary) !important;
+            font-weight: $font-weight-semibold !important;
+        }
+        
+        .status-time {
+            color: var(--text-secondary) !important;
+        }
+        
+        &.interactive {
+            cursor: default;
+            
+            &:hover {
+                background-color: transparent;
+                transform: none;
+                box-shadow: none;
             }
         }
     }
 }
 
-// Status list for multiple status indicators
-.status-list {
+// Additional utility classes for enhanced status indication
+.status-indicator-group {
     display: flex;
     flex-direction: column;
-    gap: space(2);
-
+    gap: task-space(xs);
+    
+    .status-indicator {
+        margin: 0;
+    }
+    
+    // Ensure proper spacing in groups
     &.horizontal {
         flex-direction: row;
+        gap: task-space(md);
+        align-items: center;
         flex-wrap: wrap;
-        gap: space(4);
     }
+}
 
-    @include breakpoint(sm) {
-        &.responsive-horizontal {
-            flex-direction: row;
-            gap: space(3);
-        }
+// Status indicator with enhanced visual hierarchy
+.status-indicator-enhanced {
+    .status-dot {
+        // More prominent visual presence
+        width: task-space(md); // 12px
+        height: task-space(md); // 12px
+        border-width: 3px;
+        
+        // Enhanced shadow for depth
+        box-shadow: 
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 0 0 1px var(--border);
+    }
+    
+    .status-label {
+        @include font-size(base);
+        font-weight: $font-weight-semibold;
+    }
+    
+    .status-time {
+        @include font-size(sm);
+        font-weight: $font-weight-medium;
     }
 }

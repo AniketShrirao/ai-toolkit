@@ -1,6 +1,9 @@
-// Badge component styles with enhanced status colors
-@use '../../styles/colors' as *;
+// Badge component styles with enhanced status colors and improved accessibility
+// Implements high-contrast color combinations and consistent spacing
+
 @use '../../styles/variables' as *;
+@use '../../styles/colors' as *;
+@use '../../styles/spacing' as *;
 @use '../../styles/mixins' as *;
 
 .badge {
@@ -10,30 +13,62 @@
   &:focus {
     @include focus-ring;
   }
+  
+  // Improved base styling with consistent spacing
+  font-family: $font-family-base;
+  font-weight: $font-weight-medium;
+  text-align: center;
+  vertical-align: baseline;
+  user-select: none;
+  
+  // Better transition for interactive states
+  transition: all map-get($transitions, base) map-get($easing, ease-out);
 }
 
-/* Size variants with consistent spacing */
+/* Size variants with consistent spacing using task-specific scale */
 .badge-sm {
-  @include badge-size(sm);
+  padding: task-space(xs) task-space(sm); // 4px 8px
+  @include font-size(xs);
+  min-height: task-space(lg); // 16px
+  line-height: 1.2;
 }
 
 .badge-md {
-  @include badge-size(md);
+  padding: task-space(sm) task-space(md); // 8px 12px
+  @include font-size(sm);
+  min-height: task-space(xl); // 24px
+  line-height: 1.3;
 }
 
 .badge-lg {
-  @include badge-size(lg);
+  padding: task-space(md) task-space(lg); // 12px 16px
+  @include font-size(base);
+  min-height: task-space(2xl); // 32px
+  line-height: 1.4;
 }
 
-/* Enhanced variant styles with improved contrast */
+/* Enhanced variant styles with high-contrast color combinations */
 .badge-default {
   background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
-  border: 1px solid var(--border);
+  color: var(--text-primary); // Improved contrast
+  border: 1px solid var(--border-secondary);
   
   &:hover {
     background-color: var(--interactive-hover);
     color: var(--text-primary);
+    border-color: var(--border-focus);
+  }
+  
+  &:active {
+    background-color: var(--interactive-active);
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    background-color: var(--surface);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+    border-width: 2px;
   }
 }
 
@@ -45,9 +80,14 @@
   &:hover {
     background-color: var(--success-light);
     color: var(--success-active);
+    border-color: var(--success);
   }
   
-  // Solid variant for high emphasis
+  &:active {
+    background-color: var(--success-alpha-20);
+  }
+  
+  // Solid variant for high emphasis with proper contrast
   &.badge-solid {
     background-color: var(--success);
     color: var(--text-inverse);
@@ -55,10 +95,25 @@
     
     &:hover {
       background-color: var(--success-hover);
+      border-color: var(--success-hover);
     }
     
     &:active {
       background-color: var(--success-active);
+      border-color: var(--success-active);
+    }
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    background-color: var(--success-bg);
+    color: var(--success-active);
+    border-color: var(--success-active);
+    border-width: 2px;
+    
+    &.badge-solid {
+      background-color: var(--success-active);
+      color: var(--text-inverse);
     }
   }
 }
@@ -71,9 +126,14 @@
   &:hover {
     background-color: var(--warning-light);
     color: var(--warning-active);
+    border-color: var(--warning);
   }
   
-  // Solid variant for high emphasis
+  &:active {
+    background-color: var(--warning-alpha-20);
+  }
+  
+  // Solid variant for high emphasis with proper contrast
   &.badge-solid {
     background-color: var(--warning);
     color: var(--text-inverse);
@@ -81,10 +141,25 @@
     
     &:hover {
       background-color: var(--warning-hover);
+      border-color: var(--warning-hover);
     }
     
     &:active {
       background-color: var(--warning-active);
+      border-color: var(--warning-active);
+    }
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    background-color: var(--warning-bg);
+    color: var(--warning-active);
+    border-color: var(--warning-active);
+    border-width: 2px;
+    
+    &.badge-solid {
+      background-color: var(--warning-active);
+      color: var(--text-inverse);
     }
   }
 }
@@ -97,9 +172,14 @@
   &:hover {
     background-color: var(--error-light);
     color: var(--error-active);
+    border-color: var(--error);
   }
   
-  // Solid variant for high emphasis
+  &:active {
+    background-color: var(--error-alpha-20);
+  }
+  
+  // Solid variant for high emphasis with proper contrast
   &.badge-solid {
     background-color: var(--error);
     color: var(--text-inverse);
@@ -107,10 +187,25 @@
     
     &:hover {
       background-color: var(--error-hover);
+      border-color: var(--error-hover);
     }
     
     &:active {
       background-color: var(--error-active);
+      border-color: var(--error-active);
+    }
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    background-color: var(--error-bg);
+    color: var(--error-active);
+    border-color: var(--error-active);
+    border-width: 2px;
+    
+    &.badge-solid {
+      background-color: var(--error-active);
+      color: var(--text-inverse);
     }
   }
 }
@@ -123,9 +218,14 @@
   &:hover {
     background-color: var(--info-light);
     color: var(--info-active);
+    border-color: var(--info);
   }
   
-  // Solid variant for high emphasis
+  &:active {
+    background-color: var(--info-alpha-20);
+  }
+  
+  // Solid variant for high emphasis with proper contrast
   &.badge-solid {
     background-color: var(--info);
     color: var(--text-inverse);
@@ -133,17 +233,44 @@
     
     &:hover {
       background-color: var(--info-hover);
+      border-color: var(--info-hover);
     }
     
     &:active {
       background-color: var(--info-active);
+      border-color: var(--info-active);
+    }
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    background-color: var(--info-bg);
+    color: var(--info-active);
+    border-color: var(--info-active);
+    border-width: 2px;
+    
+    &.badge-solid {
+      background-color: var(--info-active);
+      color: var(--text-inverse);
     }
   }
 }
 
-// Outline variants for subtle emphasis
+// Outline variants for subtle emphasis with improved contrast
 .badge-outline {
   background-color: transparent;
+  border-width: 1px;
+  border-style: solid;
+  
+  &.badge-default {
+    color: var(--text-primary);
+    border-color: var(--border-secondary);
+    
+    &:hover {
+      background-color: var(--bg-secondary);
+      border-color: var(--border-focus);
+    }
+  }
   
   &.badge-success {
     color: var(--success);
@@ -151,6 +278,12 @@
     
     &:hover {
       background-color: var(--success-bg);
+      color: var(--success-hover);
+      border-color: var(--success-hover);
+    }
+    
+    &:active {
+      background-color: var(--success-alpha-10);
     }
   }
   
@@ -160,6 +293,12 @@
     
     &:hover {
       background-color: var(--warning-bg);
+      color: var(--warning-hover);
+      border-color: var(--warning-hover);
+    }
+    
+    &:active {
+      background-color: var(--warning-alpha-10);
     }
   }
   
@@ -169,6 +308,12 @@
     
     &:hover {
       background-color: var(--error-bg);
+      color: var(--error-hover);
+      border-color: var(--error-hover);
+    }
+    
+    &:active {
+      background-color: var(--error-alpha-10);
     }
   }
   
@@ -178,29 +323,75 @@
     
     &:hover {
       background-color: var(--info-bg);
+      color: var(--info-hover);
+      border-color: var(--info-hover);
     }
+    
+    &:active {
+      background-color: var(--info-alpha-10);
+    }
+  }
+  
+  // High contrast mode support for outline variants
+  @include high-contrast {
+    border-width: 2px;
+    font-weight: $font-weight-semibold;
   }
 }
 
-// Accessibility enhancements
+// Enhanced accessibility features
 .badge {
   // Ensure proper contrast in high contrast mode
   @include high-contrast {
     border-width: 2px;
-    font-weight: $font-weight-semibold;
+    font-weight: $font-weight-bold;
+    
+    // Ensure text remains readable
+    &.badge-default {
+      background-color: var(--surface);
+      color: var(--text-primary);
+    }
   }
   
   // Respect reduced motion preferences
   @include reduced-motion {
     transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+  
+  // Screen reader support
+  &[aria-label] {
+    // Ensure aria-label is properly announced
+    position: relative;
+  }
+  
+  // Focus management for keyboard navigation
+  &:focus-visible {
+    @include focus-ring;
+    z-index: 1; // Ensure focus ring is visible above other elements
+  }
+  
+  // Ensure minimum touch target size for mobile accessibility
+  @include breakpoint(sm) {
+    min-height: 44px; // WCAG AA minimum touch target
+    min-width: 44px;
+    
+    &.badge-sm {
+      min-height: 32px; // Smaller but still accessible
+      min-width: 32px;
+    }
   }
 }
 
-// Interactive badges (clickable)
+// Interactive badges (clickable) with enhanced accessibility
 .badge-interactive {
   cursor: pointer;
-  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+  transition: all map-get($transitions, base) map-get($easing, ease-out);
   
+  // Enhanced hover state
   &:hover {
     transform: translateY(-1px);
     box-shadow: map-get($shadows, sm);
@@ -208,30 +399,147 @@
   
   &:active {
     transform: translateY(0);
+    box-shadow: none;
   }
   
+  // Improved focus state for accessibility
   &:focus {
     @include focus-ring;
+    outline-offset: 2px;
+  }
+  
+  // Keyboard activation support
+  &:focus-visible {
+    @include focus-ring;
+  }
+  
+  // Disabled state
+  &:disabled,
+  &[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+    box-shadow: none;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+  
+  // Respect reduced motion
+  @include reduced-motion {
+    &:hover {
+      transform: none;
+    }
+    
+    &:active {
+      transform: none;
+    }
   }
 }
 
-// Badge with icon support
+// Badge with icon support using consistent spacing
 .badge-with-icon {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: task-space(xs); // 4px consistent gap
   
   .badge-icon {
     width: 1em;
     height: 1em;
     flex-shrink: 0;
+    
+    // Ensure icon color matches text
+    color: currentColor;
+  }
+  
+  // Size-specific icon adjustments
+  &.badge-sm .badge-icon {
+    width: 0.875em;
+    height: 0.875em;
+  }
+  
+  &.badge-lg .badge-icon {
+    width: 1.125em;
+    height: 1.125em;
   }
 }
 
-// Responsive adjustments
+// Badge group for multiple related badges
+.badge-group {
+  display: inline-flex;
+  align-items: center;
+  gap: task-space(xs); // 4px between badges
+  flex-wrap: wrap;
+  
+  .badge {
+    margin: 0; // Reset any default margins
+  }
+}
+
+// Badge with dot indicator
+.badge-dot {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--error);
+    border: 2px solid var(--surface);
+  }
+  
+  &.badge-dot-success::before {
+    background-color: var(--success);
+  }
+  
+  &.badge-dot-warning::before {
+    background-color: var(--warning);
+  }
+  
+  &.badge-dot-info::before {
+    background-color: var(--info);
+  }
+}
+
+// Responsive adjustments with consistent spacing
 @include breakpoint(sm) {
   .badge-sm {
-    font-size: 0.625rem; // Slightly smaller on mobile
-    padding: 0.125rem 0.375rem;
+    padding: task-space(xs) task-space(sm); // Maintain consistent spacing
+    @include font-size(xs);
+  }
+  
+  .badge-md {
+    padding: task-space(sm) task-space(md);
+    @include font-size(sm);
+  }
+  
+  .badge-lg {
+    padding: task-space(md) task-space(lg);
+    @include font-size(base);
+  }
+  
+  // Ensure adequate spacing on mobile
+  .badge-group {
+    gap: task-space(sm); // 8px on mobile for better touch targets
+  }
+}
+
+// Print styles
+@media print {
+  .badge {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--text-primary) !important;
+    box-shadow: none !important;
+  }
+  
+  .badge-interactive {
+    cursor: default;
   }
 }

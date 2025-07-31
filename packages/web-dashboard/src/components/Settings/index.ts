@@ -1,4 +1,5 @@
 export { Settings } from "./Settings";
+export { AISettings } from "./AISettings";
 export { OllamaSettings } from "./OllamaSettings";
 export { CloudLLMSettings } from "./CloudLLMSettings";
 export { ProcessingSettings } from "./ProcessingSettings";

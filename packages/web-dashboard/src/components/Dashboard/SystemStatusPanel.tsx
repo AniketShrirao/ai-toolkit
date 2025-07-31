@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardContent } from '@components/UI';
 import { useHealthStatus } from '@hooks/useHealthStatus';
-import './SystemStatusPanel.css';
+import './SystemStatusPanel.scss';
 
 interface StatusIndicatorProps {
   status: 'healthy' | 'degraded' | 'unhealthy' | 'checking';

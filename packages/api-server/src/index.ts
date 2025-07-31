@@ -19,6 +19,7 @@ import estimationRoutes from "./routes/estimation.js";
 import workflowRoutes from "./routes/workflows.js";
 import authRoutes from "./routes/auth.js";
 import healthRoutes from "./routes/health.js";
+import aiChatRoutes from "./routes/ai-chat.js";
 import { integrityRouter } from "./routes/integrity.js";
 
 const app = express();
@@ -66,6 +67,7 @@ app.use("/api/documents", documentRoutes); // Temporarily public for testing
 // Protected routes (auth required)
 app.use("/api/estimation", authMiddleware, estimationRoutes);
 app.use("/api/workflows", authMiddleware, workflowRoutes);
+app.use("/api/ai-chat", aiChatRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);

@@ -1,0 +1,223 @@
+// Sidebar component styles using new design system
+@use '../../styles/spacing' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.sidebar {
+  width: var(--sidebar-width);
+  background-color: var(--surface);
+  border-right: 1px solid var(--border);
+  height: calc(100vh - var(--header-height));
+  position: sticky;
+  top: var(--header-height);
+  z-index: map-get($z-index, sticky);
+  
+  // Enhanced transition for better mobile overlay behavior (Requirement 5.1)
+  transition: transform map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  // Improved visual hierarchy with subtle shadow
+  box-shadow: map-get($shadows, sm);
+}
+
+.sidebar-nav {
+  // Use task spacing scale for consistent spacing (Requirement 2.1, 2.2)
+  @include component-spacing(section, lg);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  
+  // Improved visual hierarchy with consistent spacing between items
+  display: flex;
+  flex-direction: column;
+  @include responsive-gap-task(xs);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  
+  // Use task spacing for consistent navigation item spacing (Requirement 2.1, 2.2)
+  @include responsive-padding-task(md, (
+    md: sm,
+    sm: xs
+  ));
+  
+  // Enhanced spacing between icon and label
+  @include responsive-gap-task(md, (
+    md: sm,
+    sm: xs
+  ));
+  
+  // Improved text styling with better contrast (Requirement 1.1, 1.4)
+  @include text-style(sm, $font-weight-medium, normal);
+  color: var(--text-secondary);
+  
+  // Enhanced transitions for better UX
+  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+  border-radius: map-get($border-radius, md);
+  margin: 0 task-space(sm);
+  
+  // Enhanced hover states with better contrast (Requirement 1.1, 4.2)
+  &:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transform: translateX(2px);
+  }
+  
+  // Improved active state with better visual hierarchy (Requirement 1.1, 1.4)
+  &.active {
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    font-weight: $font-weight-semibold;
+    box-shadow: map-get($shadows, sm);
+    
+    &:hover {
+      background-color: var(--primary-hover);
+      transform: translateX(2px);
+    }
+    
+    // Add visual indicator for active state
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 60%;
+      background-color: var(--text-inverse);
+      border-radius: 0 2px 2px 0;
+    }
+  }
+  
+  // Enhanced focus states for accessibility (Requirement 4.2)
+  &:focus {
+    @include focus-ring;
+    background-color: var(--bg-secondary);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+  
+  // Active state styling
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.nav-icon {
+  @include text-style(lg);
+  width: task-space(xl); // Consistent icon width using task spacing
+  text-align: center;
+  flex-shrink: 0;
+  
+  // Ensure icons have proper contrast
+  opacity: 0.9;
+  
+  .nav-item.active & {
+    opacity: 1;
+  }
+}
+
+.nav-label {
+  flex: 1;
+  font-weight: inherit;
+  
+  // Ensure text doesn't wrap on smaller screens
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: map-get($z-index, modal-backdrop);
+  
+  // Enhanced animation for mobile overlay (Requirement 5.1)
+  opacity: 0;
+  transition: opacity map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  &.visible {
+    opacity: 1;
+  }
+}
+
+// Enhanced mobile responsiveness with consistent spacing (Requirement 5.1)
+@include breakpoint(md) {
+  .sidebar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    z-index: map-get($z-index, modal);
+    transform: translateX(-100%);
+    box-shadow: map-get($shadows, lg);
+    
+    // Improved mobile overlay behavior and animations
+    &.open {
+      transform: translateX(0);
+    }
+  }
+  
+  .sidebar-overlay {
+    display: block;
+  }
+  
+  // Adjust navigation item spacing for mobile
+  .nav-item {
+    margin: 0 task-space(xs);
+    
+    // Slightly larger touch targets on mobile
+    min-height: 44px;
+  }
+}
+
+// Accessibility enhancements
+@include reduced-motion {
+  .sidebar,
+  .nav-item,
+  .sidebar-overlay {
+    transition: none;
+  }
+  
+  .nav-item:hover,
+  .nav-item:active {
+    transform: none;
+  }
+}
+
+@include high-contrast {
+  .sidebar {
+    border-right-width: 2px;
+  }
+  
+  .nav-item {
+    &.active {
+      outline: 2px solid var(--text-inverse);
+      outline-offset: -2px;
+    }
+    
+    &:focus {
+      outline-width: 3px;
+    }
+  }
+}

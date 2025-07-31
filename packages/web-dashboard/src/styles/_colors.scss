@@ -1,6 +1,9 @@
 // Color system with improved contrast ratios
 // All colors meet WCAG 2.1 AA contrast requirements (4.5:1 minimum)
 
+// Import required variables
+@use 'variables' as *;
+
 // Color palette maps
 $colors: (
   primary: (
@@ -307,6 +310,19 @@ $border-focus: color(primary, 500);
   --interactive-hover: #{color(neutral, 100)};
   --interactive-active: #{color(neutral, 200)};
   --interactive-disabled: #{color(neutral, 300)};
+  
+  // Overlay colors
+  --overlay-bg: #{rgba(color(neutral, 900), 0.5)};
+  
+  // Shadow colors
+  --shadow-sm: #{map-get($shadows, sm)};
+  --shadow-lg: #{map-get($shadows, lg)};
+  
+  // Transition values
+  --transition-base: #{map-get($transitions, base)};
+  
+  // Border radius values
+  --border-radius-md: #{map-get($border-radius, md)};
 }
 
 // Color utility mixins
@@ -487,6 +503,150 @@ $border-focus: color(primary, 500);
   @include interactive-colors(var(--info), var(--info-hover), var(--info));
 }
 
+// Modern color palettes based on reference images
+$modern-color-palettes: (
+  // App bar interface colors from reference images
+  app-bar-primary: (
+    base: #667eea,
+    light: #8fa4f3,
+    dark: #4c63d2,
+    gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+  ),
+  app-bar-secondary: (
+    base: #f093fb,
+    light: #f5a6fc,
+    dark: #e066f0,
+    gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%)
+  ),
+  app-bar-tertiary: (
+    base: #4facfe,
+    light: #6bb6ff,
+    dark: #2e8bfe,
+    gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)
+  ),
+  
+  // Card interface colors from reference
+  card-primary: (
+    background: rgba(255, 255, 255, 0.9),
+    border: rgba(255, 255, 255, 0.2),
+    shadow: rgba(0, 0, 0, 0.08),
+    glass: rgba(255, 255, 255, 0.25)
+  ),
+  
+  // Chat interface colors from reference
+  chat-primary: (
+    user-bubble: #667eea,
+    assistant-bubble: #f8fafc,
+    input-bg: #ffffff,
+    header-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+  ),
+  
+  // Dashboard interface colors from reference
+  dashboard-primary: (
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+    card-bg: rgba(255, 255, 255, 0.9),
+    accent: #667eea,
+    secondary: #94a3b8
+  )
+);
+
+// Reference-based gradient system
+$reference-gradients: (
+  app-bar-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+  app-bar-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%),
+  app-bar-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%),
+  card-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%),
+  dashboard-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%),
+  chat-header: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+  text-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+);
+
+// Modern color functions for reference-based styling
+@function modern-color($palette, $variant: base) {
+  @return map-get(map-get($modern-color-palettes, $palette), $variant);
+}
+
+@function reference-gradient($name) {
+  @return map-get($reference-gradients, $name);
+}
+
+// Glass-morphism color system
+$glass-colors: (
+  light: rgba(255, 255, 255, 0.25),
+  medium: rgba(255, 255, 255, 0.15),
+  dark: rgba(0, 0, 0, 0.25),
+  border: rgba(255, 255, 255, 0.2),
+  shadow: rgba(0, 0, 0, 0.1)
+);
+
+@function glass-color($variant: light) {
+  @return map-get($glass-colors, $variant);
+}
+
+// Enhanced CSS custom properties with modern colors
+:root {
+  // Modern gradient variables
+  --gradient-primary: #{reference-gradient(app-bar-1)};
+  --gradient-secondary: #{reference-gradient(app-bar-2)};
+  --gradient-tertiary: #{reference-gradient(app-bar-3)};
+  --gradient-card-glass: #{reference-gradient(card-glass)};
+  --gradient-dashboard-bg: #{reference-gradient(dashboard-bg)};
+  --gradient-chat-header: #{reference-gradient(chat-header)};
+  --gradient-text: #{reference-gradient(text-gradient)};
+  
+  // Glass-morphism colors
+  --glass-light: #{glass-color(light)};
+  --glass-medium: #{glass-color(medium)};
+  --glass-dark: #{glass-color(dark)};
+  --glass-border: #{glass-color(border)};
+  --glass-shadow: #{glass-color(shadow)};
+  
+  // Modern app bar colors
+  --app-bar-primary: #{modern-color(app-bar-primary, base)};
+  --app-bar-primary-light: #{modern-color(app-bar-primary, light)};
+  --app-bar-primary-dark: #{modern-color(app-bar-primary, dark)};
+  
+  // Modern card colors
+  --card-bg-glass: #{modern-color(card-primary, background)};
+  --card-border-glass: #{modern-color(card-primary, border)};
+  --card-shadow-modern: #{modern-color(card-primary, shadow)};
+  
+  // Modern chat colors
+  --chat-user-bubble: #{modern-color(chat-primary, user-bubble)};
+  --chat-assistant-bubble: #{modern-color(chat-primary, assistant-bubble)};
+  --chat-input-bg: #{modern-color(chat-primary, input-bg)};
+  
+  // Modern dashboard colors
+  --dashboard-accent: #{modern-color(dashboard-primary, accent)};
+  --dashboard-secondary: #{modern-color(dashboard-primary, secondary)};
+  --dashboard-card-bg: #{modern-color(dashboard-primary, card-bg)};
+}
+
+// Modern color utility mixins
+@mixin gradient-background($gradient-name) {
+  background: reference-gradient($gradient-name);
+}
+
+@mixin glass-effect($variant: light, $blur: 20px) {
+  background: glass-color($variant);
+  backdrop-filter: blur($blur);
+  border: 1px solid glass-color(border);
+}
+
+@mixin modern-card-style {
+  background: var(--card-bg-glass);
+  border: 1px solid var(--card-border-glass);
+  box-shadow: 0 20px 40px var(--card-shadow-modern);
+  backdrop-filter: blur(20px);
+}
+
+@mixin gradient-text($gradient-name: text-gradient) {
+  background: reference-gradient($gradient-name);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 // High contrast mode support
 @media (prefers-contrast: high) {
   :root {
@@ -500,6 +660,11 @@ $border-focus: color(primary, 500);
     --warning: #{color(warning, 700)};
     --error: #{color(error, 700)};
     --info: #{color(info, 700)};
+    
+    // Disable glass effects in high contrast mode
+    --glass-light: #{color(neutral, 50)};
+    --glass-medium: #{color(neutral, 100)};
+    --card-bg-glass: #{color(neutral, 50)};
   }
   
   // High contrast utility classes
@@ -512,4 +677,10 @@ $border-focus: color(primary, 500);
   .text-warning { color: #{color(warning, 800)} !important; }
   .text-error { color: #{color(error, 800)} !important; }
   .text-info { color: #{color(info, 800)} !important; }
+  
+  // Disable glass effects
+  .glass-effect {
+    backdrop-filter: none !important;
+    background: var(--surface) !important;
+  }
 }
