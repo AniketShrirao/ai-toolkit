@@ -1,0 +1,49 @@
+// Shared styles entry point
+// This file imports all shared styles from the web-dashboard and documentation-specific styles
+
+// Import web-dashboard base styles
+@import '../../../packages/web-dashboard/src/styles/main';
+
+// Import documentation-specific styles
+@import 'variables';
+@import 'colors';
+@import 'mixins';
+
+// Documentation-specific global styles
+body {
+  background-color: var(--doc-content-bg);
+  color: var(--doc-text-body);
+}
+
+// Documentation layout utilities
+.doc-container {
+  @include doc-container;
+}
+
+.doc-section {
+  @include doc-section-spacing;
+}
+
+.doc-content {
+  @include doc-content-spacing;
+}
+
+// Documentation typography utilities
+.doc-heading-1 { @include doc-heading(1); }
+.doc-heading-2 { @include doc-heading(2); }
+.doc-heading-3 { @include doc-heading(3); }
+.doc-heading-4 { @include doc-heading(4); }
+
+.doc-body { @include doc-body-text; }
+
+.doc-code-block { @include doc-code-block; }
+.doc-inline-code { @include doc-inline-code; }
+
+// Documentation component utilities
+.doc-nav-item { @include doc-nav-item; }
+.doc-focus-ring { @include doc-focus-ring; }
+.doc-interactive { @include doc-interactive-colors; }
+
+// Animation utilities
+.doc-slide-in-left { @include doc-slide-in-left; }
+.doc-slide-in-right { @include doc-slide-in-right; }

@@ -1,0 +1,48 @@
+// Import shared colors from web-dashboard
+@import '../../../packages/web-dashboard/src/styles/colors';
+
+// Documentation-specific color overrides and additions
+:root {
+  // Documentation-specific colors
+  --doc-sidebar-bg: var(--surface);
+  --doc-sidebar-border: var(--border);
+  --doc-content-bg: var(--bg-primary);
+  --doc-nav-hover: var(--bg-secondary);
+  --doc-nav-active: var(--primary-light);
+  --doc-code-bg: var(--bg-tertiary);
+  --doc-blockquote-border: var(--primary);
+  
+  // Enhanced contrast for documentation
+  --doc-text-heading: var(--text-primary);
+  --doc-text-body: var(--text-secondary);
+  --doc-text-muted: var(--text-tertiary);
+  
+  // Interactive states for documentation
+  --doc-link-color: var(--primary);
+  --doc-link-hover: var(--primary-hover);
+  --doc-focus-ring: var(--primary-alpha-20);
+}
+
+// Documentation-specific color mixins
+@mixin doc-focus-ring {
+  &:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--doc-focus-ring);
+  }
+}
+
+@mixin doc-interactive-colors($base: var(--primary)) {
+  color: $base;
+  transition: color map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  &:hover {
+    color: var(--primary-hover);
+  }
+  
+  &:active {
+    color: var(--primary-dark);
+  }
+  
+  @include doc-focus-ring;
+}

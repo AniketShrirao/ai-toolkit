@@ -1,0 +1,109 @@
+@use '../../../../packages/shared/styles/variables' as *;
+@use '../../../../packages/shared/styles/mixins' as *;
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+}
+
+.header {
+  flex-shrink: 0;
+  z-index: map-get($z-index, sticky);
+}
+
+.main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  
+  @include breakpoint(lg) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.content {
+  min-width: 0; // Prevent flex item from overflowing
+  display: flex;
+  flex-direction: column;
+}
+
+.breadcrumbsContainer {
+  flex-shrink: 0;
+  padding: space(4) space(6) 0;
+  
+  @include breakpoint(md) {
+    padding: space(4) space(4) 0;
+  }
+  
+  @include breakpoint(sm) {
+    padding: space(3) space(4) 0;
+  }
+}
+
+.pageContent {
+  flex: 1;
+  padding: space(6);
+  max-width: 100%;
+  
+  @include breakpoint(md) {
+    padding: space(4);
+  }
+  
+  @include breakpoint(sm) {
+    padding: space(4) space(4) space(6);
+  }
+}
+
+// Responsive adjustments
+@include breakpoint(lg) {
+  .main {
+    // When sidebar is hidden, content takes full width
+    .content {
+      width: 100%;
+    }
+  }
+}
+
+// Content width constraints for better readability
+.pageContent {
+  // Optimal reading width
+  max-width: 65ch;
+  
+  // For wider content like tables or code blocks
+  &.wide {
+    max-width: 100%;
+  }
+  
+  // For full-width content
+  &.full {
+    max-width: none;
+  }
+}
+
+// Print styles
+@media print {
+  .layout {
+    display: block;
+  }
+  
+  .header,
+  .sidebar,
+  .breadcrumbsContainer {
+    display: none;
+  }
+  
+  .main {
+    display: block;
+  }
+  
+  .content {
+    display: block;
+  }
+  
+  .pageContent {
+    padding: 0;
+    max-width: none;
+  }
+}

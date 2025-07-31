@@ -1,0 +1,189 @@
+@use '../../../../packages/shared/styles/variables' as *;
+@use '../../../../packages/shared/styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: map-get($z-index, sticky);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.container {
+  @include container(xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  gap: space(4);
+}
+
+.menuButton {
+  @include button-base;
+  @include button-size(sm);
+  @include button-variant(ghost);
+  padding: space(2);
+  
+  @include breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.menuIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brandLink {
+  display: flex;
+  align-items: center;
+  gap: space(3);
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: $font-weight-semibold;
+  transition: color map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  &:hover {
+    color: var(--primary);
+  }
+  
+  @include focus-ring;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  border-radius: map-get($border-radius, md);
+  color: var(--text-inverse);
+}
+
+.logoIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.brandText {
+  @include font-size(lg);
+  font-weight: $font-weight-bold;
+  
+  @include breakpoint(sm) {
+    display: none;
+  }
+}
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: space(6);
+  
+  @include breakpoint-up(md) {
+    display: flex;
+  }
+}
+
+.navLink {
+  @include font-size(sm);
+  font-weight: $font-weight-medium;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: space(2) space(3);
+  border-radius: map-get($border-radius, md);
+  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  &:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+  }
+  
+  &.active {
+    color: var(--primary);
+    background-color: var(--primary-light);
+  }
+  
+  @include focus-ring;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  flex-shrink: 0;
+}
+
+.searchButton,
+.themeButton {
+  @include button-base;
+  @include button-size(sm);
+  @include button-variant(ghost);
+  padding: space(2);
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.searchIcon,
+.themeIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.githubLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--text-secondary);
+  border-radius: map-get($border-radius, md);
+  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  &:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+  }
+  
+  @include focus-ring;
+}
+
+.githubIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+// Mobile responsive adjustments
+@include breakpoint(sm) {
+  .container {
+    padding-left: space(4);
+    padding-right: space(4);
+    gap: space(2);
+  }
+  
+  .actions {
+    gap: space(1);
+  }
+  
+  .searchButton,
+  .themeButton,
+  .githubLink {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  
+  .searchIcon,
+  .themeIcon,
+  .githubIcon {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}

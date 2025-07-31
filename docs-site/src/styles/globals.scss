@@ -1,0 +1,35 @@
+// Global styles for the documentation site
+@use '../../../packages/shared/styles' as *;
+
+// Import the shared styles which include :root variables
+// This file contains global styles that are not scoped to components
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: $font-family-base;
+  line-height: map-get($line-heights, normal);
+}
+
+// Global utility classes
+.container {
+  @include container;
+}
+
+// Documentation-specific global styles
+.doc-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Ensure proper focus styles for accessibility
+*:focus {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+// Remove default focus styles for mouse users
+*:focus:not(:focus-visible) {
+  outline: none;
+}
