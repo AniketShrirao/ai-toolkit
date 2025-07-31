@@ -4,4 +4,8 @@ export { Card, CardHeader, CardContent, CardFooter } from './Card';
 export { ProgressBar } from './ProgressBar';
 export { Input } from './Input';
 export { Badge } from './Badge';
+export { ChatInterface, useChatInterface, createChatMessage } from './ChatInterface';
+export { StickyChat } from './StickyChat';
 export type { ButtonVariant, ButtonSize } from './Button';
+export type { ChatMessage, ChatInterfaceProps } from './ChatInterface';
+export type { StickyChatProps } from './StickyChat';

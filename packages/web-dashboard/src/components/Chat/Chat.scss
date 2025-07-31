@@ -1,0 +1,989 @@
+// Chat Page Component Styling
+// Full-screen dedicated chat interface with modern design
+
+@use '../../styles/spacing' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+@use '../../styles/colors' as *;
+
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-secondary);
+  @include responsive-padding-task(xl, (md: lg, sm: md));
+  gap: task-space(lg);
+  
+  // Responsive layout adjustments
+  @include breakpoint(md) {
+    gap: task-space(md);
+  }
+  
+  @include breakpoint(sm) {
+    gap: task-space(sm);
+    padding: task-space(md);
+  }
+}
+
+// Chat page header with controls and status
+.chat-page-header {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-radius: map-get($modern-border-radius, 2xl);
+  @include modern-shadow(elevated);
+  @include responsive-padding-task(xl, (md: lg, sm: md));
+  border: 1px solid var(--border);
+  
+  // Glass-morphism effect
+  @include glass-morphism(0.95, 20px, 0.1);
+  
+  .header-content {
+    @include flex-between;
+    align-items: flex-start;
+    gap: task-space(lg);
+    
+    @include breakpoint(sm) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: task-space(md);
+    }
+  }
+  
+  .header-title {
+    flex: 1;
+    
+    h1 {
+      @include modern-heading(2xl, true);
+      margin-bottom: task-space(sm);
+      
+      @include breakpoint(md) {
+        @include modern-heading(xl, true);
+      }
+      
+      @include breakpoint(sm) {
+        @include modern-heading(lg, true);
+        margin-bottom: task-space(xs);
+      }
+    }
+    
+    .connection-status {
+      display: flex;
+      align-items: center;
+      gap: task-space(sm);
+      @include text-style(sm, $font-weight-medium);
+      color: var(--text-secondary);
+      
+      @include breakpoint(sm) {
+        @include text-style(xs, $font-weight-medium);
+        gap: task-space(xs);
+      }
+      
+      .status-indicator {
+        width: task-space(sm);
+        height: task-space(sm);
+        border-radius: map-get($modern-border-radius, full);
+        transition: all map-get(map-get($modern-animations, durations), normal);
+        
+        &.connected {
+          background: var(--success);
+          @include modern-pulse(1.5s);
+          box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+        }
+        
+        &.connecting {
+          background: var(--warning);
+          animation: connection-pulse 2s ease-in-out infinite;
+        }
+        
+        &.disconnected {
+          background: var(--text-disabled);
+        }
+        
+        &.error {
+          background: var(--error);
+          animation: error-flash 0.5s ease-out;
+        }
+      }
+      
+      .status-text {
+        font-weight: $font-weight-semibold;
+        
+        &.connected {
+          color: var(--success);
+        }
+        
+        &.connecting {
+          color: var(--warning);
+        }
+        
+        &.error {
+          color: var(--error);
+        }
+      }
+      
+      .model-info {
+        color: var(--text-tertiary);
+        @include text-style(xs);
+        
+        @include breakpoint(sm) {
+          display: none; // Hide on mobile to save space
+        }
+      }
+    }
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: task-space(sm);
+    
+    @include breakpoint(sm) {
+      justify-content: flex-end;
+    }
+    
+    .action-button {
+      @include modern-button-base;
+      @include button-size(sm);
+      border-radius: map-get($modern-border-radius, lg);
+      @include text-style(sm);
+      min-width: 44px; // Touch-friendly
+      
+      &.secondary {
+        background: var(--bg-tertiary);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        
+        &:hover:not(:disabled) {
+          background: var(--bg-secondary);
+          color: var(--text-primary);
+          @include modern-shadow(soft);
+        }
+        
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+      
+      @include breakpoint(sm) {
+        @include button-size(sm);
+        min-width: 40px;
+      }
+    }
+  }
+}
+
+// Settings panel (collapsible)
+.settings-panel {
+  margin-top: task-space(lg);
+  padding: 0;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: map-get($modern-border-radius, lg);
+  @include modern-fade-in();
+  @include modern-shadow(soft);
+  
+  @include breakpoint(sm) {
+    margin-top: task-space(md);
+  }
+  
+  .settings-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    border-radius: map-get($modern-border-radius, lg) map-get($modern-border-radius, lg) 0 0;
+    overflow: hidden;
+    
+    .tab-button {
+      flex: 1;
+      padding: task-space(md) task-space(lg);
+      border: none;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all map-get(map-get($modern-animations, durations), fast);
+      @include text-style(sm, $font-weight-medium);
+      
+      &:hover:not(.active) {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+      
+      &.active {
+        background: var(--surface);
+        color: var(--primary);
+        border-bottom: 2px solid var(--primary);
+        @include text-style(sm, $font-weight-semibold);
+      }
+      
+      @include breakpoint(sm) {
+        padding: task-space(sm) task-space(md);
+        @include text-style(xs, $font-weight-medium);
+      }
+    }
+  }
+  
+  .quick-settings,
+  .advanced-settings {
+    padding: task-space(lg);
+    
+    @include breakpoint(sm) {
+      padding: task-space(md);
+    }
+  }
+  
+  .setting-group {
+    margin-bottom: task-space(lg);
+    
+    @include breakpoint(sm) {
+      margin-bottom: task-space(md);
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    label {
+      display: block;
+      @include text-style(sm, $font-weight-semibold);
+      color: var(--text-primary);
+      margin-bottom: task-space(sm);
+      
+      &.checkbox-label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 0;
+        
+        input[type="checkbox"] {
+          width: auto;
+          margin-right: task-space(sm);
+          accent-color: var(--primary);
+        }
+        
+        .checkbox-text {
+          flex: 1;
+        }
+      }
+      
+      @include breakpoint(sm) {
+        @include text-style(xs, $font-weight-semibold);
+      }
+    }
+    
+    select, input {
+      @include modern-input-base;
+      width: 100%;
+      
+      &:disabled {
+        background: var(--bg-secondary);
+        color: var(--text-disabled);
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+    
+    .setting-help {
+      display: block;
+      @include text-style(xs);
+      color: var(--text-secondary);
+      margin-top: task-space(xs);
+      line-height: 1.4;
+    }
+    
+    &.connection-status {
+      .status-display {
+        display: flex;
+        align-items: center;
+        gap: task-space(sm);
+        padding: task-space(sm) task-space(md);
+        border-radius: map-get($modern-border-radius, md);
+        @include text-style(sm, $font-weight-medium);
+        
+        .status-indicator {
+          width: task-space(sm);
+          height: task-space(sm);
+          border-radius: map-get($modern-border-radius, full);
+          flex-shrink: 0;
+        }
+        
+        &.connected {
+          background: rgba(16, 185, 129, 0.1);
+          color: var(--success);
+          border: 1px solid rgba(16, 185, 129, 0.2);
+          
+          .status-indicator {
+            background: var(--success);
+            @include modern-pulse(1.5s);
+          }
+        }
+        
+        &.connecting {
+          background: rgba(245, 158, 11, 0.1);
+          color: var(--warning);
+          border: 1px solid rgba(245, 158, 11, 0.2);
+          
+          .status-indicator {
+            background: var(--warning);
+            animation: connection-pulse 2s ease-in-out infinite;
+          }
+        }
+        
+        &.error, &.disconnected {
+          background: rgba(239, 68, 68, 0.1);
+          color: var(--error);
+          border: 1px solid rgba(239, 68, 68, 0.2);
+          
+          .status-indicator {
+            background: var(--error);
+          }
+        }
+      }
+    }
+  }
+  
+  .setting-actions {
+    display: flex;
+    gap: task-space(sm);
+    margin-top: task-space(lg);
+    
+    @include breakpoint(sm) {
+      flex-direction: column;
+      margin-top: task-space(md);
+    }
+    
+    .action-button {
+      @include modern-button-base;
+      @include button-size(sm);
+      border-radius: map-get($modern-border-radius, md);
+      @include text-style(sm, $font-weight-medium);
+      transition: all map-get(map-get($modern-animations, durations), fast);
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      &.primary {
+        background: var(--primary);
+        color: white;
+        border: 1px solid var(--primary);
+        
+        &:hover:not(:disabled) {
+          background: var(--primary-hover);
+          @include modern-shadow(soft);
+        }
+      }
+      
+      &.secondary {
+        background: var(--bg-tertiary);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        
+        &:hover:not(:disabled) {
+          background: var(--bg-secondary);
+          color: var(--text-primary);
+          @include modern-shadow(soft);
+        }
+      }
+      
+      @include breakpoint(sm) {
+        @include button-size(sm);
+        width: 100%;
+      }
+    }
+  }
+  
+  .test-result {
+    margin-top: task-space(lg);
+    padding: task-space(md);
+    border-radius: map-get($modern-border-radius, md);
+    @include modern-fade-in();
+    
+    @include breakpoint(sm) {
+      margin-top: task-space(md);
+      padding: task-space(sm);
+    }
+    
+    &.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--success);
+    }
+    
+    &.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--error);
+    }
+    
+    .test-result-message {
+      @include text-style(sm, $font-weight-semibold);
+      margin-bottom: task-space(sm);
+      
+      @include breakpoint(sm) {
+        @include text-style(xs, $font-weight-semibold);
+      }
+    }
+    
+    .available-models {
+      h4 {
+        @include text-style(sm, $font-weight-semibold);
+        margin: task-space(sm) 0 task-space(xs) 0;
+        
+        @include breakpoint(sm) {
+          @include text-style(xs, $font-weight-semibold);
+        }
+      }
+      
+      ul {
+        margin: 0;
+        padding-left: task-space(lg);
+        
+        li {
+          @include text-style(xs);
+          margin-bottom: task-space(xs);
+          line-height: 1.4;
+          
+          @include breakpoint(sm) {
+            @include text-style(2xs);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Error banner
+.error-banner {
+  margin-top: task-space(lg);
+  padding: task-space(md) task-space(lg);
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: map-get($modern-border-radius, lg);
+  display: flex;
+  align-items: center;
+  gap: task-space(sm);
+  @include modern-fade-in();
+  
+  @include breakpoint(sm) {
+    margin-top: task-space(md);
+    padding: task-space(sm) task-space(md);
+  }
+  
+  .error-icon {
+    @include text-style(lg);
+    flex-shrink: 0;
+  }
+  
+  .error-message {
+    @include text-style(sm, $font-weight-medium);
+    color: var(--error-text);
+    flex: 1;
+  }
+}
+
+// Main chat content area
+.chat-page-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; // Allow flex child to shrink
+  
+  // Full-screen chat interface styling
+  .full-screen-chat {
+    height: 100%;
+    max-height: none; // Remove height constraint for full-screen
+    border-radius: map-get($modern-border-radius, 2xl);
+    @include modern-shadow(floating);
+    
+    // Enhanced glass-morphism for full-screen
+    @include glass-morphism(0.95, 30px, 0.15);
+    
+    // Responsive adjustments
+    @include breakpoint(md) {
+      border-radius: map-get($modern-border-radius, xl);
+    }
+    
+    @include breakpoint(sm) {
+      border-radius: map-get($modern-border-radius, lg);
+      @include modern-shadow(elevated);
+    }
+    
+    // Override chat interface header for full-screen context
+    .chat-header {
+      @include modern-gradient(primary);
+      @include responsive-padding-task(xl, (md: lg, sm: md));
+      
+      .chat-title {
+        @include text-style(xl, $font-weight-bold);
+        
+        @include breakpoint(md) {
+          @include text-style(lg, $font-weight-bold);
+        }
+        
+        @include breakpoint(sm) {
+          @include text-style(base, $font-weight-bold);
+        }
+      }
+      
+      .chat-status {
+        @include text-style(base);
+        
+        @include breakpoint(md) {
+          @include text-style(sm);
+        }
+        
+        @include breakpoint(sm) {
+          @include text-style(xs);
+        }
+      }
+    }
+    
+    // Enhanced message area for full-screen
+    .chat-messages {
+      @include responsive-padding-task(2xl, (md: xl, sm: lg));
+      
+      // Better scrolling experience for full-screen
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: map-get($modern-border-radius, full);
+        margin: task-space(md);
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: map-get($modern-border-radius, full);
+        
+        &:hover {
+          background: rgba(0, 0, 0, 0.3);
+        }
+      }
+    }
+    
+    // Enhanced input area for full-screen
+    .chat-input {
+      
+      .input-container {
+        @include responsive-gap-task(lg, (sm: md));
+        
+        .message-input {
+          @include text-style(base);
+          padding: task-space(lg) task-space(xl);
+          
+          @include breakpoint(md) {
+            @include text-style(sm);
+            padding: task-space(md) task-space(lg);
+          }
+          
+          @include breakpoint(sm) {
+            @include text-style(sm);
+            padding: task-space(sm) task-space(md);
+          }
+        }
+        
+        .send-button {
+          @include button-size(lg);
+          
+          @include breakpoint(md) {
+            @include button-size(md);
+          }
+          
+          @include breakpoint(sm) {
+            @include button-size(sm);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes connection-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(245, 158, 11, 0);
+  }
+}
+
+@keyframes error-flash {
+  0%, 100% {
+    background: var(--error);
+  }
+  50% {
+    background: var(--error-light);
+  }
+}
+
+// High contrast mode support
+@include high-contrast {
+  .chat-page-header {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    backdrop-filter: none;
+  }
+  
+  .settings-panel {
+    border-top: 2px solid var(--border);
+  }
+  
+  .error-banner {
+    background: var(--error-bg);
+    border: 2px solid var(--error);
+  }
+  
+  .full-screen-chat {
+    backdrop-filter: none;
+    background: var(--surface);
+    border: 2px solid var(--border);
+  }
+}
+
+// Reduced motion support
+@include reduced-motion {
+  .settings-panel {
+    animation: none;
+  }
+  
+  .error-banner {
+    animation: none;
+  }
+  
+  .status-indicator {
+    animation: none !important;
+  }
+}
+
+// Print styles
+@media print {
+  .chat-page {
+    background: white;
+    padding: 1rem;
+  }
+  
+  .chat-page-header {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+  
+  .header-actions {
+    display: none; // Hide actions in print
+  }
+  
+  .settings-panel {
+    display: none; // Hide settings in print
+  }
+  
+  .error-banner {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+  }
+  
+  .full-screen-chat {
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+}
+
+// Enhanced mobile-specific optimizations
+@include mobile-only {
+  .chat-page {
+    padding: task-space(sm);
+    gap: task-space(sm);
+    height: 100vh; // Full viewport height on mobile
+    overflow: hidden; // Prevent body scroll
+  }
+  
+  .chat-page-header {
+    padding: task-space(md);
+    flex-shrink: 0; // Prevent header from shrinking
+    
+    .header-content {
+      gap: task-space(sm);
+    }
+    
+    .header-title h1 {
+      @include text-style(lg, $font-weight-bold);
+      margin-bottom: task-space(xs);
+    }
+    
+    .connection-status {
+      flex-wrap: wrap;
+      gap: task-space(xs);
+      
+      .model-info {
+        display: block;
+        width: 100%;
+        margin-top: task-space(xs);
+        @include text-style(2xs);
+        opacity: 0.8;
+      }
+      
+      .status-indicator {
+        width: task-space(xs);
+        height: task-space(xs);
+      }
+    }
+    
+    .header-actions {
+      gap: task-space(xs);
+      
+      .action-button {
+        min-width: 40px;
+        min-height: 40px; // Touch-friendly size
+        padding: task-space(xs);
+        @include text-style(sm);
+        
+        // Larger touch targets
+        &::before {
+          content: '';
+          position: absolute;
+          top: -4px;
+          left: -4px;
+          right: -4px;
+          bottom: -4px;
+        }
+      }
+    }
+  }
+  
+  .settings-panel {
+    margin-top: task-space(sm);
+    
+    .settings-tabs {
+      .tab-button {
+        padding: task-space(sm) task-space(md);
+        @include text-style(xs, $font-weight-medium);
+        min-height: 44px; // Touch-friendly
+      }
+    }
+    
+    .quick-settings,
+    .advanced-settings {
+      padding: task-space(md);
+    }
+    
+    .setting-group {
+      margin-bottom: task-space(md);
+      
+      label {
+        @include text-style(xs, $font-weight-semibold);
+        margin-bottom: task-space(xs);
+      }
+      
+      select, input {
+        @include text-style(xs);
+        min-height: 44px; // Touch-friendly
+        padding: task-space(sm) task-space(md);
+      }
+      
+      .checkbox-label {
+        min-height: 44px; // Touch-friendly checkbox
+        padding: task-space(sm) 0;
+        
+        input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          margin-right: task-space(sm);
+        }
+      }
+      
+      .setting-help {
+        @include text-style(2xs);
+        margin-top: task-space(xs);
+      }
+    }
+    
+    .setting-actions {
+      flex-direction: column;
+      gap: task-space(sm);
+      margin-top: task-space(md);
+      
+      .action-button {
+        width: 100%;
+        min-height: 44px;
+        @include text-style(sm, $font-weight-medium);
+      }
+    }
+  }
+  
+  .chat-page-content {
+    flex: 1;
+    min-height: 0; // Allow flex child to shrink
+    overflow: hidden;
+  }
+  
+  .full-screen-chat {
+    height: 100%;
+    border-radius: task-space(md); // Smaller radius on mobile
+    
+    .chat-header {
+      padding: task-space(md);
+      flex-shrink: 0;
+      
+      .chat-title {
+        @include text-style(base, $font-weight-bold);
+      }
+      
+      .chat-status {
+        @include text-style(xs);
+      }
+    }
+    
+    .chat-messages {
+      padding: task-space(md);
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch; // Smooth scrolling on iOS
+      
+      // Enhanced scrollbar for mobile
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 2px;
+      }
+    }
+    
+    .chat-input {
+      flex-shrink: 0;
+      
+      .input-container {
+        gap: task-space(sm);
+        align-items: flex-end;
+        
+        .message-input {
+          padding: task-space(sm) task-space(md);
+          min-height: 44px; // Touch-friendly
+          max-height: 120px; // Limit height on mobile
+          @include text-style(sm);
+          border-radius: task-space(md);
+          
+          // Better mobile keyboard handling
+          &:focus {
+            transform: none; // Remove transform on mobile to prevent keyboard issues
+          }
+        }
+        
+        .send-button {
+          min-width: 44px;
+          min-height: 44px;
+          padding: task-space(sm);
+          border-radius: task-space(md);
+          
+          .send-icon {
+            width: task-space(md);
+            height: task-space(md);
+          }
+        }
+      }
+    }
+  }
+  
+  // Mobile-specific error banner
+  .error-banner {
+    margin-top: task-space(sm);
+    padding: task-space(sm) task-space(md);
+    
+    .error-message {
+      @include text-style(xs, $font-weight-medium);
+    }
+  }
+}
+
+// Tablet-specific adjustments
+@include tablet-only {
+  .chat-page {
+    padding: task-space(lg);
+    gap: task-space(md);
+  }
+  
+  .chat-page-header {
+    padding: task-space(lg);
+    
+    .header-title h1 {
+      @include text-style(xl, $font-weight-bold);
+    }
+  }
+  
+  .full-screen-chat {
+    .chat-header {
+      padding: task-space(lg);
+      
+      .chat-title {
+        @include text-style(lg, $font-weight-bold);
+      }
+    }
+    
+    .chat-messages {
+      padding: task-space(xl);
+    }
+  }
+}
+
+// Desktop enhancements
+@include desktop-only {
+  .chat-page {
+    padding: task-space(2xl);
+    gap: task-space(xl);
+  }
+  
+  .chat-page-header {
+    padding: task-space(2xl);
+    
+    .header-title h1 {
+      @include text-style(3xl, $font-weight-bold);
+    }
+    
+    .connection-status {
+      .model-info {
+        display: inline;
+      }
+    }
+  }
+  
+  .full-screen-chat {
+    .chat-header {
+      padding: task-space(2xl);
+      
+      .chat-title {
+        @include text-style(2xl, $font-weight-bold);
+      }
+      
+      .chat-status {
+        @include text-style(lg);
+      }
+    }
+    
+    .chat-messages {
+      padding: task-space(3xl);
+    }
+    
+    .chat-input {
+      
+      .input-container {
+        gap: task-space(xl);
+        
+        .message-input {
+          padding: task-space(lg) task-space(2xl);
+          @include text-style(lg);
+        }
+        
+        .send-button {
+          @include button-size(lg);
+          padding: task-space(lg) task-space(2xl);
+        }
+      }
+    }
+  }
+}

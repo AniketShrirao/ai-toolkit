@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveView } from '../../App';
-import './Sidebar.css';
+import './Sidebar.scss';
 
 interface SidebarProps {
   activeView: ActiveView;
@@ -18,6 +18,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊' },
   { id: 'documents', label: 'Documents', icon: '📄' },
+  { id: 'chat', label: 'Chat', icon: '💬' },
   { id: 'settings', label: 'Settings', icon: '⚙️' },
 ];
 

@@ -15,7 +15,7 @@
       "@shared/*": ["../shared/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/vite-env.d.ts"],
   "exclude": [
     "dist",
     "**/*.test.ts",

@@ -1,0 +1,516 @@
+// SystemStatusPanel component styles using consistent spacing system
+@use '../../styles/spacing' as *;
+@use '../../styles/colors' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.system-status-panel {
+  width: 100%;
+  
+  // Enhanced card styling with modern reference-based design
+  .card {
+    @include modern-card-base;
+    border-radius: map-get($modern-border-radius, 2xl); // 24px
+    @include responsive-padding-task(2xl, (md: xl, sm: lg)); // 32px responsive
+    @include modern-shadow(elevated);
+    
+    // Enhanced hover effect
+    &:hover {
+      @include modern-shadow(floating);
+      transform: translateY(-4px);
+    }
+  }
+}
+
+.status-header {
+  @include flex-between;
+  margin-bottom: task-space(2xl); // 32px
+  
+  h2, .status-title {
+    @include text-style(2xl, $font-weight-bold); // 24px, 700 weight
+    color: var(--text-primary);
+    margin: 0;
+    
+    // Modern gradient text effect for better visual hierarchy
+    background: map-get($modern-gradients, primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    // Fallback for browsers that don't support background-clip
+    @supports not (-webkit-background-clip: text) {
+      color: var(--primary);
+      -webkit-text-fill-color: initial;
+    }
+  }
+  
+  @include breakpoint(md) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: task-space(md);
+  }
+}
+
+.status-header-info {
+  display: flex;
+  align-items: center;
+  @include responsive-gap-task(lg, (md: md, sm: sm));
+}
+
+.environment-badge {
+  padding: task-space(sm) task-space(lg);
+  border-radius: map-get($modern-border-radius, full);
+  color: var(--text-inverse);
+  @include font-size(xs);
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+  @include modern-gradient(primary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include modern-shadow(soft);
+  @include modern-pulse();
+  
+  // Enhanced visual appeal with subtle glow
+  box-shadow: 
+    map-get($modern-shadows, soft),
+    0 0 20px rgba(103, 126, 234, 0.3);
+}
+
+.refresh-button {
+  @include modern-button-glass;
+  @include font-size(lg);
+  padding: task-space(sm);
+  border-radius: map-get($modern-border-radius, lg);
+  color: var(--text-primary);
+  cursor: pointer;
+  
+  &:hover {
+    transform: rotate(180deg) translateY(-2px);
+    @include modern-shadow(medium);
+  }
+  
+  &:active {
+    transform: rotate(180deg) translateY(0);
+  }
+  
+  @include modern-focus-ring;
+}
+
+.status-loading,
+.status-error {
+  display: flex;
+  align-items: center;
+  gap: space(2);
+  padding: space(4);
+  text-align: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.error-icon {
+  @include font-size(lg);
+}
+
+.retry-button {
+  margin-left: space(2);
+  padding: space(1) space(2);
+  @include button-base;
+  @include button-size(sm);
+  @include button-variant(primary);
+  @include font-size(sm);
+}
+
+.status-overview {
+  display: flex;
+  flex-direction: column;
+  @include responsive-gap-task(xl, (md: lg, sm: md));
+}
+
+.overall-status {
+  @include responsive-padding-task(xl, (md: lg, sm: md));
+  @include glass-morphism(0.15);
+  border-radius: map-get($modern-border-radius, xl);
+  @include modern-shadow(glass);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    @include modern-gradient(success);
+    border-radius: 0 map-get($modern-border-radius, sm) map-get($modern-border-radius, sm) 0;
+    @include modern-pulse();
+  }
+}
+
+.system-status-panel .status-grid {
+  @include responsive-grid(1, 2, 3, task-space(xl)); // Responsive grid with 24px gap
+  
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+  
+  @include breakpoint(md) {
+    grid-template-columns: 1fr;
+    gap: task-space(lg);
+  }
+}
+
+.system-status-panel .status-indicator {
+  @include responsive-padding-task(lg, (md: md, sm: sm));
+  @include glass-morphism(0.1);
+  border-radius: map-get($modern-border-radius, xl);
+  @include modern-shadow(soft);
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover {
+    @include modern-hover-lift(-4px);
+    @include modern-shadow(medium);
+    @include glass-morphism(0.2);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    @include modern-gradient(primary);
+    border-radius: map-get($modern-border-radius, xl) map-get($modern-border-radius, xl) 0 0;
+  }
+}
+
+.system-status-panel .status-main {
+  display: flex;
+  align-items: center;
+  @include responsive-gap-task(sm, (sm: xs));
+}
+
+.system-status-panel .status-icon {
+  @include font-size(lg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.system-status-panel .status-label {
+  font-weight: $font-weight-semibold;
+  color: var(--text-primary);
+  flex: 1;
+  @include font-size(sm);
+  letter-spacing: 0.025em;
+}
+
+.system-status-panel .status-value {
+  @include font-size(sm);
+  font-weight: $font-weight-bold;
+  text-transform: capitalize;
+  padding: task-space(xs) task-space(md);
+  border-radius: map-get($modern-border-radius, full);
+  @include glass-morphism(0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  @include modern-shadow(soft);
+  letter-spacing: 0.05em;
+  
+  // Enhanced status-specific styling with pulse animations
+  &.healthy {
+    color: var(--success-text);
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    @include modern-pulse();
+    box-shadow: 
+      map-get($modern-shadows, soft),
+      0 0 15px rgba(16, 185, 129, 0.2);
+  }
+  
+  &.degraded {
+    color: var(--warning-text);
+    background: var(--warning-bg);
+    border-color: var(--warning-border);
+    @include modern-pulse();
+    box-shadow: 
+      map-get($modern-shadows, soft),
+      0 0 15px rgba(245, 158, 11, 0.2);
+  }
+  
+  &.unhealthy {
+    color: var(--error-text);
+    background: var(--error-bg);
+    border-color: var(--error-border);
+    @include modern-pulse();
+    box-shadow: 
+      map-get($modern-shadows, soft),
+      0 0 15px rgba(239, 68, 68, 0.2);
+  }
+  
+  &.checking {
+    color: var(--info-text);
+    background: var(--info-bg);
+    border-color: var(--info-border);
+    animation: checking-pulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes checking-pulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.system-status-panel .status-details {
+  @include font-size(xs);
+  color: var(--text-secondary);
+  line-height: map-get($line-heights, relaxed);
+  @include glass-morphism(0.05);
+  padding: task-space(sm);
+  border-radius: map-get($modern-border-radius, md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.response-time {
+  color: var(--text-tertiary);
+  margin-left: task-space(xs);
+  font-weight: $font-weight-medium;
+}
+
+.models-section {
+  margin-top: task-space(3xl);
+  padding-top: task-space(xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  h3 {
+    margin: 0 0 task-space(lg) 0;
+    @include text-style(lg, $font-weight-semibold);
+    color: var(--text-primary);
+    
+    // Modern gradient text effect
+    background: map-get($modern-gradients, secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    // Fallback for browsers that don't support background-clip
+    @supports not (-webkit-background-clip: text) {
+      color: var(--primary);
+      -webkit-text-fill-color: initial;
+    }
+  }
+}
+
+.models-list {
+  display: flex;
+  flex-wrap: wrap;
+  @include responsive-gap-task(md, (md: sm, sm: xs));
+  
+  @include breakpoint(md) {
+    flex-direction: column;
+  }
+}
+
+.model-tag {
+  padding: task-space(sm) task-space(lg);
+  @include glass-morphism(0.1);
+  border-radius: map-get($modern-border-radius, full);
+  @include font-size(xs);
+  color: var(--text-primary);
+  font-weight: $font-weight-medium;
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  cursor: pointer;
+  letter-spacing: 0.025em;
+
+  &:hover {
+    @include modern-hover-lift(-2px);
+    @include modern-shadow(medium);
+    @include glass-morphism(0.2);
+  }
+
+  &.active {
+    @include modern-gradient(success);
+    border-color: var(--success);
+    color: var(--text-inverse);
+    font-weight: $font-weight-semibold;
+    @include modern-shadow(glow);
+    @include modern-pulse();
+    
+    // Enhanced glow effect for active state
+    box-shadow: 
+      map-get($modern-shadows, medium),
+      0 0 20px rgba(16, 185, 129, 0.4);
+  }
+}
+
+.diagnostics-section {
+  margin-top: task-space(3xl);
+  padding-top: task-space(xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  h3 {
+    margin: 0 0 task-space(lg) 0;
+    @include text-style(lg, $font-weight-semibold);
+    color: var(--text-primary);
+    
+    // Modern gradient text effect
+    background: map-get($modern-gradients, warning);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    // Fallback for browsers that don't support background-clip
+    @supports not (-webkit-background-clip: text) {
+      color: var(--warning);
+      -webkit-text-fill-color: initial;
+    }
+  }
+}
+
+.diagnostics-list {
+  display: flex;
+  flex-direction: column;
+  @include responsive-gap-task(lg, (md: md, sm: sm));
+}
+
+.diagnostic-item {
+  padding: task-space(lg);
+  @include glass-morphism(0.08);
+  border-radius: map-get($modern-border-radius, lg);
+  border-left: 4px solid var(--border-secondary);
+  @include modern-shadow(soft);
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  &:hover {
+    @include modern-hover-lift(-2px);
+    @include glass-morphism(0.15);
+    @include modern-shadow(medium);
+  }
+}
+
+.diagnostic-header {
+  display: flex;
+  align-items: center;
+  @include responsive-gap-task(sm, (sm: xs));
+  margin-bottom: task-space(sm);
+}
+
+.diagnostic-icon {
+  @include font-size(base);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.diagnostic-category {
+  @include font-size(xs);
+  text-transform: uppercase;
+  font-weight: $font-weight-semibold;
+  color: var(--text-tertiary);
+  @include glass-morphism(0.05);
+  padding: task-space(xs) task-space(sm);
+  border-radius: map-get($modern-border-radius, sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.diagnostic-level {
+  @include font-size(xs);
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  margin-left: auto;
+  padding: task-space(xs) task-space(sm);
+  border-radius: map-get($modern-border-radius, sm);
+  
+  &.error {
+    background: var(--error-bg);
+    color: var(--error-text);
+  }
+  
+  &.warning {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+  }
+  
+  &.info {
+    background: var(--info-bg);
+    color: var(--info-text);
+  }
+}
+
+.diagnostic-message {
+  @include font-size(sm);
+  color: var(--text-primary);
+  line-height: map-get($line-heights, relaxed);
+  margin-bottom: task-space(sm);
+}
+
+.diagnostic-suggestion {
+  @include font-size(xs);
+  color: var(--text-tertiary);
+  font-style: italic;
+  line-height: map-get($line-heights, relaxed);
+  @include glass-morphism(0.03);
+  padding: task-space(xs) task-space(sm);
+  border-radius: map-get($modern-border-radius, sm);
+  border-left: 3px solid var(--info);
+}
+
+.status-footer {
+  margin-top: task-space(xl);
+  padding-top: task-space(md);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.last-updated {
+  @include font-size(xs);
+  color: var(--text-tertiary);
+  font-weight: $font-weight-medium;
+}
+
+// Reduced motion support with modern animations
+@include reduced-motion {
+  .environment-badge {
+    animation: none;
+  }
+  
+  .refresh-button:hover {
+    transform: none;
+  }
+  
+  .loading-spinner {
+    animation: none;
+  }
+  
+  .system-status-panel .status-indicator:hover,
+  .model-tag:hover,
+  .diagnostic-item:hover {
+    transform: none;
+  }
+  
+  .status-value {
+    animation: none !important;
+    
+    &::before {
+      animation: none !important;
+    }
+  }
+  
+  .overall-status::before {
+    animation: none;
+  }
+}

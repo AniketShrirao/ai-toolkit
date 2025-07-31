@@ -116,14 +116,31 @@ export const StatusIndicator: React.FC<StatusIndicatorProps> = ({
     <Component 
       className={containerClasses}
       onClick={onClick}
-      aria-label={ariaLabel || `Status: ${getStatusText()}`}
+      aria-label={ariaLabel || `Status: ${getStatusText()}${lastUpdate ? `, last updated ${formatLastUpdate()}` : ''}`}
+      aria-live={status === 'connecting' ? 'polite' : undefined}
+      aria-describedby={lastUpdate ? `status-time-${status}` : undefined}
       type={interactive && onClick ? 'button' : undefined}
+      role={interactive && onClick ? 'button' : 'status'}
+      tabIndex={interactive && onClick ? 0 : undefined}
     >
-      <div className={dotClasses} />
+      <div 
+        className={dotClasses} 
+        aria-hidden="true"
+        role="presentation"
+      />
       <div className="status-text" aria-hidden={ariaLabel ? true : undefined}>
-        <span className="status-label">{getStatusText()}</span>
+        <span className="status-label" role="text">
+          {getStatusText()}
+        </span>
         {lastUpdate && (status === 'connected' || status === 'success') && (
-          <span className="status-time">{formatLastUpdate()}</span>
+          <span 
+            className="status-time" 
+            id={`status-time-${status}`}
+            role="text"
+            aria-label={`Last updated ${formatLastUpdate()}`}
+          >
+            {formatLastUpdate()}
+          </span>
         )}
       </div>
     </Component>

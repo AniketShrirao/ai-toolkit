@@ -1,0 +1,213 @@
+// Layout component styles using new design system
+@use '../../styles/spacing' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+// Define header height as a CSS custom property for consistency
+:root {
+  --header-height: 64px;
+  --sidebar-width: 280px;
+  --content-max-width: 1200px;
+  --layout-padding: #{task-space(lg)};
+  --layout-gap: #{task-space(md)};
+  
+  @include breakpoint(md) {
+    --header-height: 56px;
+    --sidebar-width: 0px;
+    --layout-padding: #{task-space(md)};
+    --layout-gap: #{task-space(sm)};
+  }
+  
+  @include breakpoint(sm) {
+    --layout-padding: #{task-space(sm)};
+    --layout-gap: #{task-space(xs)};
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  
+  // Ensure proper background and text color for the entire layout
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  
+  // Prevent any unwanted margins or padding
+  margin: 0;
+  padding: 0;
+}
+
+.layout-body {
+  display: flex;
+  flex: 1;
+  min-height: 0; // Important for flex children to shrink
+  overflow: hidden;
+  
+  // No gap between sidebar and main content for seamless design
+  gap: 0;
+  align-items: stretch;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0; // Important for flex children to shrink
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  
+  // Smooth transition for responsive behavior
+  transition: margin-left map-get($transitions, base) map-get($easing, ease-in-out);
+  
+  // Ensure proper spacing on mobile when sidebar is hidden
+  @include breakpoint(md) {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.content-wrapper {
+  // Optimized padding system for better content-to-space ratio
+  padding: var(--layout-padding);
+  
+  // Controlled dimensions to prevent overflow issues
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  
+  // Proper height calculation to prevent scroll issues
+  height: calc(100vh - var(--header-height));
+  max-height: calc(100vh - var(--header-height));
+  
+  // Controlled overflow with smooth scrolling
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  
+  // Optimized flex layout for content
+  display: flex;
+  flex-direction: column;
+  gap: var(--layout-gap);
+  
+  // Better scrollbar styling
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+    
+    &:hover {
+      background: var(--border-secondary);
+    }
+  }
+  
+  // Ensure content doesn't stick to edges on very wide screens
+  @include breakpoint-up(xl) {
+    max-width: 1400px;
+    padding-left: task-space(xl);
+    padding-right: task-space(xl);
+  }
+  
+  // Mobile optimizations
+  @include breakpoint(md) {
+    padding: var(--layout-padding);
+    gap: var(--layout-gap);
+    
+    // Adjust height for mobile to account for potential address bar changes
+    height: calc(100vh - var(--header-height));
+    min-height: calc(100vh - var(--header-height));
+  }
+  
+  @include breakpoint(sm) {
+    padding: var(--layout-padding);
+    gap: var(--layout-gap);
+  }
+}
+
+// Enhanced responsive behavior for better layout visual balance (Requirement 5.1, 5.2, 5.3)
+@include breakpoint(lg) {
+  .content-wrapper {
+    // Adjust spacing for large tablets
+    @include responsive-padding-task(lg);
+  }
+}
+
+@include breakpoint(md) {
+  .layout-body {
+    // Ensure proper stacking on mobile
+    position: relative;
+  }
+  
+  .main-content {
+    // Full width on mobile
+    width: 100%;
+  }
+  
+  .content-wrapper {
+    // Optimized mobile spacing
+    @include responsive-padding-task(md);
+    
+    // Adjust height for mobile to account for potential address bar changes
+    height: calc(100vh - var(--header-height));
+    min-height: calc(100vh - var(--header-height));
+  }
+}
+
+@include breakpoint(sm) {
+  .content-wrapper {
+    // Minimal padding on very small screens
+    @include responsive-padding-task(sm);
+    
+    // Tighter spacing between content elements
+    @include responsive-gap-task(sm);
+  }
+}
+
+// Accessibility and performance enhancements
+@include reduced-motion {
+  .main-content {
+    transition: none;
+  }
+  
+  .content-wrapper {
+    scroll-behavior: auto;
+  }
+}
+
+// High contrast mode support
+@include high-contrast {
+  .layout {
+    border: 1px solid var(--text-primary);
+  }
+  
+  .main-content {
+    border-left: 2px solid var(--border);
+  }
+}
+
+// Print styles for better document printing
+@media print {
+  .layout {
+    min-height: auto;
+  }
+  
+  .layout-body {
+    display: block;
+  }
+  
+  .content-wrapper {
+    height: auto;
+    overflow: visible;
+    padding: task-space(md);
+  }
+}

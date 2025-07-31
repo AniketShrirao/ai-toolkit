@@ -1,0 +1,604 @@
+// Modern Card component styles based on reference design
+// Implements elevated shadows, glass-morphism effects, and modern styling patterns
+
+@use '../../styles/variables' as *;
+@use '../../styles/colors' as *;
+@use '../../styles/spacing' as *;
+@use '../../styles/mixins' as *;
+
+// Base card styles with modern reference-based design
+.card {
+  // Modern card base using elevated shadows and glass-morphism
+  @include modern-card-base;
+  overflow: hidden;
+  position: relative;
+  
+  // Reference-accurate border radius (24px from card_interface.png)
+  border-radius: map-get($modern-border-radius, 3xl);
+  
+  // Glass-morphism background effect
+  background: var(--card-bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  // Subtle border styling with transparency
+  border: 1px solid var(--card-border-glass);
+  
+  // Modern elevated shadow system
+  box-shadow: map-get($modern-shadows, elevated);
+  
+  // Smooth animations with modern easing
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  // Enhanced hover effects with smooth lift animation
+  &:hover {
+    @include modern-card-hover;
+    box-shadow: map-get($modern-shadows, floating);
+    transform: translateY(-8px);
+  }
+  
+  // Focus state for accessibility
+  &:focus-within {
+    @include focus-ring;
+  }
+  
+  // High contrast mode support
+  @include high-contrast {
+    border-width: 2px;
+    border-color: var(--text-primary);
+  }
+  
+  // Reduced motion support
+  @include reduced-motion {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// Modern padding system using reference-accurate spacing
+.card-padding-none {
+  padding: 0;
+}
+
+.card-padding-sm {
+  @include responsive-padding-task(lg, (md: md, sm: sm)); // 16px responsive
+}
+
+.card-padding-md {
+  @include responsive-padding-task(2xl, (md: xl, sm: lg)); // 32px responsive - matches reference proportions
+}
+
+.card-padding-lg {
+  @include responsive-padding-task(3xl, (md: 2xl, sm: xl)); // 48px responsive - spacious variant
+}
+
+// Modern card header with reference-based styling
+.card-header {
+  @include responsive-padding-task(2xl, (md: xl, sm: lg)); // 32px responsive padding
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  
+  // Modern typography hierarchy matching reference design
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 task-space(sm) 0; // 8px bottom margin
+    color: var(--text-primary);
+    font-weight: $font-weight-bold;
+    letter-spacing: -0.02em;
+    
+    // Reference-accurate font sizes
+    &.card-title {
+      @include text-style(xl, $font-weight-bold, tight); // 20px, 700 weight
+    }
+    
+    // Ensure proper contrast ratio
+    @include high-contrast {
+      color: var(--text-primary);
+      font-weight: $font-weight-bold;
+    }
+  }
+  
+  // Card subtitle styling
+  .card-subtitle {
+    @include text-style(sm, $font-weight-normal); // 14px
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+}
+
+// Modern card content with reference-based layout
+.card-content {
+  @include responsive-padding-task(2xl, (md: xl, sm: lg)); // 32px responsive padding
+  
+  // Ensure proper text color and spacing
+  color: var(--text-primary);
+  line-height: map-get($line-heights, relaxed);
+  
+  // Enhanced spacing for nested elements
+  > * + * {
+    margin-top: task-space(lg); // 16px vertical rhythm
+  }
+  
+  // Metric item layouts matching reference design
+  .metric-item {
+    @include flex-between;
+    padding: task-space(lg) 0; // 16px vertical padding
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      padding-left: task-space(sm);
+      padding-right: task-space(sm);
+      border-radius: map-get($modern-border-radius, lg);
+    }
+    
+    .metric-label {
+      @include text-style(base, $font-weight-medium); // 16px, 500 weight
+      color: var(--text-secondary);
+    }
+    
+    .metric-value {
+      @include text-style(lg, $font-weight-bold); // 18px, 700 weight
+      color: var(--text-primary);
+    }
+  }
+  
+  // Better spacing for paragraphs and lists
+  p, ul, ol {
+    margin-bottom: task-space(md); // 12px bottom margin
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Improved list styling
+  ul, ol {
+    padding-left: task-space(xl); // 24px indent
+  }
+  
+  li {
+    margin-bottom: task-space(sm); // 8px between list items
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Modern card footer with glass-morphism styling
+.card-footer {
+  @include responsive-padding-task(xl, (md: lg, sm: md)); // 24px responsive padding
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  
+  // Better alignment for footer content
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @include responsive-gap-task(lg, (md: md, sm: sm)); // 16px responsive gap
+  
+  // Responsive layout adjustments
+  @include breakpoint(sm) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+// Modern card variants with enhanced visual effects
+.card-elevated {
+  @include modern-shadow(floating);
+  
+  &:hover {
+    @include modern-shadow(strong);
+    transform: translateY(-12px);
+  }
+}
+
+.card-flat {
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  
+  &:hover {
+    border-color: var(--primary);
+    @include modern-shadow(soft);
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.card-interactive {
+  cursor: pointer;
+  
+  &:hover {
+    @include modern-hover-lift(-8px);
+  }
+  
+  &:active {
+    transform: translateY(-4px);
+    @include modern-shadow(medium);
+  }
+  
+  @include reduced-motion {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+// Glass-morphism card variant
+.card-glass {
+  @include glass-morphism(0.25, 20px, 0.2);
+  border-radius: map-get($modern-border-radius, 3xl);
+  
+  &:hover {
+    @include glass-morphism(0.35, 20px, 0.3);
+    transform: translateY(-8px);
+  }
+}
+
+// Modern status-specific card variants with reference-accurate colors
+.card-success {
+  border-left: 4px solid var(--success);
+  @include modern-shadow(glow);
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--success-bg) 0%, rgba(var(--success), 0.1) 100%);
+    border-bottom-color: var(--success-border);
+  }
+  
+  .status-indicator {
+    @include modern-status-indicator(success);
+  }
+}
+
+.card-warning {
+  border-left: 4px solid var(--warning);
+  @include modern-shadow(glow);
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--warning-bg) 0%, rgba(var(--warning), 0.1) 100%);
+    border-bottom-color: var(--warning-border);
+  }
+  
+  .status-indicator {
+    @include modern-status-indicator(warning);
+  }
+}
+
+.card-error {
+  border-left: 4px solid var(--error);
+  @include modern-shadow(glow);
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--error-bg) 0%, rgba(var(--error), 0.1) 100%);
+    border-bottom-color: var(--error-border);
+  }
+  
+  .status-indicator {
+    @include modern-status-indicator(error);
+  }
+}
+
+.card-info {
+  border-left: 4px solid var(--info);
+  @include modern-shadow(glow);
+  
+  .card-header {
+    background: linear-gradient(135deg, var(--info-bg) 0%, rgba(var(--info), 0.1) 100%);
+    border-bottom-color: var(--info-border);
+  }
+  
+  .status-indicator {
+    @include modern-status-indicator(info);
+  }
+}
+
+// Loading state
+.card-loading {
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--neutral-alpha-10),
+      transparent
+    );
+    animation: loading-shimmer 1.5s infinite;
+  }
+  
+  @include reduced-motion {
+    &::after {
+      animation: none;
+    }
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Modern compact card variant for dense layouts
+.card-compact {
+  border-radius: map-get($modern-border-radius, xl); // Smaller radius for compact cards
+  
+  .card-header {
+    @include responsive-padding-task(md, (sm: sm)); // 12px responsive
+  }
+  
+  .card-content {
+    @include responsive-padding-task(lg, (sm: md)); // 16px responsive
+    
+    .metric-item {
+      padding: task-space(md) 0; // Reduced padding for compact layout
+    }
+  }
+  
+  .card-footer {
+    @include responsive-padding-task(md, (sm: sm)); // 12px responsive
+  }
+}
+
+// Modern spacious card variant for important content
+.card-spacious {
+  border-radius: map-get($modern-border-radius, 4xl); // Larger radius for spacious cards
+  @include modern-shadow(strong);
+  
+  .card-header {
+    @include responsive-padding-task(3xl, (md: 2xl, sm: xl)); // 48px responsive
+  }
+  
+  .card-content {
+    @include responsive-padding-task(3xl, (md: 2xl, sm: xl)); // 48px responsive
+    
+    .metric-item {
+      padding: task-space(xl) 0; // Increased padding for spacious layout
+    }
+  }
+  
+  .card-footer {
+    @include responsive-padding-task(3xl, (md: 2xl, sm: xl)); // 48px responsive
+  }
+  
+  &:hover {
+    @include modern-shadow(floating);
+    transform: translateY(-12px);
+  }
+}
+
+// Modern status indicator styling with reference-accurate colors
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  @include responsive-gap-task(sm, (sm: xs)); // 8px responsive gap
+  
+  .status-dot {
+    width: task-space(md); // 12px
+    height: task-space(md); // 12px
+    border-radius: map-get($modern-border-radius, full);
+    @include modern-pulse();
+    
+    &.status-indicator-success & {
+      background: var(--success);
+    }
+    
+    &.status-indicator-warning & {
+      background: var(--warning);
+    }
+    
+    &.status-indicator-error & {
+      background: var(--error);
+    }
+    
+    &.status-indicator-info & {
+      background: var(--info);
+    }
+  }
+  
+  .status-text {
+    @include text-style(sm, $font-weight-semibold); // 14px, 600 weight
+    
+    &.status-indicator-success & {
+      color: var(--success);
+    }
+    
+    &.status-indicator-warning & {
+      color: var(--warning);
+    }
+    
+    &.status-indicator-error & {
+      color: var(--error);
+    }
+    
+    &.status-indicator-info & {
+      color: var(--info);
+    }
+  }
+}
+
+// Enhanced status indicator variants
+.status-indicator-success {
+  .status-dot {
+    background: var(--success);
+  }
+  
+  .status-text {
+    color: var(--success);
+  }
+}
+
+.status-indicator-warning {
+  .status-dot {
+    background: var(--warning);
+  }
+  
+  .status-text {
+    color: var(--warning);
+  }
+}
+
+.status-indicator-error {
+  .status-dot {
+    background: var(--error);
+  }
+  
+  .status-text {
+    color: var(--error);
+  }
+}
+
+.status-indicator-info {
+  .status-dot {
+    background: var(--info);
+  }
+  
+  .status-text {
+    color: var(--info);
+  }
+}
+
+// Responsive card behavior maintaining reference visual integrity
+@include mobile-only {
+  .card {
+    border-radius: map-get($modern-border-radius, 2xl); // Slightly smaller radius on mobile
+    margin-bottom: task-space(lg); // 16px bottom margin on mobile
+    
+    .card-header {
+      .card-title {
+        @include text-style(lg, $font-weight-bold, tight); // Smaller title on mobile
+      }
+    }
+    
+    .card-content {
+      .metric-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: task-space(xs); // 4px gap on mobile
+        
+        .metric-label,
+        .metric-value {
+          @include text-style(sm); // Smaller text on mobile
+        }
+      }
+    }
+  }
+}
+
+@include tablet-only {
+  .card {
+    .card-content {
+      .metric-item {
+        padding: task-space(md) 0; // Reduced padding on tablet
+      }
+    }
+  }
+}
+
+@include desktop-only {
+  .card {
+    &:hover {
+      .metric-item {
+        .metric-value {
+          @include modern-gradient-text(); // Gradient text effect on desktop hover
+        }
+      }
+    }
+  }
+}
+
+// Accessibility enhancements with modern focus styles
+.card[role="button"],
+.card[tabindex] {
+  &:focus {
+    @include modern-focus-ring;
+  }
+  
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+// Modern reduced motion support
+@include reduced-motion {
+  .card {
+    &:hover {
+      transform: none !important;
+    }
+    
+    .metric-item {
+      &:hover {
+        transform: none !important;
+      }
+    }
+    
+    .status-dot {
+      animation: none !important;
+    }
+  }
+}
+
+// High contrast mode support
+@include high-contrast {
+  .card {
+    border: 2px solid var(--text-primary);
+    background: var(--surface) !important;
+    backdrop-filter: none !important;
+    
+    .card-header,
+    .card-footer {
+      background: var(--bg-secondary) !important;
+      backdrop-filter: none !important;
+    }
+    
+    .status-dot {
+      border: 2px solid currentColor;
+    }
+  }
+}
+
+// Print styles with modern considerations
+@media print {
+  .card {
+    box-shadow: none;
+    border: 1px solid #000;
+    break-inside: avoid;
+    background: #fff !important;
+    backdrop-filter: none !important;
+  }
+  
+  .card-header,
+  .card-footer {
+    background-color: transparent !important;
+    backdrop-filter: none !important;
+  }
+  
+  .status-dot {
+    background: #000 !important;
+  }
+  
+  .metric-item {
+    border-bottom-color: #ccc !important;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { OllamaSettings } from './OllamaSettings';
 import { CloudLLMSettings } from './CloudLLMSettings';
+import { AISettings } from './AISettings';
 import { ProcessingSettings } from './ProcessingSettings';
 import { SystemMonitoring } from './SystemMonitoring';
 import { WorkflowConfiguration } from './WorkflowConfiguration';
@@ -8,12 +9,13 @@ import { UserPreferences } from './UserPreferences';
 import { IntegrityCheck } from './IntegrityCheck';
 import './Settings.css';
 
-type SettingsTab = 'cloudllm' | 'ollama' | 'processing' | 'monitoring' | 'workflows' | 'preferences' | 'debug';
+type SettingsTab = 'ai-chat' | 'cloudllm' | 'ollama' | 'processing' | 'monitoring' | 'workflows' | 'preferences' | 'debug';
 
 export const Settings: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<SettingsTab>('cloudllm');
+  const [activeTab, setActiveTab] = useState<SettingsTab>('ai-chat');
 
   const tabs = [
+    { id: 'ai-chat' as const, label: 'AI Chat', icon: '💬' },
     { id: 'cloudllm' as const, label: 'AI Models', icon: '🧠' },
     { id: 'ollama' as const, label: 'Ollama', icon: '🤖' },
     { id: 'processing' as const, label: 'Processing', icon: '⚙️' },
@@ -25,6 +27,8 @@ export const Settings: React.FC = () => {
 
   const renderTabContent = () => {
     switch (activeTab) {
+      case 'ai-chat':
+        return <AISettings />;
       case 'cloudllm':
         return <CloudLLMSettings />;
       case 'ollama':
@@ -40,7 +44,7 @@ export const Settings: React.FC = () => {
       case 'debug':
         return <IntegrityCheck />;
       default:
-        return <CloudLLMSettings />;
+        return <AISettings />;
     }
   };
 

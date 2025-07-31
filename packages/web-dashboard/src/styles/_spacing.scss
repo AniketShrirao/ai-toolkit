@@ -40,7 +40,8 @@ $spacing: (
   96: 24rem       // 384px
 );
 
-// Named spacing aliases for semantic usage
+// Named spacing aliases for semantic usage - matches task requirements
+// Task requirement: consistent scale (4px, 8px, 12px, 16px, 24px, 32px, 48px)
 $spacing-xs: map-get($spacing, 1);      // 4px
 $spacing-sm: map-get($spacing, 2);      // 8px
 $spacing-md: map-get($spacing, 3);      // 12px
@@ -50,6 +51,22 @@ $spacing-2xl: map-get($spacing, 8);     // 32px
 $spacing-3xl: map-get($spacing, 12);    // 48px
 $spacing-4xl: map-get($spacing, 16);    // 64px
 $spacing-5xl: map-get($spacing, 24);    // 96px
+
+// Task-specific spacing map for the required scale
+$task-spacing: (
+  xs: 0.25rem,    // 4px
+  sm: 0.5rem,     // 8px
+  md: 0.75rem,    // 12px
+  lg: 1rem,       // 16px
+  xl: 1.5rem,     // 24px
+  2xl: 2rem,      // 32px
+  3xl: 3rem       // 48px
+);
+
+// Enhanced spacing function with task-specific scale support
+@function task-space($size) {
+  @return map-get($task-spacing, $size);
+}
 
 // Spacing function for easy access
 @function space($size) {
@@ -131,6 +148,15 @@ $responsive-spacing: (
   --space-3xl: #{$spacing-3xl};
   --space-4xl: #{$spacing-4xl};
   --space-5xl: #{$spacing-5xl};
+  
+  // Task 3.1: Task-specific spacing scale custom properties
+  --task-space-xs: #{task-space(xs)};
+  --task-space-sm: #{task-space(sm)};
+  --task-space-md: #{task-space(md)};
+  --task-space-lg: #{task-space(lg)};
+  --task-space-xl: #{task-space(xl)};
+  --task-space-2xl: #{task-space(2xl)};
+  --task-space-3xl: #{task-space(3xl)};
   
   // Layout spacing
   --header-height: #{$header-height};

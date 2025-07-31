@@ -1,11 +1,9 @@
 import React from 'react';
 import { Card, CardHeader, CardContent } from '@components/UI';
-import { useWebSocket } from '@hooks/useWebSocket';
 import { SystemStatusPanel } from './SystemStatusPanel';
-import './Dashboard.css';
+import './Dashboard.scss';
 
 export const Dashboard: React.FC = () => {
-  const { connectionStatus } = useWebSocket();
 
   return (
     <div className="dashboard">
@@ -18,93 +16,79 @@ export const Dashboard: React.FC = () => {
         <SystemStatusPanel />
 
         <div className="dashboard-sidebar">
-          <Card>
+          <Card tabIndex={0} role="region" aria-label="Quick Statistics">
             <CardHeader>
               <h2>Quick Stats</h2>
             </CardHeader>
             <CardContent>
               <div className="stats-grid">
-                <div className="stat-item">
-                  <span className="stat-number">0</span>
+                <div className="stat-item" tabIndex={0} role="button" aria-label="Documents Processed: 0">
+                  <span className="stat-number" aria-hidden="true">0</span>
                   <span className="stat-label">Documents Processed</span>
                 </div>
-                <div className="stat-item">
-                  <span className="stat-number">0</span>
+                <div className="stat-item" tabIndex={0} role="button" aria-label="Active Workflows: 0">
+                  <span className="stat-number" aria-hidden="true">0</span>
                   <span className="stat-label">Active Workflows</span>
                 </div>
-                <div className="stat-item">
-                  <span className="stat-number">0</span>
+                <div className="stat-item" tabIndex={0} role="button" aria-label="Queued Jobs: 0">
+                  <span className="stat-number" aria-hidden="true">0</span>
                   <span className="stat-label">Queued Jobs</span>
                 </div>
               </div>
             </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <div className="dashboard-secondary-grid">
-        <Card>
+            <Card tabIndex={0} role="region" aria-label="Recent Activity">
           <CardHeader>
             <h2>Recent Activity</h2>
           </CardHeader>
           <CardContent>
-            <div className="activity-list">
-              <div className="activity-item">
-                <span className="activity-time">Just now</span>
-                <span className="activity-text">Dashboard loaded successfully</span>
+            <div className="stats-grid">
+              <div className="stat-item" tabIndex={0} role="button" aria-label="Dashboard loaded successfully">
+                <span className="stat-time" aria-hidden="true">Now</span>
+                <span className="stat-label">Dashboard loaded</span>
               </div>
-              <div className="activity-item">
-                <span className="activity-time">2 min ago</span>
-                <span className="activity-text">WebSocket connection established</span>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="WebSocket connection established">
+                <span className="stat-time" aria-hidden="true">2m</span>
+                <span className="stat-label">WebSocket connected</span>
               </div>
-              <div className="activity-item">
-                <span className="activity-time">5 min ago</span>
-                <span className="activity-text">System health check completed</span>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="System health check completed">
+                <span className="stat-time" aria-hidden="true">5m</span>
+                <span className="stat-label">Health check</span>
               </div>
-              <div className="activity-item">
-                <span className="activity-time">10 min ago</span>
-                <span className="activity-text">Ollama models synchronized</span>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="Ollama models synchronized">
+                <span className="stat-time" aria-hidden="true">10m</span>
+                <span className="stat-label">Models synced</span>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card tabIndex={0} role="region" aria-label="System Performance Metrics">
           <CardHeader>
             <h2>System Performance</h2>
           </CardHeader>
           <CardContent>
-            <div className="performance-metrics">
-              <div className="metric-item">
-                <div className="metric-header">
-                  <span className="metric-label">Response Time</span>
-                  <span className="metric-value">4ms</span>
-                </div>
-                <div className="metric-bar">
-                  <div className="metric-fill" style={{width: '15%', backgroundColor: '#10b981'}}></div>
-                </div>
+            <div className="stats-grid">
+              <div className="stat-item" tabIndex={0} role="button" aria-label="Response Time: 4 milliseconds">
+                <span className="stat-number" aria-hidden="true">4ms</span>
+                <span className="stat-label">Response Time</span>
               </div>
-              <div className="metric-item">
-                <div className="metric-header">
-                  <span className="metric-label">Memory Usage</span>
-                  <span className="metric-value">52.4%</span>
-                </div>
-                <div className="metric-bar">
-                  <div className="metric-fill" style={{width: '52.4%', backgroundColor: '#f59e0b'}}></div>
-                </div>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="Memory Usage: 52.4%">
+                <span className="stat-number" aria-hidden="true">52.4%</span>
+                <span className="stat-label">Memory Usage</span>
               </div>
-              <div className="metric-item">
-                <div className="metric-header">
-                  <span className="metric-label">CPU Usage</span>
-                  <span className="metric-value">23.1%</span>
-                </div>
-                <div className="metric-bar">
-                  <div className="metric-fill" style={{width: '23.1%', backgroundColor: '#3b82f6'}}></div>
-                </div>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="CPU Usage: 23.1%">
+                <span className="stat-number" aria-hidden="true">23.1%</span>
+                <span className="stat-label">CPU Usage</span>
+              </div>
+              <div className="stat-item" tabIndex={0} role="button" aria-label="Active Connections: 8">
+                <span className="stat-number" aria-hidden="true">8</span>
+                <span className="stat-label">Connections</span>
               </div>
             </div>
           </CardContent>
         </Card>
+          </Card>
+        </div>
       </div>
     </div>
   );

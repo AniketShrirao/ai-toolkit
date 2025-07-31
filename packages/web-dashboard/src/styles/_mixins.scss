@@ -467,6 +467,86 @@
   }
 }
 
+// Task 3.1: Enhanced responsive spacing mixins for consistent scale
+@mixin responsive-spacing($property, $base-size, $breakpoints: ()) {
+  #{$property}: task-space($base-size);
+  
+  @each $breakpoint, $size in $breakpoints {
+    @include breakpoint-up($breakpoint) {
+      #{$property}: task-space($size);
+    }
+  }
+}
+
+@mixin responsive-padding-task($base: lg, $breakpoints: ()) {
+  @include responsive-spacing(padding, $base, $breakpoints);
+}
+
+@mixin responsive-margin-task($base: lg, $breakpoints: ()) {
+  @include responsive-spacing(margin, $base, $breakpoints);
+}
+
+@mixin responsive-gap-task($base: lg, $breakpoints: ()) {
+  @include responsive-spacing(gap, $base, $breakpoints);
+}
+
+// Component-specific spacing mixins using task scale
+@mixin component-spacing($component: default, $size: lg) {
+  @if $component == card {
+    padding: task-space($size);
+  } @else if $component == section {
+    padding-top: task-space($size);
+    padding-bottom: task-space($size);
+  } @else if $component == layout {
+    margin: task-space($size);
+  } @else {
+    padding: task-space($size);
+  }
+}
+
+// Consistent spacing for layout components
+@mixin layout-component-spacing {
+  // Header spacing
+  &.header {
+    padding: task-space(md) task-space(xl);
+    
+    @include breakpoint(md) {
+      padding: task-space(sm) task-space(lg);
+    }
+    
+    @include breakpoint(sm) {
+      padding: task-space(xs) task-space(md);
+    }
+  }
+  
+  // Sidebar spacing
+  &.sidebar {
+    padding: task-space(lg);
+    gap: task-space(sm);
+    
+    @include breakpoint(md) {
+      padding: task-space(md);
+      gap: task-space(xs);
+    }
+  }
+  
+  // Main content spacing
+  &.main-content {
+    padding: task-space(xl);
+    gap: task-space(lg);
+    
+    @include breakpoint(md) {
+      padding: task-space(lg);
+      gap: task-space(md);
+    }
+    
+    @include breakpoint(sm) {
+      padding: task-space(md);
+      gap: task-space(sm);
+    }
+  }
+}
+
 // Accessibility mixins
 @mixin reduced-motion {
   @media (prefers-reduced-motion: reduce) {
@@ -477,5 +557,930 @@
 @mixin high-contrast {
   @media (prefers-contrast: high) {
     @content;
+  }
+}
+
+// Enhanced responsive design mixins for task 7.2
+// Mobile-first responsive design approach
+
+// Enhanced breakpoint mixins with better naming
+@mixin mobile-only {
+  @media (max-width: #{breakpoint(sm) - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: #{breakpoint(sm)}) and (max-width: #{breakpoint(lg) - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop-only {
+  @media (min-width: #{breakpoint(lg)}) {
+    @content;
+  }
+}
+
+// Responsive container mixins
+@mixin responsive-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--content-padding);
+  padding-right: var(--content-padding);
+  
+  @include mobile-only {
+    padding-left: space(4);
+    padding-right: space(4);
+  }
+  
+  @include tablet-only {
+    max-width: $container-md;
+    padding-left: space(6);
+    padding-right: space(6);
+  }
+  
+  @include desktop-only {
+    max-width: $container-lg;
+    padding-left: space(8);
+    padding-right: space(8);
+  }
+}
+
+// Responsive layout mixins
+@mixin responsive-layout($mobile: column, $tablet: row, $desktop: row) {
+  display: flex;
+  flex-direction: $mobile;
+  
+  @include tablet-only {
+    flex-direction: $tablet;
+  }
+  
+  @include desktop-only {
+    flex-direction: $desktop;
+  }
+}
+
+@mixin responsive-grid($mobile-cols: 1, $tablet-cols: 2, $desktop-cols: 3, $gap: var(--gap-default)) {
+  display: grid;
+  gap: $gap;
+  grid-template-columns: repeat($mobile-cols, 1fr);
+  
+  @include tablet-only {
+    grid-template-columns: repeat($tablet-cols, 1fr);
+  }
+  
+  @include desktop-only {
+    grid-template-columns: repeat($desktop-cols, 1fr);
+  }
+}
+
+// Responsive typography mixins
+@mixin responsive-text($mobile-size: base, $tablet-size: null, $desktop-size: null) {
+  @include font-size($mobile-size);
+  
+  @if $tablet-size {
+    @include tablet-only {
+      @include font-size($tablet-size);
+    }
+  }
+  
+  @if $desktop-size {
+    @include desktop-only {
+      @include font-size($desktop-size);
+    }
+  }
+}
+
+// Enhanced responsive spacing with mobile-first approach
+@mixin responsive-spacing-enhanced($property, $mobile, $tablet: null, $desktop: null) {
+  #{$property}: space($mobile);
+  
+  @if $tablet {
+    @include breakpoint-up(sm) {
+      #{$property}: space($tablet);
+    }
+  }
+  
+  @if $desktop {
+    @include breakpoint-up(lg) {
+      #{$property}: space($desktop);
+    }
+  }
+}
+
+// Component-specific responsive mixins
+@mixin responsive-header {
+  padding: space(3) space(4);
+  
+  @include breakpoint-up(sm) {
+    padding: space(4) space(6);
+  }
+  
+  @include breakpoint-up(lg) {
+    padding: space(4) space(8);
+  }
+}
+
+@mixin responsive-sidebar {
+  width: 100%;
+  
+  @include breakpoint-up(md) {
+    width: $sidebar-width;
+    min-width: $sidebar-width;
+  }
+  
+  // Mobile overlay behavior
+  @include mobile-only {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: map-get($z-index, modal);
+    background-color: var(--surface);
+    box-shadow: map-get($shadows, lg);
+    transform: translateX(-100%);
+    transition: transform map-get($transitions, base);
+    
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+
+@mixin responsive-main-content {
+  flex: 1;
+  padding: space(4);
+  
+  @include breakpoint-up(sm) {
+    padding: space(6);
+  }
+  
+  @include breakpoint-up(lg) {
+    padding: space(8);
+  }
+}
+
+// Responsive card mixins
+@mixin responsive-card {
+  @include card-base;
+  padding: space(4);
+  
+  @include breakpoint-up(sm) {
+    padding: space(6);
+  }
+  
+  @include breakpoint-up(lg) {
+    padding: space(8);
+  }
+}
+
+// Responsive button mixins
+@mixin responsive-button($mobile-size: sm, $desktop-size: md) {
+  @include button-base;
+  @include button-size($mobile-size);
+  
+  @include breakpoint-up(lg) {
+    @include button-size($desktop-size);
+  }
+}
+
+// Mobile navigation mixins
+@mixin mobile-nav-toggle {
+  display: block;
+  
+  @include breakpoint-up(md) {
+    display: none;
+  }
+}
+
+@mixin desktop-nav {
+  display: none;
+  
+  @include breakpoint-up(md) {
+    display: flex;
+  }
+}
+
+// Responsive visibility utilities
+@mixin show-on-mobile {
+  display: block;
+  
+  @include breakpoint-up(sm) {
+    display: none;
+  }
+}
+
+@mixin hide-on-mobile {
+  display: none;
+  
+  @include breakpoint-up(sm) {
+    display: block;
+  }
+}
+
+@mixin show-on-tablet {
+  display: none;
+  
+  @include tablet-only {
+    display: block;
+  }
+}
+
+@mixin show-on-desktop {
+  display: none;
+  
+  @include desktop-only {
+    display: block;
+  }
+}
+
+// Touch-friendly mixins for mobile
+@mixin touch-friendly {
+  min-height: 44px; // iOS recommended touch target size
+  min-width: 44px;
+  
+  @include mobile-only {
+    padding: space(3);
+  }
+}
+
+// Responsive image mixins
+@mixin responsive-image {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  
+  @include breakpoint-up(lg) {
+    max-width: none;
+  }
+}
+
+// Mobile-specific interaction mixins
+@mixin mobile-scroll {
+  @include mobile-only {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+// Responsive table mixins
+@mixin responsive-table {
+  width: 100%;
+  
+  @include mobile-only {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  @include breakpoint-up(sm) {
+    display: table;
+  }
+}
+
+// Modern component mixins for reference-accurate styling
+
+// Modern gradient mixins
+@mixin modern-gradient($gradient-name: primary) {
+  background: map-get($modern-gradients, $gradient-name);
+}
+
+@mixin modern-gradient-text($gradient-name: primary) {
+  background: map-get($modern-gradients, $gradient-name);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; // Fallback for browsers that don't support background-clip
+}
+
+// Modern shadow mixins
+@mixin modern-shadow($shadow-name: elevated) {
+  box-shadow: map-get($modern-shadows, $shadow-name);
+}
+
+@mixin modern-shadow-hover($base-shadow: elevated, $hover-shadow: floating) {
+  box-shadow: map-get($modern-shadows, $base-shadow);
+  transition: box-shadow map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  &:hover {
+    box-shadow: map-get($modern-shadows, $hover-shadow);
+  }
+}
+
+// Glass-morphism effect mixins
+@mixin glass-morphism($opacity: 0.25, $blur: 20px, $border-opacity: 0.2) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: map-get($glass-effects, backdrop-blur);
+  -webkit-backdrop-filter: map-get($glass-effects, backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+  box-shadow: map-get($modern-shadows, glass);
+}
+
+@mixin glass-morphism-dark($opacity: 0.25, $blur: 20px, $border-opacity: 0.2) {
+  background: rgba(0, 0, 0, $opacity);
+  backdrop-filter: map-get($glass-effects, backdrop-blur);
+  -webkit-backdrop-filter: map-get($glass-effects, backdrop-blur);
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+  box-shadow: map-get($modern-shadows, glass);
+}
+
+// Modern card mixins
+@mixin modern-card-base {
+  @include modern-shadow(elevated);
+  border-radius: map-get($modern-border-radius, 2xl);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  background-color: var(--surface);
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+}
+
+@mixin modern-card-hover {
+  &:hover {
+    @include modern-shadow(floating);
+    transform: translateY(-8px);
+  }
+}
+
+@mixin modern-card-glass {
+  @include glass-morphism();
+  border-radius: map-get($modern-border-radius, 2xl);
+}
+
+// Modern button mixins
+@mixin modern-button-base {
+  @include button-base;
+  border-radius: map-get($modern-border-radius, xl);
+  font-weight: $font-weight-semibold;
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left map-get(map-get($modern-animations, durations), slow) map-get(map-get($modern-animations, easings), smooth);
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+@mixin modern-button-gradient($gradient-name: primary) {
+  @include modern-button-base;
+  @include modern-gradient($gradient-name);
+  color: #ffffff;
+  border: none;
+  @include modern-shadow(soft);
+  
+  &:hover {
+    @include modern-shadow(medium);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    @include modern-shadow(soft);
+  }
+}
+
+@mixin modern-button-glass {
+  @include modern-button-base;
+  @include glass-morphism();
+  color: var(--text-primary);
+  
+  &:hover {
+    @include glass-morphism(0.35);
+    transform: translateY(-2px);
+  }
+}
+
+// Modern input mixins
+@mixin modern-input-base {
+  @include input-base;
+  border-radius: map-get($modern-border-radius, xl);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  &:focus {
+    @include modern-shadow(glow);
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 1);
+  }
+}
+
+@mixin modern-input-glass {
+  @include modern-input-base;
+  @include glass-morphism(0.15);
+  
+  &:focus {
+    @include glass-morphism(0.25);
+    @include modern-shadow(glow);
+  }
+}
+
+// Modern header/app bar mixins
+@mixin modern-header-base {
+  @include modern-gradient(primary);
+  backdrop-filter: map-get($glass-effects, backdrop-blur);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  @include modern-shadow(elevated);
+  color: #ffffff;
+}
+
+@mixin modern-header-glass {
+  @include glass-morphism();
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  @include modern-shadow(glass);
+}
+
+@mixin modern-nav-item {
+  padding: task-space(sm) task-space(lg);
+  border-radius: map-get($modern-border-radius, xl);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  &.active {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// Modern animation mixins
+@mixin modern-fade-in($duration: normal) {
+  animation: modern-fade-in map-get(map-get($modern-animations, durations), $duration) map-get(map-get($modern-animations, easings), smooth);
+}
+
+@mixin modern-slide-up($duration: normal) {
+  animation: modern-slide-up map-get(map-get($modern-animations, durations), $duration) map-get(map-get($modern-animations, easings), smooth);
+}
+
+@mixin modern-bounce-in($duration: normal) {
+  animation: modern-bounce-in map-get(map-get($modern-animations, durations), $duration) map-get(map-get($modern-animations, easings), bounce);
+}
+
+@mixin modern-pulse($duration: 2s) {
+  animation: modern-pulse $duration map-get(map-get($modern-animations, easings), smooth) infinite;
+}
+
+@mixin modern-hover-lift($lift-distance: -8px) {
+  transition: transform map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
+  
+  &:hover {
+    transform: translateY($lift-distance);
+  }
+}
+
+// Modern keyframe animations
+@keyframes modern-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modern-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(task-space(lg));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modern-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modern-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+// Modern layout mixins
+@mixin modern-container {
+  background: map-get($modern-backgrounds, subtle);
+  min-height: 100vh;
+  @include responsive-container;
+}
+
+@mixin modern-section-spacing {
+  padding-top: map-get($modern-spacing, section);
+  padding-bottom: map-get($modern-spacing, section);
+  
+  @include breakpoint(md) {
+    padding-top: task-space(2xl);
+    padding-bottom: task-space(2xl);
+  }
+  
+  @include breakpoint(sm) {
+    padding-top: task-space(xl);
+    padding-bottom: task-space(xl);
+  }
+}
+
+// Modern typography mixins
+@mixin modern-heading($size: 2xl, $gradient: false) {
+  @include text-style($size, $font-weight-bold, tight);
+  
+  @if $gradient {
+    @include modern-gradient-text();
+  }
+  
+  letter-spacing: -0.02em;
+  
+  @if $size == 4xl or $size == 3xl {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@mixin modern-body-text($size: base) {
+  @include text-style($size, $font-weight-normal, relaxed);
+  color: var(--text-secondary);
+}
+
+// Enhanced typography system mixins for reference-accurate styling
+@mixin typography-style($style-name) {
+  $style: map-get($typography-scale, $style-name);
+  
+  @if $style {
+    font-size: map-get($style, size);
+    font-weight: map-get($style, weight);
+    line-height: map-get($style, line-height);
+    letter-spacing: map-get($style, letter-spacing);
+  } @else {
+    @warn "Typography style '#{$style-name}' not found in $typography-scale";
+  }
+}
+
+// Modern font size mixin with enhanced scale
+@mixin modern-font-size($size) {
+  @if $size == xs { font-size: 0.75rem; }
+  @else if $size == sm { font-size: 0.875rem; }
+  @else if $size == base { font-size: 1rem; }
+  @else if $size == lg { font-size: 1.125rem; }
+  @else if $size == xl { font-size: 1.25rem; }
+  @else if $size == 2xl { font-size: 1.5rem; }
+  @else if $size == 3xl { font-size: 1.875rem; }
+  @else if $size == 4xl { font-size: 2.25rem; }
+  @else if $size == 5xl { font-size: 3rem; }
+  @else if $size == 6xl { font-size: 3.75rem; }
+  @else if $size == 7xl { font-size: 4.5rem; }
+  @else if $size == 8xl { font-size: 6rem; }
+  @else if $size == 9xl { font-size: 8rem; }
+  @else { font-size: 1rem; }
+}
+
+// Modern font weight mixin
+@mixin modern-font-weight($weight) {
+  @if $weight == thin { font-weight: 100; }
+  @else if $weight == extralight { font-weight: 200; }
+  @else if $weight == light { font-weight: 300; }
+  @else if $weight == normal { font-weight: 400; }
+  @else if $weight == medium { font-weight: 500; }
+  @else if $weight == semibold { font-weight: 600; }
+  @else if $weight == bold { font-weight: 700; }
+  @else if $weight == extrabold { font-weight: 800; }
+  @else if $weight == black { font-weight: 900; }
+  @else { font-weight: 400; }
+}
+
+// Modern line height mixin
+@mixin modern-line-height($height) {
+  @if $height == none { line-height: 1; }
+  @else if $height == tight { line-height: 1.25; }
+  @else if $height == snug { line-height: 1.375; }
+  @else if $height == normal { line-height: 1.5; }
+  @else if $height == relaxed { line-height: 1.625; }
+  @else if $height == loose { line-height: 2; }
+  @else { line-height: 1.5; }
+}
+
+// Modern letter spacing mixin
+@mixin modern-letter-spacing($spacing) {
+  @if $spacing == tighter { letter-spacing: -0.05em; }
+  @else if $spacing == tight { letter-spacing: -0.025em; }
+  @else if $spacing == normal { letter-spacing: 0em; }
+  @else if $spacing == wide { letter-spacing: 0.025em; }
+  @else if $spacing == wider { letter-spacing: 0.05em; }
+  @else if $spacing == widest { letter-spacing: 0.1em; }
+  @else { letter-spacing: 0em; }
+}
+
+// Enhanced text style mixin with modern typography
+@mixin modern-text-style($size: base, $weight: normal, $height: normal, $spacing: normal) {
+  @include modern-font-size($size);
+  @include modern-font-weight($weight);
+  @include modern-line-height($height);
+  @include modern-letter-spacing($spacing);
+}
+
+// Gradient text effects for headings and titles
+@mixin gradient-text($gradient-name: primary, $fallback-color: var(--text-primary)) {
+  @if $gradient-name == primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  } @else if $gradient-name == secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  } @else if $gradient-name == tertiary {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  } @else if $gradient-name == success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  } @else if $gradient-name == warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  } @else if $gradient-name == error {
+    background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+  } @else if $gradient-name == info {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  } @else {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: $fallback-color; // Fallback for browsers that don't support background-clip
+  
+  // Ensure text remains selectable
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+// Simplified typography mixins for better compatibility
+
+// Enhanced heading mixins with gradient support
+@mixin display-heading($size: large, $gradient: false) {
+  @if $size == large {
+    font-size: 3.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  } @else if $size == medium {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  } @else {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+  
+  @if $gradient {
+    @include gradient-text();
+  }
+  
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@mixin headline-text($size: medium, $gradient: false) {
+  @if $size == large {
+    font-size: 1.875rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  } @else if $size == medium {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.375;
+    letter-spacing: -0.025em;
+  } @else {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.375;
+  }
+  
+  @if $gradient {
+    @include gradient-text();
+  }
+}
+
+// Enhanced heading hierarchy mixins
+@mixin h1-style($gradient: false) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.375;
+  margin-bottom: task-space(lg);
+  
+  @include breakpoint-up(sm) {
+    font-size: 1.5rem;
+  }
+  
+  @include breakpoint-up(lg) {
+    font-size: 1.875rem;
+    margin-bottom: task-space(xl);
+  }
+  
+  @if $gradient {
+    @include gradient-text();
+  }
+}
+
+@mixin h2-style($gradient: false) {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.375;
+  margin-bottom: task-space(md);
+  
+  @include breakpoint-up(sm) {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+  
+  @include breakpoint-up(lg) {
+    font-size: 1.5rem;
+    margin-bottom: task-space(lg);
+  }
+  
+  @if $gradient {
+    @include gradient-text();
+  }
+}
+
+@mixin h3-style($gradient: false) {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: task-space(sm);
+  
+  @include breakpoint-up(sm) {
+    font-size: 1.125rem;
+  }
+  
+  @include breakpoint-up(lg) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: task-space(md);
+  }
+  
+  @if $gradient {
+    @include gradient-text();
+  }
+}
+
+// Modern status indicator mixins
+@mixin modern-status-indicator($status: success) {
+  display: inline-flex;
+  align-items: center;
+  gap: task-space(sm);
+  
+  .status-dot {
+    width: task-space(md);
+    height: task-space(md);
+    border-radius: map-get($modern-border-radius, full);
+    @include modern-pulse();
+    
+    @if $status == success {
+      background: var(--success);
+    } @else if $status == warning {
+      background: var(--warning);
+    } @else if $status == error {
+      background: var(--error);
+    } @else if $status == info {
+      background: var(--info);
+    }
+  }
+  
+  .status-text {
+    @include text-style(sm, $font-weight-semibold);
+    
+    @if $status == success {
+      color: var(--success);
+    } @else if $status == warning {
+      color: var(--warning);
+    } @else if $status == error {
+      color: var(--error);
+    } @else if $status == info {
+      color: var(--info);
+    }
+  }
+}
+
+// Modern metric card mixins
+@mixin modern-metric-card {
+  @include modern-card-base;
+  @include modern-card-hover;
+  text-align: center;
+  @include responsive-padding-task(xl, (md: lg, sm: md));
+  
+  .metric-icon {
+    width: task-space(3xl);
+    height: task-space(3xl);
+    margin: 0 auto task-space(lg);
+    @include modern-gradient();
+    border-radius: map-get($modern-border-radius, lg);
+    @include flex-center;
+    color: #ffffff;
+    @include text-style(2xl);
+  }
+  
+  .metric-value {
+    @include text-style(3xl, $font-weight-bold);
+    color: var(--text-primary);
+    margin-bottom: task-space(xs);
+  }
+  
+  .metric-label {
+    @include text-style(sm, $font-weight-medium);
+    color: var(--text-tertiary);
+  }
+}
+
+// Modern chat interface mixins
+@mixin modern-chat-container {
+  @include modern-card-base;
+  border-radius: map-get($modern-border-radius, 2xl);
+  overflow: hidden;
+  @include modern-shadow(glass);
+}
+
+@mixin modern-chat-header {
+  @include modern-gradient(primary);
+  @include responsive-padding-task(lg, (md: md, sm: sm));
+  color: #ffffff;
+}
+
+@mixin modern-message-bubble($type: user) {
+  max-width: 70%;
+  padding: task-space(md) task-space(lg);
+  @include text-style(sm, $font-weight-normal, relaxed);
+  @include modern-shadow(sm);
+  
+  @if $type == user {
+    background: var(--primary);
+    color: var(--text-inverse);
+    border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) 
+                   map-get($modern-border-radius, sm) map-get($modern-border-radius, 2xl);
+  } @else {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) 
+                   map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm);
+  }
+}
+
+// Accessibility enhancements for modern components
+@mixin modern-focus-ring {
+  &:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    @include modern-shadow(glow);
+  }
+}
+
+@mixin modern-reduced-motion {
+  @include reduced-motion {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
   }
 }
