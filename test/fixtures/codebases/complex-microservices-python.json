@@ -1,0 +1,82 @@
+{
+  "id": "2644fb3f-d3c7-4d19-8bb9-57c53c3f7f57",
+  "name": "complex-microservices-python",
+  "language": "python",
+  "files": [
+    {
+      "path": "services/user-service/src/index.js",
+      "content": "// user-service main entry point\nAmaritudo cuius verbera derideo candidus. Viduo caute voluptatem benigne ex aurum. Vesco demitto defleo.",
+      "language": "python",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/user-service/src/controller.js",
+      "content": "// user-service controller\nAdflicto uxor compello deserunt deludo amet. Abundans arbitro adicio deleo ratione optio. Comparo consequuntur odio vulticulus theatrum aetas dignissimos.",
+      "language": "python",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/product-service/src/index.js",
+      "content": "// product-service main entry point\nTheatrum veniam vereor libero pauci aut. Tergum solvo denuo temperantia universe error cognatus sumo. Crux via crustulum callide surgo tristis repellat advoco coma.",
+      "language": "python",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/product-service/src/controller.js",
+      "content": "// product-service controller\nUstilo thorax ab voluptatibus defungo commemoro advenio pariatur celo spiculum. Adicio baiulus texo quod calco trepide adinventitias. Custodia cedo curo commodi aureus audax.",
+      "language": "python",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/order-service/src/index.js",
+      "content": "// order-service main entry point\nVicissitudo cum aeneus compono cultellus utilis absens. Tibi territo suadeo validus. Velut civis vilitas adipiscor velit.",
+      "language": "python",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/order-service/src/controller.js",
+      "content": "// order-service controller\nClementia tam vigilo. Sit verbera quia suscipit crustulum conventus debilito claro aspernatur. Ad adflicto comprehendo desparatus.",
+      "language": "python",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/notification-service/src/index.js",
+      "content": "// notification-service main entry point\nAequitas abbas quod cohibeo minima ullus adversus versus. Aequus tepesco vetus valde demergo decipio. Abduco illum libero.",
+      "language": "python",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/notification-service/src/controller.js",
+      "content": "// notification-service controller\nVox adeptio cinis aegrotatio. Volva territo tabernus. Curiositas vilitas bos velum claro thema.",
+      "language": "python",
+      "size": 600,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "services/user-service/src",
+      "services/product-service/src",
+      "services/order-service/src",
+      "services/notification-service/src"
+    ],
+    "fileCount": 8,
+    "totalSize": 5600,
+    "languages": {
+      "python": 8
+    }
+  },
+  "metrics": {
+    "linesOfCode": 16,
+    "cyclomaticComplexity": 2.5,
+    "maintainabilityIndex": 75,
+    "technicalDebt": 2500
+  }
+}

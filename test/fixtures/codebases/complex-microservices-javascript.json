@@ -1,0 +1,82 @@
+{
+  "id": "ab41fa3e-0cc9-4def-bf14-a3d0fff06f21",
+  "name": "complex-microservices-javascript",
+  "language": "javascript",
+  "files": [
+    {
+      "path": "services/user-service/src/index.js",
+      "content": "// user-service main entry point\nConfero adversus concedo tibi crustulum atavus aliqua arca. Patior conspergo thema. Xiphias ipsam deputo.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/user-service/src/controller.js",
+      "content": "// user-service controller\nAdulatio cotidie adstringo accusator comburo abbas. Vado cum atrox vitiosus tantillus. Delibero aurum adicio.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/product-service/src/index.js",
+      "content": "// product-service main entry point\nTener aspernatur vere terreo veritatis aspernatur aptus pecco angustus corpus. Corrigo cumque vorago colligo averto vinco defendo. Depopulo aeneus animadverto.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/product-service/src/controller.js",
+      "content": "// product-service controller\nAttollo patior combibo maxime esse veritatis. Tenax tumultus depopulo. Officia in anser quia velum officia aeger.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/order-service/src/index.js",
+      "content": "// order-service main entry point\nUsus spero vere bonus territo ceno delectatio. Barba celer sol tolero arca auxilium. Sint voluptatum solvo tripudio tubineus vilitas.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/order-service/src/controller.js",
+      "content": "// order-service controller\nPatruus ventito decor. Abeo censura nulla amoveo pel vicinus laboriosam succurro cui. Certe ter sustineo thymbra ager arceo artificiose dedico torrens.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/notification-service/src/index.js",
+      "content": "// notification-service main entry point\nVobis synagoga occaecati. Voluptatem confugo alter officia. Nesciunt depopulo censura nulla terror dedico admoveo centum.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/notification-service/src/controller.js",
+      "content": "// notification-service controller\nAestus dapifer canis assentator asper deludo. Numquam voluptatum beatae terga solum. Fugit acervus aggredior sufficio tondeo illum crapula depromo vetus ago.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "services/user-service/src",
+      "services/product-service/src",
+      "services/order-service/src",
+      "services/notification-service/src"
+    ],
+    "fileCount": 8,
+    "totalSize": 5600,
+    "languages": {
+      "javascript": 8
+    }
+  },
+  "metrics": {
+    "linesOfCode": 16,
+    "cyclomaticComplexity": 2.5,
+    "maintainabilityIndex": 75,
+    "technicalDebt": 2500
+  }
+}

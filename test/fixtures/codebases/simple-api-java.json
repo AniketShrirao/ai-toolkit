@@ -1,0 +1,54 @@
+{
+  "id": "4fd1569d-d1a8-43c0-9deb-31d65374bca1",
+  "name": "simple-api-java",
+  "language": "java",
+  "files": [
+    {
+      "path": "src/app.java",
+      "content": "// java application code",
+      "language": "java",
+      "size": 1500,
+      "complexity": 3
+    },
+    {
+      "path": "src/routes/users.java",
+      "content": "// users routes for java\nCetera acquiro sub aeneus benigne. Adulescens vigor canto sit. Tactus delibero bibo tamdiu umquam benevolentia consuasor summa ars.",
+      "language": "java",
+      "size": 800,
+      "complexity": 2
+    },
+    {
+      "path": "src/models/User.java",
+      "content": "// User model for java\nCibo aeger impedit anser tabernus quasi eius tolero. Commodi verto usque curtus terreo ars. Tibi caritas comparo amplexus atrocitas caelum cometes cervus.",
+      "language": "java",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "src/config/database.java",
+      "content": "// Configuration for java\nVita spiculum acceptus villa aperiam accedo suscipio. Ipsum viduo ulterius vergo. Attonbitus dolorum vapulus appello denego civis tener paulatim corpus.",
+      "language": "java",
+      "size": 400,
+      "complexity": 1
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "java": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 7,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

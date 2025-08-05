@@ -1,0 +1,14 @@
+{
+  "id": "ae1ada91-8e14-42be-b5e0-a551fcfb576e",
+  "name": "api-documentation.pdf",
+  "type": "pdf",
+  "content": "# REST API Documentation v1.0\n\n## Base URL\n`https://api.example.com/v1`\n\n## Authentication\nBearer token required for all endpoints except public ones.\n\n## Endpoints\n\n### Users\n- `GET /users` - List users\n- `POST /users` - Create user\n- `GET /users/{id}` - Get user by ID\n- `PUT /users/{id}` - Update user\n- `DELETE /users/{id}` - Delete user\n\n### Products\n- `GET /products` - List products\n- `POST /products` - Create product\n- `GET /products/{id}` - Get product by ID\n- `PUT /products/{id}` - Update product\n- `DELETE /products/{id}` - Delete product\n\n### Orders\n- `GET /orders` - List orders\n- `POST /orders` - Create order\n- `GET /orders/{id}` - Get order by ID\n- `PUT /orders/{id}/status` - Update order status\n\n## Response Formats\nAll responses are in JSON format with consistent structure:\n\n```json\n{\n  \"success\": true,\n  \"data\": {...},\n  \"message\": \"Operation completed successfully\"\n}\n```\n\n## Error Codes\n- 400: Bad Request\n- 401: Unauthorized\n- 403: Forbidden\n- 404: Not Found\n- 500: Internal Server Error",
+  "size": 1014,
+  "metadata": {
+    "author": "Byron Kozey",
+    "createdAt": "2025-02-18T16:15:54.572Z",
+    "modifiedAt": "2025-08-04T10:33:38.159Z",
+    "pages": 1,
+    "wordCount": 165
+  }
+}

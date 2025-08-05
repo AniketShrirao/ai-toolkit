@@ -1,35 +1,688 @@
 // Global styles for the documentation site
-@use '../../../packages/shared/styles' as *;
+// Import theme system and syntax highlighting
+@import 'themes';
+@import 'syntax-highlighting';
 
-// Import the shared styles which include :root variables
-// This file contains global styles that are not scoped to components
+// Theme variables are now defined in themes.scss
+
+// Global styles
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
 
 body {
-  background-color: var(--bg-primary);
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: $font-family-base;
-  line-height: map-get($line-heights, normal);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
-// Global utility classes
-.container {
-  @include container;
-}
-
-// Documentation-specific global styles
+// Documentation layout
 .doc-layout {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  min-height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 }
 
-// Ensure proper focus styles for accessibility
-*:focus {
-  outline: 2px solid var(--border-focus);
+.doc-header {
+  height: var(--doc-header-height);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.doc-sidebar {
+  width: var(--doc-sidebar-width);
+  background: var(--nav-bg);
+  border-right: 1px solid var(--nav-border);
+
+  @media (max-width: 768px) {
+    width: var(--doc-sidebar-width-mobile);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 200ms;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+
+.doc-main {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.75rem;
+  }
+}
+
+.doc-container {
+  max-width: var(--doc-content-max-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 0.75rem;
+  }
+
+  @media (max-width: 640px) {
+    padding: 0 0.5rem;
+  }
+}
+
+// Typography
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.375;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.375;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.625;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+// Links
+a {
+  color: var(--primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: var(--primary-dark);
+  }
+}
+
+// Lists
+ul,
+ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+
+  li {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+  }
+}
+
+// Tables
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+
+  th,
+  td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  td {
+    color: var(--text-secondary);
+  }
+}
+
+// Blockquotes
+blockquote {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--primary);
+  background: var(--bg-secondary);
+  border-radius: 0.375rem;
+
+  p {
+    margin-bottom: 0;
+    font-style: italic;
+  }
+}
+
+// Horizontal rules
+hr {
+  margin: 2rem 0;
+  border: none;
+  height: 1px;
+  background: var(--border);
+}
+
+// En
+hanced Documentation Component Styles // CSS Custom Properties for enhanced theming
+
+:root {
+  // Typography scale
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  // Font weights
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  // Line heights
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  // Spacing scale
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-3xl: 3rem;
+
+  // Border radius
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-full: 9999px;
+
+  // Transitions
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+
+  // Z-index scale
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+
+  // Content width constraints
+  --content-max-width: 1200px;
+  --content-narrow-width: 768px;
+  --content-wide-width: 1400px;
+
+  // Font families
+  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+// Enhanced base styles
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; // Base font size for rem calculations
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Enhanced focus styles
+:focus-visible {
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
 }
 
-// Remove default focus styles for mouse users
-*:focus:not(:focus-visible) {
-  outline: none;
+// Enhanced selection styles
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--text-primary);
+}
+
+// Button reset
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+// Image styles
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Enhanced scrollbar styles
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+
+  &:hover {
+    background: var(--text-tertiary);
+  }
+}
+
+// Utility classes
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.no-print {
+  @media print {
+    display: none !important;
+  }
+}
+
+// Responsive breakpoint utilities
+.hidden-mobile {
+  @media (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.hidden-tablet {
+  @media (min-width: 768px) and (max-width: 1023px) {
+    display: none !important;
+  }
+}
+
+.hidden-desktop {
+  @media (min-width: 1024px) {
+    display: none !important;
+  }
+}
+
+.visible-mobile {
+  display: none !important;
+
+  @media (max-width: 767px) {
+    display: block !important;
+  }
+}
+
+.visible-tablet {
+  display: none !important;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    display: block !important;
+  }
+}
+
+.visible-desktop {
+  display: none !important;
+
+  @media (min-width: 1024px) {
+    display: block !important;
+  }
+}
+
+// Enhanced print styles
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+    color: black !important;
+  }
+
+  p,
+  li {
+    page-break-inside: avoid;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+    color: black !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  .no-print,
+  button,
+  .copy-button,
+  .docs-code-block__actions,
+  .tutorial-step__actions,
+  .docs-tabs__list {
+    display: none !important;
+  }
+
+  // Ensure code blocks are readable in print
+  .docs-code-block,
+  .docs-pre,
+  pre {
+    border: 1px solid #ccc !important;
+    background: #f9f9f9 !important;
+    page-break-inside: avoid;
+  }
+
+  .docs-callout {
+    border: 1px solid #ccc !important;
+    background: #f9f9f9 !important;
+    page-break-inside: avoid;
+  }
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  :root {
+    --border: #000;
+    --text-primary: #000;
+    --text-secondary: #333;
+    --bg-primary: #fff;
+    --bg-secondary: #f5f5f5;
+  }
+
+  [data-theme="dark"] {
+    --border: #fff;
+    --text-primary: #fff;
+    --text-secondary: #ccc;
+    --bg-primary: #000;
+    --bg-secondary: #333;
+  }
+}
+
+// Loading states
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Interactive element states
+.interactive {
+  transition: all var(--transition-fast);
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Content spacing consistency
+.content-spacing {
+  >*+* {
+    margin-top: var(--spacing-md);
+  }
+
+  >h1+*,
+  >h2+*,
+  >h3+*,
+  >h4+*,
+  >h5+*,
+  >h6+* {
+    margin-top: var(--spacing-sm);
+  }
+
+  >*+h1,
+  >*+h2 {
+    margin-top: var(--spacing-2xl);
+  }
+
+  >*+h3,
+  >*+h4 {
+    margin-top: var(--spacing-xl);
+  }
+
+  >*+h5,
+  >*+h6 {
+    margin-top: var(--spacing-lg);
+  }
+}
+
+// Doc
+umentation component styles .callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 0.5rem;
+  border-left: 4px solid;
+
+  &--info {
+    background: var(--info-light);
+    border-color: var(--info);
+    color: var(--text-primary);
+  }
+
+  &--success {
+    background: var(--success-light);
+    border-color: var(--success);
+    color: var(--text-primary);
+  }
+
+  &--warning {
+    background: var(--warning-light);
+    border-color: var(--warning);
+    color: var(--text-primary);
+  }
+
+  &--error {
+    background: var(--error-light);
+    border-color: var(--error);
+    color: var(--text-primary);
+  }
+
+  &__title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+  }
+
+  &__content {
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Documentation content styles
+.docs-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+
+    code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: var(--font-family-mono);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+  }
+
+  code {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.25rem;
+    font-family: var(--font-family-mono);
+    font-size: 0.875em;
+  }
+
+  ul,
+  ol {
+    margin-bottom: 1rem;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
 }

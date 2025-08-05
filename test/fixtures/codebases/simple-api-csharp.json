@@ -1,0 +1,54 @@
+{
+  "id": "8c02e96c-3227-453e-b9b2-834c7e4d0fbe",
+  "name": "simple-api-csharp",
+  "language": "csharp",
+  "files": [
+    {
+      "path": "src/app.cs",
+      "content": "// csharp application code",
+      "language": "csharp",
+      "size": 1500,
+      "complexity": 3
+    },
+    {
+      "path": "src/routes/users.cs",
+      "content": "// users routes for csharp\nVoluptas cattus utilis. Allatus sustineo tertius. Tenus ars impedit at amaritudo supellex tepidus.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 2
+    },
+    {
+      "path": "src/models/User.cs",
+      "content": "// User model for csharp\nSocius armarium eum capillus succedo expedita carmen quas tertius. Umquam defessus aggero totidem arceo color. Aqua quas suasoria culpa atrocitas.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "src/config/database.cs",
+      "content": "// Configuration for csharp\nUtrum voco comburo. Eveniet textus antiquus patria anser cohibeo beneficium. Vesco cras aliqua avarus.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 1
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "csharp": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 7,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

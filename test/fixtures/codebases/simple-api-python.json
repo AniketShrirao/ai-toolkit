@@ -1,0 +1,54 @@
+{
+  "id": "1b5055bd-5bf7-473f-9178-d3b8fe10d6e1",
+  "name": "simple-api-python",
+  "language": "python",
+  "files": [
+    {
+      "path": "src/app.py",
+      "content": "from flask import Flask\nfrom routes.users import user_bp\n\napp = Flask(__name__)\napp.register_blueprint(user_bp, url_prefix='/api/users')\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "language": "python",
+      "size": 1500,
+      "complexity": 3
+    },
+    {
+      "path": "src/routes/users.py",
+      "content": "// users routes for python\nUtpote calamitas inflammatio aegrotatio. Ara tunc auctus cultellus degero repellendus necessitatibus culpa. Defendo non sortitus repellendus uter deficio utpote.",
+      "language": "python",
+      "size": 800,
+      "complexity": 2
+    },
+    {
+      "path": "src/models/User.py",
+      "content": "// User model for python\nArto argentum audeo acidus atqui subnecto adimpleo circumvenio. Tendo vallum speciosus capillus et alo. Animadverto somnus textus dedico casus nihil canonicus acquiro.",
+      "language": "python",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "src/config/database.py",
+      "content": "// Configuration for python\nComptus pectus cicuta at alienus vinco solio harum. Arbor placeat voluntarius ducimus acsi nam benigne sufficio eum. Collum laudantium ipsa spiculum.",
+      "language": "python",
+      "size": 400,
+      "complexity": 1
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "python": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 14,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

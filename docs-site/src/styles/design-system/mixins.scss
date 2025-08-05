@@ -1,0 +1,315 @@
+// Documentation Site Mixins
+// Extends AI Toolkit design system mixins with documentation-specific mixins
+
+@use 'sass:map';
+@use 'variables' as *;
+@use 'functions' as *;
+
+// Documentation-specific spacing mixins
+@mixin doc-spacing($property, $size) {
+    #{$property}: doc-space($size);
+}
+
+@mixin doc-padding($size: lg) {
+    padding: doc-space($size);
+}
+
+@mixin doc-margin($size: lg) {
+    margin: doc-space($size);
+}
+
+@mixin doc-gap($size: lg) {
+    gap: doc-space($size);
+}
+
+// Documentation layout mixins
+@mixin doc-container {
+    max-width: doc-layout(content-max-width);
+    margin: 0 auto;
+    padding: 0 doc-space(lg);
+
+    @media (max-width: #{breakpoint(md)}) {
+        padding: 0 doc-space(md);
+    }
+
+    @media (max-width: #{breakpoint(sm)}) {
+        padding: 0 doc-space(sm);
+    }
+}
+
+@mixin doc-header {
+    height: doc-layout(header-height);
+    background: theme-color(nav-bg);
+    border-bottom: 1px solid theme-color(nav-border);
+    position: sticky;
+    top: 0;
+    z-index: z-index(sticky);
+}
+
+@mixin doc-sidebar {
+    width: doc-layout(sidebar-width);
+    background: theme-color(nav-bg);
+    border-right: 1px solid theme-color(nav-border);
+
+    @media (max-width: #{breakpoint(md)}) {
+        width: doc-layout(sidebar-width-mobile);
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: z-index(modal);
+        transform: translateX(-100%);
+        transition: transform transition(base);
+
+        &.open {
+            transform: translateX(0);
+        }
+    }
+}
+
+@mixin doc-main-content {
+    flex: 1;
+    min-width: 0;
+    padding: doc-space(xl);
+
+    @media (max-width: #{breakpoint(md)}) {
+        padding: doc-space(lg);
+    }
+
+    @media (max-width: #{breakpoint(sm)}) {
+        padding: doc-space(md);
+    }
+}
+
+// Documentation typography mixins
+@mixin doc-heading($level: 1) {
+    @if $level ==1 {
+        @include text-style(4xl, $font-weight-bold, tight);
+    }
+
+    @else if $level ==2 {
+        @include text-style(3xl, $font-weight-bold, tight);
+    }
+
+    @else if $level ==3 {
+        @include text-style(2xl, $font-weight-semibold, tight);
+    }
+
+    @else if $level ==4 {
+        @include text-style(xl, $font-weight-semibold, normal);
+    }
+
+    @else if $level ==5 {
+        @include text-style(lg, $font-weight-semibold, normal);
+    }
+
+    @else if $level ==6 {
+        @include text-style(base, $font-weight-semibold, normal);
+    }
+
+    color: theme-color(text-primary);
+    margin-bottom: doc-space(md);
+}
+
+@mixin doc-body-text {
+    @include text-style(base, $font-weight-normal, relaxed);
+    color: theme-color(text-secondary);
+    margin-bottom: doc-space(lg);
+}
+
+@mixin doc-code-block {
+    background: theme-color(code-bg);
+    border: 1px solid theme-color(code-border);
+    border-radius: radius(md);
+    padding: doc-space(lg);
+    font-family: $font-family-mono;
+    @include text-style(sm);
+    color: theme-color(code-text);
+    overflow-x: auto;
+    margin: doc-space(lg) 0;
+}
+
+@mixin doc-inline-code {
+    background: theme-color(code-bg);
+    border: 1px solid theme-color(code-border);
+    border-radius: radius(sm);
+    padding: doc-space(xs) doc-space(sm);
+    font-family: $font-family-mono;
+    @include text-style(sm);
+    color: theme-color(code-text);
+}
+
+// Documentation navigation mixins
+@mixin doc-nav-item {
+    display: block;
+    padding: doc-space(sm) doc-space(md);
+    color: theme-color(text-secondary);
+    text-decoration: none;
+    border-radius: radius(md);
+    transition: all transition(base);
+
+    &:hover {
+        background: theme-color(nav-hover);
+        color: theme-color(text-primary);
+    }
+
+    &.active {
+        background: theme-color(nav-active);
+        color: theme-color(primary);
+        font-weight: $font-weight-medium;
+    }
+}
+
+@mixin doc-nav-section {
+    margin-bottom: doc-space(lg);
+
+    .nav-section-title {
+        @include text-style(sm, $font-weight-semibold);
+        color: theme-color(text-primary);
+        padding: doc-space(sm) doc-space(md);
+        margin-bottom: doc-space(sm);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .nav-section-items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+}
+
+// Documentation card mixins
+@mixin doc-card {
+    @include card-base;
+    background: theme-color(surface);
+    border-color: theme-color(border);
+    padding: doc-space(xl);
+
+    &:hover {
+        @include card-hover;
+    }
+}
+
+@mixin doc-card-header {
+    margin-bottom: doc-space(lg);
+    padding-bottom: doc-space(md);
+    border-bottom: 1px solid theme-color(border);
+
+    .card-title {
+        @include doc-heading(3);
+        margin-bottom: doc-space(sm);
+    }
+
+    .card-description {
+        @include doc-body-text;
+        margin-bottom: 0;
+    }
+}
+
+// Documentation button mixins
+@mixin doc-button($variant: primary) {
+    @include button-base;
+    @include button-size(md);
+
+    @if $variant ==primary {
+        background: theme-color(primary);
+        color: theme-color(text-inverse);
+
+        &:hover {
+            background: theme-color(primary-hover);
+        }
+    }
+
+    @else if $variant ==secondary {
+        background: transparent;
+        color: theme-color(text-primary);
+        border: 1px solid theme-color(border);
+
+        &:hover {
+            background: theme-color(bg-secondary);
+        }
+    }
+
+    @else if $variant ==ghost {
+        background: transparent;
+        color: theme-color(text-secondary);
+
+        &:hover {
+            background: theme-color(bg-secondary);
+            color: theme-color(text-primary);
+        }
+    }
+}
+
+// Documentation form mixins
+@mixin doc-input {
+    @include input-base;
+    background: theme-color(surface);
+    border-color: theme-color(border);
+    color: theme-color(text-primary);
+
+    &::placeholder {
+        color: theme-color(text-tertiary);
+    }
+
+    &:focus {
+        border-color: theme-color(border-focus);
+        box-shadow: 0 0 0 3px color-alpha(primary, 500, 0.1);
+    }
+}
+
+// Documentation search mixins
+@mixin doc-search-input {
+    @include doc-input;
+    padding-left: doc-space(xl);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'/%3e%3c/svg%3e");
+    background-position: left doc-space(md) center;
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+}
+
+// Documentation responsive mixins
+@mixin doc-responsive-layout {
+    display: flex;
+    min-height: 100vh;
+
+    @media (max-width: #{breakpoint(md)}) {
+        flex-direction: column;
+    }
+}
+
+@mixin doc-mobile-overlay {
+    @media (max-width: #{breakpoint(md)}) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: z-index(modal-backdrop);
+        opacity: 0;
+        visibility: hidden;
+        transition: all transition(base);
+
+        &.open {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}
+
+// Theme switching mixins
+@mixin theme-aware($property, $light-value, $dark-value) {
+    #{$property}: $light-value;
+
+    [data-theme="dark"] & {
+        #{$property}: $dark-value;
+    }
+}
+
+@mixin doc-theme-transition {
+    transition: background-color transition(base),
+        color transition(base),
+        border-color transition(base);
+}

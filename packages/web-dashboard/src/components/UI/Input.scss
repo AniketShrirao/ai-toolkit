@@ -1,0 +1,85 @@
+// Input Component Styles
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+}
+
+.input-label {
+    @include text-style(sm, medium);
+    @include text-color(primary);
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    @include modern-input-base;
+    width: 100%;
+
+    &:focus {
+        outline: none;
+        @include border-color(focus);
+        box-shadow: 0 0 0 3px var(--primary-alpha);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        @include bg-color(secondary);
+    }
+}
+
+// Input with icons
+.input-with-left-icon .input {
+    padding-left: space(10);
+}
+
+.input-with-right-icon .input {
+    padding-right: space(10);
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    @include text-color(tertiary);
+    pointer-events: none;
+}
+
+.input-icon-left {
+    left: space(3);
+}
+
+.input-icon-right {
+    right: space(3);
+}
+
+// Search variant
+.input-search .input {
+    border-radius: radius(full);
+    padding-left: space(10);
+}
+
+.input-search .input-icon-left {
+    left: space(4);
+}
+
+// Error state
+.input-error .input {
+    @include border-color(error);
+
+    &:focus {
+        @include border-color(error);
+        box-shadow: 0 0 0 3px var(--error-alpha);
+    }
+}
+
+.input-error-text {
+    @include text-style(sm);
+    @include text-color(error);
+}

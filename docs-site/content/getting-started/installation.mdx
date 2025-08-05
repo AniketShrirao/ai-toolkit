@@ -1,0 +1,671 @@
+---
+title: "Installation Guide"
+description: "Complete step-by-step installation instructions for the AI Toolkit across different platforms and environments."
+category: "getting-started"
+tags: ["installation", "setup", "prerequisites", "verification"]
+difficulty: "beginner"
+estimatedReadTime: 15
+prerequisites: []
+---
+
+# Installation Guide
+
+This comprehensive guide will walk you through installing the AI Toolkit on different platforms and environments. Follow the steps carefully to ensure a successful installation.
+
+## Prerequisites
+
+Before installing the AI Toolkit, ensure your system meets the following requirements:
+
+### System Requirements
+
+<RequirementsList>
+  <Requirement 
+    title="Node.js" 
+    version="18.0.0 or higher" 
+    required={true}
+    description="JavaScript runtime for running the application"
+  />
+  <Requirement 
+    title="npm" 
+    version="8.0.0 or higher" 
+    required={true}
+    description="Package manager (comes with Node.js)"
+  />
+  <Requirement 
+    title="Git" 
+    version="2.20.0 or higher" 
+    required={true}
+    description="Version control system for cloning the repository"
+  />
+  <Requirement 
+    title="Docker" 
+    version="20.0.0 or higher" 
+    required={false}
+    description="Container platform (optional, for containerized deployment)"
+  />
+  <Requirement 
+    title="Python" 
+    version="3.8 or higher" 
+    required={false}
+    description="Required for some AI processing features"
+  />
+</RequirementsList>
+
+### Hardware Requirements
+
+<HardwareSpecs>
+  <HardwareSpec category="Minimum">
+    - **RAM**: 4GB
+    - **Storage**: 2GB free space
+    - **CPU**: 2 cores
+    - **Network**: Internet connection for initial setup
+  </HardwareSpec>
+  <HardwareSpec category="Recommended">
+    - **RAM**: 8GB or more
+    - **Storage**: 10GB free space
+    - **CPU**: 4 cores or more
+    - **GPU**: Optional, for enhanced AI processing
+  </HardwareSpec>
+</HardwareSpecs>
+
+## Platform-Specific Prerequisites
+
+### Windows
+
+<PlatformGuide platform="windows">
+
+#### Install Node.js
+1. Download Node.js from [nodejs.org](https://nodejs.org/)
+2. Run the installer and follow the setup wizard
+3. Verify installation:
+
+<CodeBlock language="cmd" title="Command Prompt">
+node --version
+npm --version
+</CodeBlock>
+
+#### Install Git
+1. Download Git from [git-scm.com](https://git-scm.com/)
+2. Run the installer with default settings
+3. Verify installation:
+
+<CodeBlock language="cmd">
+git --version
+</CodeBlock>
+
+#### Optional: Install Docker Desktop
+1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+2. Install and start Docker Desktop
+3. Verify installation:
+
+<CodeBlock language="cmd">
+docker --version
+docker-compose --version
+</CodeBlock>
+
+</PlatformGuide>
+
+### macOS
+
+<PlatformGuide platform="macos">
+
+#### Using Homebrew (Recommended)
+
+<CodeBlock language="bash" title="Terminal">
+# Install Homebrew if not already installed
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Node.js and Git
+brew install node git
+
+# Optional: Install Docker
+brew install --cask docker
+</CodeBlock>
+
+#### Manual Installation
+1. **Node.js**: Download from [nodejs.org](https://nodejs.org/) and install
+2. **Git**: Download from [git-scm.com](https://git-scm.com/) and install
+3. **Docker**: Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop/)
+
+#### Verify Installation
+
+<CodeBlock language="bash">
+node --version
+npm --version
+git --version
+docker --version  # if Docker is installed
+</CodeBlock>
+
+</PlatformGuide>
+
+### Linux (Ubuntu/Debian)
+
+<PlatformGuide platform="linux">
+
+#### Update Package Manager
+
+<CodeBlock language="bash" title="Terminal">
+sudo apt update
+sudo apt upgrade -y
+</CodeBlock>
+
+#### Install Node.js via NodeSource
+
+<CodeBlock language="bash">
+# Add NodeSource repository
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+
+# Install Node.js
+sudo apt-get install -y nodejs
+
+# Verify installation
+node --version
+npm --version
+</CodeBlock>
+
+#### Install Git
+
+<CodeBlock language="bash">
+sudo apt install git -y
+git --version
+</CodeBlock>
+
+#### Optional: Install Docker
+
+<CodeBlock language="bash">
+# Install Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+
+# Install Docker Compose
+sudo apt install docker-compose -y
+
+# Verify installation (may require logout/login)
+docker --version
+docker-compose --version
+</CodeBlock>
+
+</PlatformGuide>
+
+### Linux (CentOS/RHEL/Fedora)
+
+<PlatformGuide platform="linux-rhel">
+
+#### Install Node.js
+
+<CodeBlock language="bash" title="Terminal">
+# For CentOS/RHEL
+sudo yum install -y nodejs npm git
+
+# For Fedora
+sudo dnf install -y nodejs npm git
+
+# Verify installation
+node --version
+npm --version
+git --version
+</CodeBlock>
+
+#### Optional: Install Docker
+
+<CodeBlock language="bash">
+# Install Docker
+sudo yum install -y docker
+# or for Fedora: sudo dnf install -y docker
+
+# Start and enable Docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Add user to docker group
+sudo usermod -aG docker $USER
+</CodeBlock>
+
+</PlatformGuide>
+
+## Installation Methods
+
+Choose the installation method that best fits your needs:
+
+### Method 1: Quick Installation (Recommended)
+
+This is the fastest way to get started with AI Toolkit:
+
+<InstallationSteps method="quick">
+
+#### Step 1: Clone the Repository
+
+<CodeBlock language="bash" title="Terminal">
+git clone https://github.com/your-org/ai-toolkit.git
+cd ai-toolkit
+</CodeBlock>
+
+#### Step 2: Run the Setup Script
+
+<CodeBlock language="bash">
+# Make the script executable (Linux/macOS)
+chmod +x scripts/setup.sh
+./scripts/setup.sh
+
+# Windows users
+.\scripts\setup.bat
+</CodeBlock>
+
+The setup script will:
+- Install all dependencies
+- Build the application
+- Set up the database
+- Configure environment variables
+- Start the services
+
+#### Step 3: Verify Installation
+
+<CodeBlock language="bash">
+# Check if services are running
+npm run status
+
+# Open the web dashboard
+open http://localhost:3000  # macOS
+# or visit http://localhost:3000 in your browser
+</CodeBlock>
+
+</InstallationSteps>
+
+### Method 2: Manual Installation
+
+For users who prefer more control over the installation process:
+
+<InstallationSteps method="manual">
+
+#### Step 1: Clone and Navigate
+
+<CodeBlock language="bash" title="Terminal">
+git clone https://github.com/your-org/ai-toolkit.git
+cd ai-toolkit
+</CodeBlock>
+
+#### Step 2: Install Dependencies
+
+<CodeBlock language="bash">
+# Install root dependencies
+npm install
+
+# Install workspace dependencies
+npm run install:all
+</CodeBlock>
+
+#### Step 3: Build the Application
+
+<CodeBlock language="bash">
+# Clean any previous builds
+npm run clean
+
+# Build all packages
+npm run build
+</CodeBlock>
+
+#### Step 4: Configure Environment
+
+<CodeBlock language="bash">
+# Copy environment template
+cp .env.example .env
+
+# Edit the configuration file
+nano .env  # or use your preferred editor
+</CodeBlock>
+
+<EnvironmentConfig>
+```bash
+# Essential Configuration
+NODE_ENV=development
+PORT=3000
+HOST=0.0.0.0
+
+# Database Configuration
+DATABASE_PATH=./data/ai-toolkit.db
+
+# Ollama Configuration (for AI features)
+OLLAMA_HOST=localhost
+OLLAMA_PORT=11434
+OLLAMA_DEFAULT_MODEL=llama2:7b
+
+# Storage Configuration
+STORAGE_INPUT_PATH=./data/input
+STORAGE_OUTPUT_PATH=./data/output
+STORAGE_MAX_FILE_SIZE=100MB
+
+# Logging Configuration
+LOG_LEVEL=info
+LOG_FILE_ENABLED=true
+```
+</EnvironmentConfig>
+
+#### Step 5: Initialize Database
+
+<CodeBlock language="bash">
+# Create database and run migrations
+npm run db:setup
+</CodeBlock>
+
+#### Step 6: Start Services
+
+<CodeBlock language="bash">
+# Start in development mode
+npm run dev
+
+# Or start individual services
+npm run start:api      # API server only
+npm run start:web      # Web dashboard only
+</CodeBlock>
+
+</InstallationSteps>
+
+### Method 3: Docker Installation
+
+For containerized deployment:
+
+<InstallationSteps method="docker">
+
+#### Step 1: Clone Repository
+
+<CodeBlock language="bash" title="Terminal">
+git clone https://github.com/your-org/ai-toolkit.git
+cd ai-toolkit
+</CodeBlock>
+
+#### Step 2: Configure Environment
+
+<CodeBlock language="bash">
+# Copy and edit environment file
+cp .env.example .env
+# Edit .env with your preferred settings
+</CodeBlock>
+
+#### Step 3: Build and Start with Docker Compose
+
+<CodeBlock language="bash">
+# Build and start all services
+docker-compose up --build
+
+# Or run in background
+docker-compose up -d --build
+</CodeBlock>
+
+#### Step 4: Verify Services
+
+<CodeBlock language="bash">
+# Check running containers
+docker-compose ps
+
+# View logs
+docker-compose logs -f ai-toolkit
+</CodeBlock>
+
+The Docker setup includes:
+- AI Toolkit application
+- Ollama AI server
+- Redis for caching
+- Nginx reverse proxy (optional)
+
+</InstallationSteps>
+
+## Post-Installation Setup
+
+### Configure AI Models (Optional)
+
+If you want to use AI features, set up Ollama:
+
+<AIModelSetup>
+
+#### Install Ollama
+
+<CodeBlock language="bash" title="Install Ollama">
+# Linux/macOS
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Windows (PowerShell)
+iex (irm https://ollama.ai/install.ps1)
+
+# Or use Docker
+docker run -d -p 11434:11434 --name ollama ollama/ollama
+</CodeBlock>
+
+#### Download AI Models
+
+<CodeBlock language="bash">
+# Download recommended models
+ollama pull llama2:7b        # General purpose model
+ollama pull codellama:7b     # Code analysis model
+ollama pull mistral:7b       # Alternative general model
+
+# List installed models
+ollama list
+</CodeBlock>
+
+</AIModelSetup>
+
+### Create Initial Admin User
+
+<CodeBlock language="bash" title="Create Admin User">
+# Using the CLI
+npm run user:create --email admin@example.com --password yourpassword --role admin
+
+# Or through the web interface at http://localhost:3000/setup
+</CodeBlock>
+
+## Installation Verification
+
+### Automated Verification
+
+Run the built-in system check:
+
+<CodeBlock language="bash" title="System Check">
+# Run comprehensive system check
+npm run system:check
+
+# Check specific components
+npm run check:api          # API server health
+npm run check:database     # Database connectivity
+npm run check:ai           # AI model availability
+npm run check:storage      # File system permissions
+</CodeBlock>
+
+### Manual Verification Steps
+
+<VerificationSteps>
+
+#### 1. Check Service Status
+
+<CodeBlock language="bash">
+# Check if all services are running
+curl http://localhost:3000/api/health
+curl http://localhost:11434/api/tags  # Ollama (if installed)
+</CodeBlock>
+
+Expected response:
+<CodeBlock language="json">
+{
+  "status": "healthy",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "services": {
+    "database": "connected",
+    "storage": "accessible",
+    "ai": "available"
+  }
+}
+</CodeBlock>
+
+#### 2. Test Web Dashboard
+
+1. Open http://localhost:3000 in your browser
+2. You should see the AI Toolkit dashboard
+3. Try uploading a test document
+4. Verify the document appears in the document list
+
+#### 3. Test API Endpoints
+
+<CodeBlock language="bash">
+# Test document upload
+curl -X POST http://localhost:3000/api/documents \
+  -F "file=@sample.pdf" \
+  -H "Content-Type: multipart/form-data"
+
+# Test document listing
+curl http://localhost:3000/api/documents
+</CodeBlock>
+
+#### 4. Test AI Integration (if configured)
+
+<CodeBlock language="bash">
+# Test AI analysis
+curl -X POST http://localhost:3000/api/ai/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"text": "This is a test document for analysis."}'
+</CodeBlock>
+
+</VerificationSteps>
+
+## Performance Optimization
+
+### System Tuning
+
+<PerformanceTips>
+
+#### Memory Configuration
+
+<CodeBlock language="bash" title="Node.js Memory Settings">
+# Increase Node.js memory limit
+export NODE_OPTIONS="--max-old-space-size=4096"
+
+# Or set in package.json scripts
+"start": "node --max-old-space-size=4096 dist/index.js"
+</CodeBlock>
+
+#### File System Optimization
+
+<CodeBlock language="bash">
+# Create optimized directory structure
+mkdir -p data/{input,output,temp,cache}
+mkdir -p logs
+
+# Set appropriate permissions (Linux/macOS)
+chmod 755 data logs
+chmod 644 .env
+</CodeBlock>
+
+#### Database Optimization
+
+<CodeBlock language="bash">
+# Optimize SQLite database (if using SQLite)
+npm run db:optimize
+
+# Or configure PostgreSQL connection pooling
+# Edit .env file:
+# DATABASE_POOL_MIN=2
+# DATABASE_POOL_MAX=10
+</CodeBlock>
+
+</PerformanceTips>
+
+## Security Considerations
+
+### Initial Security Setup
+
+<SecuritySetup>
+
+#### 1. Change Default Passwords
+
+<CodeBlock language="bash">
+# Generate secure passwords
+npm run generate:secrets
+
+# Update .env file with generated secrets
+</CodeBlock>
+
+#### 2. Configure HTTPS (Production)
+
+<CodeBlock language="bash">
+# Generate SSL certificates
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+# Update configuration
+echo "HTTPS_ENABLED=true" >> .env
+echo "SSL_KEY_PATH=./ssl/key.pem" >> .env
+echo "SSL_CERT_PATH=./ssl/cert.pem" >> .env
+</CodeBlock>
+
+#### 3. Set Up Firewall Rules
+
+<CodeBlock language="bash">
+# Linux (ufw)
+sudo ufw allow 3000/tcp    # API server
+sudo ufw allow 80/tcp      # HTTP
+sudo ufw allow 443/tcp     # HTTPS
+
+# Block Ollama from external access
+sudo ufw deny 11434/tcp
+</CodeBlock>
+
+</SecuritySetup>
+
+## Next Steps
+
+Congratulations! You've successfully installed the AI Toolkit. Here's what to do next:
+
+<NextSteps>
+  <NextStep 
+    title="Quick Start Tutorial" 
+    href="/getting-started/quick-start"
+    description="Learn the basics with a hands-on tutorial"
+  />
+  <NextStep 
+    title="Upload Your First Document" 
+    href="/getting-started/first-document"
+    description="Process your first document and explore the results"
+  />
+  <NextStep 
+    title="Configure AI Models" 
+    href="/guides/ai-integration/model-setup"
+    description="Set up and optimize AI models for your use case"
+  />
+  <NextStep 
+    title="API Documentation" 
+    href="/api-reference/overview"
+    description="Explore the REST API for programmatic access"
+  />
+  <NextStep 
+    title="Production Deployment" 
+    href="/guides/deployment/production"
+    description="Deploy AI Toolkit to production environments"
+  />
+</NextSteps>
+
+## Troubleshooting
+
+If you encounter issues during installation, check our [troubleshooting guide](/getting-started/troubleshooting) or refer to the common issues below:
+
+<TroubleshootingPreview>
+  <Issue 
+    title="Port Already in Use" 
+    description="Change the PORT in .env file or stop conflicting services"
+  />
+  <Issue 
+    title="Permission Denied" 
+    description="Ensure proper file permissions and run with appropriate privileges"
+  />
+  <Issue 
+    title="Node.js Version Mismatch" 
+    description="Use Node.js 18+ or install via Node Version Manager (nvm)"
+  />
+  <Issue 
+    title="Build Failures" 
+    description="Clear npm cache and node_modules, then reinstall dependencies"
+  />
+</TroubleshootingPreview>
+
+<Callout type="info" title="Need Help?">
+If you're still having trouble, check our [community forum](https://github.com/your-org/ai-toolkit/discussions) or [create an issue](https://github.com/your-org/ai-toolkit/issues) with detailed information about your system and the error you're encountering.
+</Callout>

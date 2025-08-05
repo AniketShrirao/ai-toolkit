@@ -1,0 +1,204 @@
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 400px;
+    pointer-events: none;
+
+    @media (max-width: 768px) {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    pointer-events: auto;
+    animation: toast-enter 0.3s ease-out;
+    transition: all 0.3s ease;
+
+    &.toast-exit {
+        animation: toast-exit 0.3s ease-in;
+    }
+
+    // Toast types
+    &.toast-success {
+        border-left: 4px solid var(--color-success);
+        background: var(--color-success-bg, rgba(34, 197, 94, 0.1));
+    }
+
+    &.toast-error {
+        border-left: 4px solid var(--color-error);
+        background: var(--color-error-bg, rgba(239, 68, 68, 0.1));
+    }
+
+    &.toast-warning {
+        border-left: 4px solid var(--color-warning);
+        background: var(--color-warning-bg, rgba(245, 158, 11, 0.1));
+    }
+
+    &.toast-info {
+        border-left: 4px solid var(--color-primary);
+        background: var(--color-primary-bg, rgba(59, 130, 246, 0.1));
+    }
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.toast-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--color-text);
+    word-wrap: break-word;
+}
+
+.toast-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 12px;
+}
+
+.toast-action-button {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: transparent;
+    border: 1px solid var(--color-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--color-primary);
+        color: white;
+    }
+
+    &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+.toast-close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-text);
+    }
+
+    &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+// Animations
+@keyframes toast-enter {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes toast-exit {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+    .toast {
+        background: var(--color-surface-dark, #1f2937);
+        border-color: var(--color-border-dark, #374151);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast-message {
+        color: var(--color-text-dark, #f9fafb);
+    }
+
+    .toast-close-button {
+        color: var(--color-text-secondary-dark, #9ca3af);
+
+        &:hover {
+            background: var(--color-surface-hover-dark, #374151);
+            color: var(--color-text-dark, #f9fafb);
+        }
+    }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+    .toast {
+        animation: none;
+        transition: none;
+
+        &.toast-exit {
+            animation: none;
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .toast {
+        border-width: 2px;
+        box-shadow: none;
+    }
+
+    .toast-action-button {
+        border-width: 2px;
+    }
+}

@@ -1,0 +1,107 @@
+// Form Component Styles
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/functions' as *;
+
+// Input base mixin
+@mixin form-input-base {
+  width: 100%;
+  padding: space(2.5) space(3);
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: radius(md);
+  background-color: var(--color-surface, #ffffff);
+  color: var(--color-text-primary, #111827);
+  font-family: inherit;
+  @include font-size(base);
+  line-height: 1.5;
+  transition: all transition(base) ease(ease-in-out);
+  
+  &::placeholder {
+    color: var(--color-text-placeholder, #9ca3af);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-focus, #3b82f6);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  &:disabled {
+    background-color: var(--color-gray-50, #f9fafb);
+    color: var(--color-text-disabled, #9ca3af);
+    cursor: not-allowed;
+  }
+  
+  &.error {
+    border-color: var(--color-error, #dc2626);
+    
+    &:focus {
+      border-color: var(--color-error, #dc2626);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+  }
+}
+
+// Form components
+.form-group {
+  margin-bottom: space(4);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: space(2);
+  @include font-size(sm);
+  font-weight: $font-weight-medium;
+  color: var(--color-text-primary, #374151);
+}
+
+.form-input {
+  @include form-input-base;
+}
+
+.form-textarea {
+  @include form-input-base;
+  min-height: space(20);
+  resize: vertical;
+}
+
+.form-select {
+  @include form-input-base;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right space(2) center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: space(10);
+  appearance: none;
+}
+
+.form-checkbox,
+.form-radio {
+  width: space(4);
+  height: space(4);
+  color: var(--color-primary, #3b82f6);
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #d1d5db);
+  border-radius: radius(sm);
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.form-radio {
+  border-radius: 50%;
+}
+
+.form-error {
+  margin-top: space(1);
+  @include font-size(sm);
+  color: var(--color-error, #dc2626);
+}
+
+.form-help {
+  margin-top: space(1);
+  @include font-size(sm);
+  color: var(--color-text-secondary, #6b7280);
+}

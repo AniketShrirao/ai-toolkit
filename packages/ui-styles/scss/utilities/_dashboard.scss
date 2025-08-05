@@ -1,0 +1,172 @@
+// Dashboard-specific utility classes
+@use 'sass:map';
+@use '../abstracts/variables' as *;
+@use '../abstracts/functions' as *;
+@use '../abstracts/mixins' as *;
+
+// App Bar / Header utilities
+.app-bar {
+  @include app-bar-base;
+  @include app-bar-gradient();
+}
+
+.app-bar-title {
+  @include font-size(xl);
+  font-weight: $font-weight-semibold;
+  color: #ffffff;
+  margin: 0;
+}
+
+.app-bar-section {
+  display: flex;
+  align-items: center;
+  gap: space(4);
+}
+
+.app-bar-left { justify-content: flex-start; }
+.app-bar-center { flex: 1; justify-content: center; }
+.app-bar-right { justify-content: flex-end; }
+
+// Modern card utilities
+.modern-card {
+  @include modern-card-base;
+  padding: space(4);
+  transition: box-shadow transition(base) ease(ease-out), transform transition(base) ease(ease-out);
+}
+
+.modern-card:hover {
+  @include modern-shadow(elevated);
+  transform: translateY(-2px);
+}
+
+.modern-card-elevated {
+  @include modern-shadow(elevated);
+}
+
+.modern-card-floating {
+  @include modern-shadow(floating);
+}
+
+// Typography hierarchy for SaaS interfaces
+.saas-heading-1 {
+  @include saas-heading(1);
+}
+
+.saas-heading-2 {
+  @include saas-heading(2);
+}
+
+.saas-heading-3 {
+  @include saas-heading(3);
+}
+
+.saas-body-large {
+  @include saas-body(large);
+}
+
+.saas-body {
+  @include saas-body();
+}
+
+.saas-body-small {
+  @include saas-body(small);
+}
+
+.saas-caption {
+  @include saas-body(caption);
+}
+
+// KPI and metrics styling
+.kpi-card {
+  @include kpi-card;
+}
+
+.kpi-value {
+  @include kpi-value;
+}
+
+.kpi-label {
+  @include kpi-label;
+}
+
+// Chat interface specific styles
+.chat-container {
+  @include modern-chat-container;
+}
+
+.chat-message {
+  @include chat-message-bubble();
+}
+
+.chat-message--user {
+  @include chat-message-bubble(user);
+}
+
+.chat-message--bot {
+  @include chat-message-bubble(bot);
+}
+
+.chat-input {
+  @include modern-input-base;
+  height: $chat-input-height;
+  border-radius: $chat-border-radius;
+}
+
+// Dashboard grid layout
+.dashboard-grid {
+  @include dashboard-grid();
+}
+
+// Status indicators
+.status-indicator {
+  @include status-indicator();
+  
+  &--success {
+    @include status-indicator(success);
+  }
+  
+  &--warning {
+    @include status-indicator(warning);
+  }
+  
+  &--error {
+    @include status-indicator(error);
+  }
+  
+  &--info {
+    @include status-indicator(info);
+  }
+}
+
+.status-dot {
+  width: space(2);
+  height: space(2);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+// Responsive utilities for dashboard
+@include breakpoint(lg) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    padding: space(4);
+  }
+  
+  .app-bar {
+    padding: 0 space(4);
+  }
+}
+
+@include breakpoint(md) {
+  .chat-message {
+    max-width: 85%;
+  }
+  
+  .kpi-card {
+    padding: space(4);
+  }
+  
+  .kpi-value {
+    @include font-size(3xl);
+  }
+}

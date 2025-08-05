@@ -1,0 +1,54 @@
+{
+  "id": "34ecf6e4-70ff-49f5-ae0a-c90511119e26",
+  "name": "monorepo-python",
+  "language": "python",
+  "files": [
+    {
+      "path": "packages/core/src/index.js",
+      "content": "// core package\nConvoco cunctatio cunctatio denego sumptus armarium decimus. Trado stipes brevis bellum aiunt tremo compono arbor temperantia volutabrum. Ocer deprimo adversus aggero creptio voluntarius victoria.",
+      "language": "python",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/ui/src/index.js",
+      "content": "// ui package\nCopia comes venia aestivus depono tener cinis vulnero ars. Angulus vinculum demum articulus. Attollo vulgivagus advoco talis laboriosam cernuus corrigo texo substantia vinculum.",
+      "language": "python",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/api/src/index.js",
+      "content": "// api package\nDesolo cohaero umbra soleo. Abstergo tolero odio arca cedo. Toties careo vulnus vel defessus sit aro comis.",
+      "language": "python",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/utils/src/index.js",
+      "content": "// utils package\nAperiam victoria tres quod iste sequi. Ulciscor ulterius concido cresco ago statua accusator. Denuo atrox aer tepesco solutio nihil ullam.",
+      "language": "python",
+      "size": 400,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "packages/core/src",
+      "packages/ui/src",
+      "packages/api/src",
+      "packages/utils/src"
+    ],
+    "fileCount": 4,
+    "totalSize": 1600,
+    "languages": {
+      "python": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 8,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "8fe7c3a3-a433-4bf1-8fa1-b7f2f356c91e",
+  "name": "simple-api-typescript",
+  "language": "typescript",
+  "files": [
+    {
+      "path": "src/app.ts",
+      "content": "import express from 'express';\nimport { userRoutes } from './routes/users';\n\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\napp.use('/api/users', userRoutes);\n\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});",
+      "language": "typescript",
+      "size": 1500,
+      "complexity": 3
+    },
+    {
+      "path": "src/routes/users.ts",
+      "content": "// users routes for typescript\nVelociter vicissitudo ter dignissimos nobis subiungo vergo admoneo audeo. Traho candidus timor solium spero titulus dens coniuratio. Asporto curo convoco usque mollitia tener vapulus.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 2
+    },
+    {
+      "path": "src/models/User.ts",
+      "content": "// User model for typescript\nDebeo careo quis trado tantum. Censura repudiandae conduco tamdiu alias. Bellum caries corrupti.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "src/config/database.ts",
+      "content": "// Configuration for typescript\nDecens concedo corrupti nobis decerno. Accendo patria arma adfero astrum velum thorax urbanus ipsam. Valetudo reiciendis considero solum.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 1
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "typescript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 18,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

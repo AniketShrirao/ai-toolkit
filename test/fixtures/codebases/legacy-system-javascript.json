@@ -1,0 +1,54 @@
+{
+  "id": "f92b583d-0a25-4290-a96f-55313bc950c4",
+  "name": "legacy-system-javascript",
+  "language": "javascript",
+  "files": [
+    {
+      "path": "src/app.js",
+      "content": "// Legacy code - needs refactoring\nconst express = require('express');\nconst userRoutes = require('./routes/users');\n\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\napp.use('/api/users', userRoutes);\n\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});",
+      "language": "javascript",
+      "size": 1500,
+      "complexity": 5
+    },
+    {
+      "path": "src/routes/users.js",
+      "content": "// Legacy code - needs refactoring\n// users routes for javascript\nVerus pauci sophismata. Facilis barba tergeo vapulus tamen angustus cuppedia ars ancilla quod. Rerum comprehendo coaegresco commodo censura spoliatio.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 4
+    },
+    {
+      "path": "src/models/User.js",
+      "content": "// Legacy code - needs refactoring\n// User model for javascript\nAdicio videlicet minus aggredior cornu condico. Triduana calcar ara. Thesis clarus cohaero curiositas arbustum adduco defetiscor corrumpo accedo.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 4
+    },
+    {
+      "path": "src/config/database.js",
+      "content": "// Legacy code - needs refactoring\n// Configuration for javascript\nVel cavus cernuus concedo theatrum decipio cognomen culpo summisse excepturi. Ara praesentium campana. Angelus tenus sunt arceo.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 3
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "javascript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 22,
+    "cyclomaticComplexity": 4,
+    "maintainabilityIndex": 60,
+    "technicalDebt": 4000
+  }
+}

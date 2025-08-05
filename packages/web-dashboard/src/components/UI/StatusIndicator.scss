@@ -3,10 +3,7 @@
 // improved animations, and enhanced accessibility support
 // Requirements: 1.1, 1.2, 3.3, 4.1, 4.3
 
-@use '../../styles/variables' as *;
-@use '../../styles/colors' as *;
-@use '../../styles/spacing' as *;
-@use '../../styles/mixins' as *;
+// Styles are globally available via Vite config
 
 .status-indicator {
     display: flex;

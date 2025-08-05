@@ -1,0 +1,82 @@
+{
+  "id": "35fae73c-5855-4c3b-a9d1-d7ac3757ff3c",
+  "name": "complex-microservices-csharp",
+  "language": "csharp",
+  "files": [
+    {
+      "path": "services/user-service/src/index.js",
+      "content": "// user-service main entry point\nQuisquam similique alii vilitas quas. Creo damnatio exercitationem damnatio sub fugit casso sed certe laborum. Unde videlicet officia.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/user-service/src/controller.js",
+      "content": "// user-service controller\nAngulus color callide solus viduo talio vinco. Cupio aiunt corporis tener depono consectetur articulus. Deporto aestus asperiores suffoco dolorum vinco ceno vulticulus conservo vigilo.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/product-service/src/index.js",
+      "content": "// product-service main entry point\nTamen tenetur crebro. Utor sonitus totus. Verbera recusandae currus.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/product-service/src/controller.js",
+      "content": "// product-service controller\nConor cognomen ocer. Laborum virga sto velociter cultura denuo adversus tum taceo ciminatio. Dens demoror corporis damno adulescens.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/order-service/src/index.js",
+      "content": "// order-service main entry point\nTremo bene talio casus infit speculum viriliter sui quas. Solutio timor solio advenio corroboro coniecto. Cavus fugit apud desipio clementia degero beatus tollo clarus.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/order-service/src/controller.js",
+      "content": "// order-service controller\nVilitas vitiosus voro carbo carcer degusto creber cum minus ea. Commodo ara vindico derideo constans infit astrum caste velociter. Caritas numquam audacia.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/notification-service/src/index.js",
+      "content": "// notification-service main entry point\nVespillo vulnus consectetur caterva tonsor tripudio cinis voco somnus. Enim ipsam fuga unde aer brevis cernuus vir. Circumvenio cotidie defessus quibusdam.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/notification-service/src/controller.js",
+      "content": "// notification-service controller\nTabesco vicissitudo animus. Depono debilito claustrum suscipit crebro. Pecus carbo delinquo crudelis.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "services/user-service/src",
+      "services/product-service/src",
+      "services/order-service/src",
+      "services/notification-service/src"
+    ],
+    "fileCount": 8,
+    "totalSize": 5600,
+    "languages": {
+      "csharp": 8
+    }
+  },
+  "metrics": {
+    "linesOfCode": 16,
+    "cyclomaticComplexity": 2.5,
+    "maintainabilityIndex": 75,
+    "technicalDebt": 2500
+  }
+}

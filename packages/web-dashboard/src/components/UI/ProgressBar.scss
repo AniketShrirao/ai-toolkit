@@ -1,0 +1,55 @@
+// ProgressBar Component Styles
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+}
+
+.progress-bar-track {
+    flex: 1;
+    @include bg-color(secondary);
+    border-radius: radius(full);
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: radius(full);
+    transition: width transition(slow);
+}
+
+// Progress Bar Sizes
+.progress-bar-sm .progress-bar-track {
+    height: space(1);
+}
+
+.progress-bar-md .progress-bar-track {
+    height: space(2);
+}
+
+.progress-bar-lg .progress-bar-track {
+    height: space(3);
+}
+
+// Progress Bar Variants
+.progress-bar-success .progress-bar-fill {
+    background-color: var(--success);
+}
+
+.progress-bar-warning .progress-bar-fill {
+    background-color: var(--warning);
+}
+
+.progress-bar-error .progress-bar-fill {
+    background-color: var(--error);
+}
+
+// Progress Bar Label
+.progress-bar-label {
+    @include text-style(sm, medium);
+    @include text-color(secondary);
+    min-width: space(12);
+    text-align: right;
+}

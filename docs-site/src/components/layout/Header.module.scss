@@ -1,10 +1,7 @@
-@use '../../../../packages/shared/styles/variables' as *;
-@use '../../../../packages/shared/styles/mixins' as *;
-
 .header {
   position: sticky;
   top: 0;
-  z-index: map-get($z-index, sticky);
+  z-index: 1020;
   background-color: var(--surface);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(8px);
@@ -12,21 +9,45 @@
 }
 
 .container {
-  @include container(xl);
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 4rem;
-  gap: space(4);
+  gap: 1rem;
 }
 
 .menuButton {
-  @include button-base;
-  @include button-size(sm);
-  @include button-variant(ghost);
-  padding: space(2);
-  
-  @include breakpoint-up(md) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.375rem;
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  padding: 0.5rem;
+  min-height: 2rem;
+  background-color: transparent;
+  color: var(--text-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bg-secondary);
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
     display: none;
   }
 }
@@ -45,17 +66,20 @@
 .brandLink {
   display: flex;
   align-items: center;
-  gap: space(3);
+  gap: 0.75rem;
   text-decoration: none;
   color: var(--text-primary);
-  font-weight: $font-weight-semibold;
-  transition: color map-get($transitions, base) map-get($easing, ease-in-out);
-  
+  font-weight: 600;
+  transition: color 0.15s ease-in-out;
+
   &:hover {
-    color: var(--primary);
+    color: var(--primary-600);
   }
-  
-  @include focus-ring;
+
+  &:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
 }
 
 .logo {
@@ -64,9 +88,9 @@
   justify-content: center;
   width: 2rem;
   height: 2rem;
-  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-  border-radius: map-get($border-radius, md);
-  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  border-radius: 0.375rem;
+  color: white;
 }
 
 .logoIcon {
@@ -75,10 +99,10 @@
 }
 
 .brandText {
-  @include font-size(lg);
-  font-weight: $font-weight-bold;
-  
-  @include breakpoint(sm) {
+  font-size: 1.125rem;
+  font-weight: 700;
+
+  @media (max-width: 639px) {
     display: none;
   }
 }
@@ -86,50 +110,71 @@
 .nav {
   display: none;
   align-items: center;
-  gap: space(6);
-  
-  @include breakpoint-up(md) {
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
     display: flex;
   }
 }
 
 .navLink {
-  @include font-size(sm);
-  font-weight: $font-weight-medium;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--text-secondary);
   text-decoration: none;
-  padding: space(2) space(3);
-  border-radius: map-get($border-radius, md);
-  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
-  
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+
   &:hover {
     color: var(--text-primary);
     background-color: var(--bg-secondary);
   }
-  
+
   &.active {
-    color: var(--primary);
-    background-color: var(--primary-light);
+    color: var(--primary-600);
+    background-color: var(--primary-50);
   }
-  
-  @include focus-ring;
+
+  &:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: space(2);
+  gap: 0.5rem;
   flex-shrink: 0;
 }
 
 .searchButton,
 .themeButton {
-  @include button-base;
-  @include button-size(sm);
-  @include button-variant(ghost);
-  padding: space(2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0.375rem;
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  padding: 0.5rem;
   width: 2.5rem;
   height: 2.5rem;
+  background-color: transparent;
+  color: var(--text-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--bg-secondary);
+  }
+
+  &:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
 }
 
 .searchIcon,
@@ -145,15 +190,18 @@
   width: 2.5rem;
   height: 2.5rem;
   color: var(--text-secondary);
-  border-radius: map-get($border-radius, md);
-  transition: all map-get($transitions, base) map-get($easing, ease-in-out);
-  
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+
   &:hover {
     color: var(--text-primary);
     background-color: var(--bg-secondary);
   }
-  
-  @include focus-ring;
+
+  &:focus {
+    outline: 2px solid var(--primary-500);
+    outline-offset: 2px;
+  }
 }
 
 .githubIcon {
@@ -162,24 +210,24 @@
 }
 
 // Mobile responsive adjustments
-@include breakpoint(sm) {
+@media (max-width: 639px) {
   .container {
-    padding-left: space(4);
-    padding-right: space(4);
-    gap: space(2);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0.5rem;
   }
-  
+
   .actions {
-    gap: space(1);
+    gap: 0.25rem;
   }
-  
+
   .searchButton,
   .themeButton,
   .githubLink {
     width: 2.25rem;
     height: 2.25rem;
   }
-  
+
   .searchIcon,
   .themeIcon,
   .githubIcon {

@@ -1,6 +1,9 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { glob } from 'glob';
+import glob from 'glob';
+import { promisify } from 'util';
+
+const globAsync = promisify(glob);
 
 export interface IntegrityIssue {
   type: 'TODO' | 'MOCK' | 'PLACEHOLDER' | 'UNIMPLEMENTED' | 'MISSING_MODULE';
@@ -89,12 +92,17 @@ export class IntegrityChecker {
     const files: string[] = [];
     
     for (const pattern of this.options.includePatterns) {
-      const matchedFiles = await glob(pattern, {
-        cwd: this.options.rootPath,
-        ignore: this.options.excludePatterns,
-        absolute: true
-      });
-      files.push(...matchedFiles);
+      try {
+        // Use the promisified glob for version 7.x
+        const matchedFiles = await globAsync(pattern, {
+          cwd: this.options.rootPath,
+          ignore: this.options.excludePatterns,
+          absolute: true
+        });
+        files.push(...matchedFiles);
+      } catch (error) {
+        console.warn(`Failed to glob pattern ${pattern}:`, error);
+      }
     }
 
     // Remove duplicates

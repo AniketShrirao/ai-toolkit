@@ -1,0 +1,95 @@
+// Documents Component Styles
+@use '@ai-toolkit/ui-styles' as ui;
+
+.documents {
+    display: flex;
+    flex-direction: column;
+    gap: space(6);
+    padding: space(6);
+
+    &.documents-viewer-mode {
+        padding: 0;
+    }
+}
+
+.documents-header {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    h1 {
+        @include text-style(3xl, bold);
+        @include text-color(primary);
+        margin: 0;
+    }
+
+    p {
+        @include text-style(lg);
+        @include text-color(secondary);
+        margin: 0;
+    }
+}
+
+.documents-error {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+    padding: space(4);
+    @include bg-color(error);
+    @include border-color(error);
+    border: 1px solid;
+    border-radius: radius(md);
+    @include text-color(error);
+
+    .error-icon {
+        @include font-size(xl);
+        flex-shrink: 0;
+    }
+}
+
+.documents-upload-card {
+    .upload-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h2 {
+            @include text-style(xl, semibold);
+            @include text-color(primary);
+            margin: 0;
+        }
+    }
+}
+
+.documents-actions {
+    display: flex;
+    justify-content: center;
+    padding: space(4);
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: space(12);
+    text-align: center;
+
+    .empty-icon {
+        @include font-size(6xl);
+        opacity: 0.5;
+        margin-bottom: space(4);
+    }
+
+    h3 {
+        @include text-style(xl, semibold);
+        @include text-color(primary);
+        margin-bottom: space(2);
+    }
+
+    p {
+        @include text-style(base);
+        @include text-color(secondary);
+        max-width: 400px;
+    }
+}

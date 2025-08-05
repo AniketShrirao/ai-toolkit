@@ -2,10 +2,7 @@
 // Based on chat_interface.png reference design
 // Implements glass-morphism effects and modern styling patterns
 
-@use '../../styles/spacing' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as *;
-@use '../../styles/colors' as *;
+// Styles are globally available via Vite config
 
 .modern-chat {
   @include modern-card-base;
@@ -17,15 +14,15 @@
   flex-direction: column;
   height: 100%;
   max-height: 600px; // Reference-based height constraint
-  
+
   // Glass-morphism container effect
   @include glass-morphism(0.9, 20px, 0.15);
-  
+
   // Responsive sizing
   @include breakpoint(md) {
     max-height: 500px;
   }
-  
+
   @include breakpoint(sm) {
     max-height: 400px;
     border-radius: map-get($modern-border-radius, xl); // 16px on mobile
@@ -38,37 +35,37 @@
   @include responsive-padding-task(lg, (md: md, sm: sm)); // 24px responsive
   color: #ffffff;
   flex-shrink: 0;
-  
+
   // Glass-morphism header effect
   backdrop-filter: map-get($glass-effects, backdrop-blur);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  
+
   .chat-title {
     @include text-style(lg, $font-weight-semibold); // 18px, 600 weight
     margin-bottom: task-space(xs); // 4px
     letter-spacing: -0.01em;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    
+
     @include breakpoint(md) {
       @include text-style(base, $font-weight-semibold); // 16px on tablet
     }
-    
+
     @include breakpoint(sm) {
       @include text-style(sm, $font-weight-semibold); // 14px on mobile
     }
   }
-  
+
   .chat-status {
     @include text-style(sm, $font-weight-normal); // 14px
     opacity: 0.9;
     display: flex;
     align-items: center;
     gap: task-space(xs); // 4px
-    
+
     @include breakpoint(sm) {
       @include text-style(xs, $font-weight-normal); // 12px on mobile
     }
-    
+
     .status-indicator {
       width: task-space(sm); // 8px
       height: task-space(sm); // 8px
@@ -86,26 +83,26 @@
   flex: 1;
   overflow-y: auto;
   @include mobile-scroll; // Use existing mobile scroll mixin
-  
+
   // Custom scrollbar styling for modern look
   &::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.05);
     border-radius: map-get($modern-border-radius, full);
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.2);
     border-radius: map-get($modern-border-radius, full);
-    
+
     &:hover {
       background: rgba(0, 0, 0, 0.3);
     }
   }
-  
+
   // Scrollbar for Firefox
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
@@ -116,26 +113,25 @@
   margin-bottom: task-space(lg); // 16px
   display: flex;
   animation: modern-slide-up 0.3s map-get(map-get($modern-animations, easings), smooth);
-  
+
   &:last-child {
     margin-bottom: 0;
   }
-  
+
   // User messages (right-aligned)
   &.user {
     justify-content: flex-end;
-    
+
     .message-bubble {
       @include modern-message-bubble(user);
       background: var(--chat-user-bubble, var(--primary));
       color: var(--text-inverse);
-      border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) 
-                     map-get($modern-border-radius, sm) map-get($modern-border-radius, 2xl);
-      
+      border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm) map-get($modern-border-radius, 2xl);
+
       // Gradient background for user messages
       @include modern-gradient(primary);
       @include modern-shadow(soft);
-      
+
       // Enhanced hover effect
       &:hover {
         @include modern-shadow(medium);
@@ -143,22 +139,21 @@
       }
     }
   }
-  
+
   // Assistant messages (left-aligned)
   &.assistant {
     justify-content: flex-start;
-    
+
     .message-bubble {
       @include modern-message-bubble(assistant);
       background: var(--chat-assistant-bubble, var(--surface));
       color: var(--text-primary);
       border: 1px solid var(--border);
-      border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) 
-                     map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm);
-      
+      border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm);
+
       // Glass-morphism effect for assistant messages
       @include glass-morphism(0.8, 10px, 0.1);
-      
+
       &:hover {
         @include glass-morphism(0.9, 10px, 0.15);
         transform: translateY(-1px);
@@ -174,31 +169,31 @@
   @include text-style(sm, $font-weight-normal, relaxed); // 14px, line-height 1.5
   word-wrap: break-word;
   transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
-  
+
   // Responsive sizing
   @include breakpoint(md) {
     max-width: 75%;
     padding: task-space(sm) task-space(md); // 8px 12px
     @include text-style(xs, $font-weight-normal, relaxed); // 12px on tablet
   }
-  
+
   @include breakpoint(sm) {
     max-width: 85%;
     padding: task-space(sm) task-space(md); // 8px 12px
     @include text-style(xs, $font-weight-normal, normal); // 12px, tighter line-height on mobile
   }
-  
+
   // Message timestamp (optional)
   .message-time {
     @include text-style(xs, $font-weight-normal); // 12px
     opacity: 0.7;
     margin-top: task-space(xs); // 4px
     text-align: right;
-    
+
     .user & {
       color: rgba(255, 255, 255, 0.8);
     }
-    
+
     .assistant & {
       color: var(--text-tertiary);
     }
@@ -211,16 +206,16 @@
   background: var(--surface);
   border-top: 1px solid var(--border);
   flex-shrink: 0;
-  
+
   // Glass-morphism input area
   @include glass-morphism(0.95, 10px, 0.1);
   backdrop-filter: blur(20px) saturate(180%);
-  
+
   .input-container {
     display: flex;
     @include responsive-gap-task(md, (sm: sm)); // 12px responsive gap
     align-items: flex-end; // Align to bottom for multi-line input
-    
+
     .message-input {
       @include modern-input-base;
       flex: 1;
@@ -231,30 +226,30 @@
       @include text-style(sm); // 14px
       background: var(--chat-input-bg, var(--bg-secondary));
       resize: none; // Disable manual resize
-      
+
       // Glass-morphism input styling
       @include glass-morphism(0.8, 10px, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      
+
       &:focus {
         background: var(--surface);
         @include glass-morphism(0.95, 15px, 0.2);
         @include modern-shadow(glow);
         border-color: var(--primary);
       }
-      
+
       &::placeholder {
         color: var(--text-tertiary);
         opacity: 0.8;
       }
-      
+
       // Responsive sizing
       @include breakpoint(sm) {
         padding: task-space(sm) task-space(md); // 8px 12px on mobile
         @include text-style(xs); // 12px on mobile
       }
     }
-    
+
     .send-button {
       @include modern-button-gradient(primary);
       padding: task-space(md) task-space(xl); // 12px 20px
@@ -262,35 +257,35 @@
       @include text-style(sm, $font-weight-semibold); // 14px, 600 weight
       min-height: 44px; // Touch-friendly height
       min-width: 44px; // Touch-friendly width
-      
+
       // Enhanced hover effect
       &:hover:not(:disabled) {
         @include modern-hover-lift(-4px);
         @include modern-shadow(strong);
       }
-      
+
       &:active:not(:disabled) {
         transform: translateY(-1px);
       }
-      
+
       &:disabled {
         opacity: 0.5;
         cursor: not-allowed;
         transform: none;
         box-shadow: none;
       }
-      
+
       // Icon styling for send button
       .send-icon {
         width: task-space(lg); // 16px
         height: task-space(lg); // 16px
-        
+
         @include breakpoint(sm) {
           width: task-space(md); // 12px on mobile
           height: task-space(md); // 12px on mobile
         }
       }
-      
+
       // Responsive sizing
       @include breakpoint(sm) {
         padding: task-space(sm) task-space(lg); // 8px 16px on mobile
@@ -305,27 +300,34 @@
   display: flex;
   justify-content: flex-start;
   margin-bottom: task-space(lg);
-  
+
   .loading-bubble {
     @include glass-morphism(0.8, 10px, 0.1);
     padding: task-space(md) task-space(lg);
-    border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) 
-                   map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm);
-    
+    border-radius: map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) map-get($modern-border-radius, 2xl) map-get($modern-border-radius, sm);
+
     .loading-dots {
       display: flex;
       gap: task-space(xs);
-      
+
       .dot {
         width: task-space(xs); // 4px
         height: task-space(xs); // 4px
         border-radius: map-get($modern-border-radius, full);
         background: var(--text-tertiary);
         animation: loading-pulse 1.4s ease-in-out infinite both;
-        
-        &:nth-child(1) { animation-delay: -0.32s; }
-        &:nth-child(2) { animation-delay: -0.16s; }
-        &:nth-child(3) { animation-delay: 0s; }
+
+        &:nth-child(1) {
+          animation-delay: -0.32s;
+        }
+
+        &:nth-child(2) {
+          animation-delay: -0.16s;
+        }
+
+        &:nth-child(3) {
+          animation-delay: 0s;
+        }
       }
     }
   }
@@ -338,7 +340,7 @@
   height: 100%;
   padding: task-space(2xl);
   text-align: center;
-  
+
   .empty-icon {
     width: task-space(5xl); // 96px
     height: task-space(5xl); // 96px
@@ -349,13 +351,13 @@
     @include flex-center;
     color: #ffffff;
   }
-  
+
   .empty-title {
     @include text-style(lg, $font-weight-semibold);
     color: var(--text-secondary);
     margin-bottom: task-space(sm);
   }
-  
+
   .empty-description {
     @include text-style(sm, $font-weight-normal);
     color: var(--text-tertiary);
@@ -365,10 +367,14 @@
 
 // Animations for chat interface
 @keyframes loading-pulse {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     opacity: 0.3;
     transform: scale(0.8);
   }
+
   40% {
     opacity: 1;
     transform: scale(1);
@@ -382,32 +388,32 @@
     background: var(--surface);
     backdrop-filter: none;
   }
-  
+
   .chat-header {
     background: var(--primary);
     backdrop-filter: none;
   }
-  
+
   .message-bubble {
     backdrop-filter: none;
-    
+
     &.user .message-bubble {
       background: var(--primary);
       border: 1px solid var(--primary);
     }
-    
+
     &.assistant .message-bubble {
       background: var(--surface);
       border: 2px solid var(--border);
     }
   }
-  
+
   .chat-input {
     background: var(--surface);
     backdrop-filter: none;
     border-top: 2px solid var(--border);
   }
-  
+
   .message-input {
     background: var(--surface);
     border: 2px solid var(--border);
@@ -420,11 +426,11 @@
   .message {
     animation: none;
   }
-  
+
   .message-bubble {
     transition: none;
   }
-  
+
   .loading-dots .dot {
     animation: none;
     opacity: 0.5;
@@ -437,22 +443,22 @@
     background: rgba(30, 41, 59, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .chat-input {
     background: rgba(30, 41, 59, 0.95);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
   }
-  
+
   .message-input {
     background: rgba(51, 65, 85, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    
+
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
     }
   }
-  
+
   .assistant .message-bubble {
     background: rgba(51, 65, 85, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -468,66 +474,66 @@
     box-shadow: none;
     backdrop-filter: none;
   }
-  
+
   .chat-header {
     background: #f8f9fa;
     color: #333;
   }
-  
+
   .chat-input {
     display: none; // Hide input area in print
   }
-  
+
   .message-bubble {
     background: white;
     border: 1px solid #ddd;
     backdrop-filter: none;
     box-shadow: none;
   }
-  
+
   .user .message-bubble {
     background: #e3f2fd;
   }
-  
+
   .assistant .message-bubble {
     background: #f5f5f5;
   }
 }
+
 // 
-Enhanced message bubble animations and interactions
-.message-bubble {
+Enhanced message bubble animations and interactions .message-bubble {
   // Smooth message appearance animation
   animation: message-slide-in 0.4s map-get(map-get($modern-animations, easings), smooth);
-  
+
   // Enhanced hover effects for better interactivity
   &:hover {
     transform: translateY(-1px);
     transition: transform map-get(map-get($modern-animations, durations), fast) map-get(map-get($modern-animations, easings), smooth);
   }
-  
+
   // Message status indicators
   &.sending {
     opacity: 0.7;
-    
+
     &::after {
       content: '⏳';
       position: absolute;
       bottom: task-space(xs);
       right: task-space(sm);
-      font-size: map-get($modern-font-sizes, xs);
+      font-size: map-get($font-sizes, xs);
       opacity: 0.6;
     }
   }
-  
+
   &.error {
     border-left: 3px solid var(--error);
-    
+
     &::after {
       content: '⚠️';
       position: absolute;
       bottom: task-space(xs);
       right: task-space(sm);
-      font-size: map-get($modern-font-sizes, xs);
+      font-size: map-get($font-sizes, xs);
     }
   }
 }
@@ -536,31 +542,31 @@ Enhanced message bubble animations and interactions
 .message-input {
   // Smooth focus transition
   transition: all map-get(map-get($modern-animations, durations), normal) map-get(map-get($modern-animations, easings), smooth);
-  
+
   // Enhanced focus state with glow effect
   &:focus {
     transform: translateY(-1px);
     @include modern-shadow(glow);
-    
+
     // Subtle scale effect on focus
     &::placeholder {
       transform: translateY(-2px);
       opacity: 0.6;
     }
   }
-  
+
   // Character count indicator (optional)
   &[data-char-count]::after {
     content: attr(data-char-count) '/2000';
     position: absolute;
     bottom: task-space(xs);
     right: task-space(sm);
-    font-size: map-get($modern-font-sizes, xs);
+    font-size: map-get($font-sizes, xs);
     color: var(--text-tertiary);
     opacity: 0;
     transition: opacity map-get(map-get($modern-animations, durations), fast);
   }
-  
+
   &:focus[data-char-count]::after {
     opacity: 1;
   }
@@ -568,35 +574,36 @@ Enhanced message bubble animations and interactions
 
 // Enhanced send button with better interaction feedback
 .send-button {
+
   // Pulse effect when message is being sent
   &.sending {
     animation: button-pulse 1s ease-in-out infinite;
-    
+
     .send-icon {
       animation: icon-spin 1s linear infinite;
     }
   }
-  
+
   // Enhanced disabled state
   &:disabled {
     background: var(--bg-tertiary);
     color: var(--text-disabled);
     transform: none;
-    
+
     &:hover {
       transform: none;
       box-shadow: none;
     }
   }
-  
+
   // Success state after sending
   &.sent {
     background: var(--success);
-    
+
     .send-icon::before {
       content: '✓';
     }
-    
+
     animation: success-flash 0.6s ease-out;
   }
 }
@@ -606,17 +613,25 @@ Enhanced message bubble animations and interactions
   .dot {
     // Enhanced loading animation with better timing
     animation: enhanced-loading-pulse 1.4s ease-in-out infinite both;
-    
-    &:nth-child(1) { animation-delay: -0.32s; }
-    &:nth-child(2) { animation-delay: -0.16s; }
-    &:nth-child(3) { animation-delay: 0s; }
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0s;
+    }
   }
 }
 
 // Scroll indicator for long conversations
 .chat-messages {
   position: relative;
-  
+
   // Fade effect at top and bottom when scrollable
   &.scrollable {
     &::before {
@@ -632,7 +647,7 @@ Enhanced message bubble animations and interactions
       opacity: 0;
       transition: opacity map-get(map-get($modern-animations, durations), normal);
     }
-    
+
     &::after {
       content: '';
       position: absolute;
@@ -646,11 +661,11 @@ Enhanced message bubble animations and interactions
       opacity: 0;
       transition: opacity map-get(map-get($modern-animations, durations), normal);
     }
-    
+
     &.scroll-top::before {
       opacity: 1;
     }
-    
+
     &.scroll-bottom::after {
       opacity: 1;
     }
@@ -663,6 +678,7 @@ Enhanced message bubble animations and interactions
     opacity: 0;
     transform: translateY(task-space(md)) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -670,10 +686,14 @@ Enhanced message bubble animations and interactions
 }
 
 @keyframes enhanced-loading-pulse {
-  0%, 80%, 100% {
+
+  0%,
+  80%,
+  100% {
     opacity: 0.3;
     transform: scale(0.8);
   }
+
   40% {
     opacity: 1;
     transform: scale(1.2);
@@ -681,9 +701,12 @@ Enhanced message bubble animations and interactions
 }
 
 @keyframes button-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(var(--primary), 0.4);
   }
+
   50% {
     box-shadow: 0 0 0 8px rgba(var(--primary), 0);
   }
@@ -693,6 +716,7 @@ Enhanced message bubble animations and interactions
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -703,10 +727,12 @@ Enhanced message bubble animations and interactions
     background: var(--success);
     transform: scale(1);
   }
+
   50% {
     background: var(--success-light);
     transform: scale(1.05);
   }
+
   100% {
     background: var(--success);
     transform: scale(1);
@@ -724,85 +750,85 @@ Enhanced message bubble animations and interactions
     max-height: 100vh; // Full height on mobile
     border-radius: map-get($modern-border-radius, lg);
   }
-  
+
   .chat-header {
     padding: task-space(md);
-    
+
     .chat-title {
       @include text-style(base, $font-weight-semibold);
       margin-bottom: task-space(xs);
     }
-    
+
     .chat-status {
       @include text-style(xs, $font-weight-normal);
-      
+
       .status-indicator {
         width: task-space(xs);
         height: task-space(xs);
       }
     }
   }
-  
+
   .chat-messages {
     padding: task-space(md);
-    
+
     // Enhanced mobile scrolling
     -webkit-overflow-scrolling: touch;
-    
+
     &::-webkit-scrollbar {
       width: 3px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background: rgba(0, 0, 0, 0.3);
     }
   }
-  
+
   .message {
     margin-bottom: task-space(md);
-    
+
     .message-bubble {
       max-width: 85%;
       padding: task-space(sm) task-space(md);
       @include text-style(xs, $font-weight-normal, normal);
-      
+
       // Better touch interaction
       &:active {
         transform: scale(0.98);
       }
-      
+
       .message-time {
         @include text-style(2xs, $font-weight-normal);
         margin-top: task-space(xs);
       }
     }
   }
-  
+
   .chat-input {
-    
+
     .input-container {
       gap: task-space(sm);
-      
+
       .message-input {
         padding: task-space(sm) task-space(md);
         min-height: 44px; // Touch-friendly
         @include text-style(xs);
         border-radius: map-get($modern-border-radius, lg);
-        
+
         // Prevent zoom on iOS
         font-size: 16px;
-        
+
         &:focus {
           transform: none; // Remove transform on mobile
         }
       }
-      
+
       .send-button {
         min-width: 44px;
         min-height: 44px;
         padding: task-space(sm);
         border-radius: map-get($modern-border-radius, lg);
-        
+
         .send-icon {
           width: task-space(md);
           height: task-space(md);
@@ -810,28 +836,28 @@ Enhanced message bubble animations and interactions
       }
     }
   }
-  
+
   .chat-empty {
     padding: task-space(xl);
-    
+
     .empty-icon {
       width: task-space(4xl);
       height: task-space(4xl);
       margin-bottom: task-space(lg);
       @include text-style(xl);
     }
-    
+
     .empty-title {
       @include text-style(base, $font-weight-semibold);
       margin-bottom: task-space(xs);
     }
-    
+
     .empty-description {
       @include text-style(xs, $font-weight-normal);
       max-width: 250px;
     }
   }
-  
+
   // Reduce padding on very small screens
   @media (max-width: 360px) {
     .message-bubble {
@@ -839,32 +865,32 @@ Enhanced message bubble animations and interactions
       padding: task-space(xs) task-space(sm);
       @include text-style(2xs, $font-weight-normal, normal);
     }
-    
+
     // Stack input elements vertically on very small screens
     .input-container {
       flex-direction: column;
       gap: task-space(sm);
-      
+
       .message-input {
         border-radius: map-get($modern-border-radius, md);
         font-size: 14px; // Prevent zoom
       }
-      
+
       .send-button {
         align-self: flex-end;
         min-width: auto;
         padding: task-space(sm) task-space(lg);
       }
     }
-    
+
     .chat-header {
       padding: task-space(sm);
-      
+
       .chat-title {
         @include text-style(sm, $font-weight-semibold);
       }
     }
-    
+
     .chat-messages {
       padding: task-space(sm);
     }
@@ -873,13 +899,14 @@ Enhanced message bubble animations and interactions
 
 // Enhanced focus management for accessibility
 .modern-chat {
+
   // Focus trap styles
   &:focus-within {
     .chat-header {
       border-bottom-color: rgba(var(--primary), 0.3);
     }
   }
-  
+
   // Keyboard navigation enhancements
   .message-bubble {
     &:focus {
@@ -896,15 +923,15 @@ Enhanced message bubble animations and interactions
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
-  
+
   // Copy button on hover (optional enhancement)
   position: relative;
-  
+
   &:hover .copy-button {
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .copy-button {
     position: absolute;
     top: task-space(xs);
@@ -917,11 +944,11 @@ Enhanced message bubble animations and interactions
     transform: translateY(-4px);
     transition: all map-get(map-get($modern-animations, durations), fast);
     cursor: pointer;
-    
+
     &:hover {
       background: rgba(0, 0, 0, 0.2);
     }
-    
+
     &:focus {
       opacity: 1;
       outline: 1px solid var(--primary);
@@ -937,12 +964,12 @@ Enhanced message bubble animations and interactions
   opacity: 0;
   transform: translateY(4px);
   transition: all map-get(map-get($modern-animations, durations), normal);
-  
+
   .message:hover & {
     opacity: 1;
     transform: translateY(0);
   }
-  
+
   .action-button {
     background: none;
     border: 1px solid var(--border);
@@ -951,16 +978,16 @@ Enhanced message bubble animations and interactions
     @include text-style(xs);
     cursor: pointer;
     transition: all map-get(map-get($modern-animations, durations), fast);
-    
+
     &:hover {
       background: var(--bg-secondary);
       border-color: var(--primary);
     }
-    
+
     &:focus {
       outline: 1px solid var(--primary);
     }
-    
+
     &.active {
       background: var(--primary-light);
       border-color: var(--primary);
@@ -972,11 +999,12 @@ Enhanced message bubble animations and interactions
 // Connection status enhancements
 .chat-status {
   .status-indicator {
+
     // Enhanced pulse animation for connection status
     &.connecting {
       animation: connection-pulse 2s ease-in-out infinite;
     }
-    
+
     &.error {
       animation: error-flash 0.5s ease-out;
     }
@@ -984,18 +1012,24 @@ Enhanced message bubble animations and interactions
 }
 
 @keyframes connection-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
   }
+
   50% {
     box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
   }
 }
 
 @keyframes error-flash {
-  0%, 100% {
+
+  0%,
+  100% {
     background: var(--error);
   }
+
   50% {
     background: var(--error-light);
   }

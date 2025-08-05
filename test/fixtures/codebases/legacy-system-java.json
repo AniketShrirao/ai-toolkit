@@ -1,0 +1,54 @@
+{
+  "id": "9ec285b7-67d2-418e-a35c-4a7e8534cebe",
+  "name": "legacy-system-java",
+  "language": "java",
+  "files": [
+    {
+      "path": "src/app.java",
+      "content": "// Legacy code - needs refactoring\n// java application code",
+      "language": "java",
+      "size": 1500,
+      "complexity": 5
+    },
+    {
+      "path": "src/routes/users.java",
+      "content": "// Legacy code - needs refactoring\n// users routes for java\nSpargo aeger tamdiu cohaero admitto non degenero ara quod nostrum. Audax adnuo utrum cernuus supellex abutor. Consequatur strues viridis aptus tertius speciosus tergiversatio vita vitae uberrime.",
+      "language": "java",
+      "size": 800,
+      "complexity": 4
+    },
+    {
+      "path": "src/models/User.java",
+      "content": "// Legacy code - needs refactoring\n// User model for java\nSoluta tristis advenio cibus voluptatem cribro quas adeptio. Depopulo at degusto veniam laboriosam umerus. Degero sono auxilium conventus socius dignissimos.",
+      "language": "java",
+      "size": 600,
+      "complexity": 4
+    },
+    {
+      "path": "src/config/database.java",
+      "content": "// Legacy code - needs refactoring\n// Configuration for java\nContabesco sollicito cohaero nemo stipes calco placeat conturbo spiritus cultellus. Arceo delinquo demergo. Adficio victus commodo volubilis decimus brevis autem.",
+      "language": "java",
+      "size": 400,
+      "complexity": 3
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "java": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 11,
+    "cyclomaticComplexity": 4,
+    "maintainabilityIndex": 60,
+    "technicalDebt": 4000
+  }
+}

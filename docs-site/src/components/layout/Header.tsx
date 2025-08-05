@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useNavigation } from '@/contexts/NavigationContext';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 import styles from './Header.module.scss';
 
 interface HeaderProps {
@@ -119,26 +120,7 @@ export function Header({ className }: HeaderProps) {
           </button>
 
           {/* Theme toggle */}
-          <button
-            className={styles.themeButton}
-            aria-label="Toggle theme"
-            type="button"
-          >
-            <svg
-              className={styles.themeIcon}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-          </button>
+          <ThemeToggle />
 
           {/* GitHub link */}
           <a

@@ -1,0 +1,218 @@
+// Documentation Button Component Styles
+// Extends AI Toolkit button styles with documentation-specific variants
+
+// Documentation button variants
+.doc-button {
+    @include doc-button(primary);
+
+    &--primary {
+        @include doc-button(primary);
+    }
+
+    &--secondary {
+        @include doc-button(secondary);
+    }
+
+    &--ghost {
+        @include doc-button(ghost);
+    }
+
+    // Size variants
+    &--sm {
+        @include button-size(sm);
+    }
+
+    &--md {
+        @include button-size(md);
+    }
+
+    &--lg {
+        @include button-size(lg);
+    }
+
+    // Icon buttons
+    &--icon {
+        padding: doc-space(sm);
+        min-width: auto;
+        aspect-ratio: 1;
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
+
+    // Loading state
+    &--loading {
+        position: relative;
+        color: transparent;
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    }
+}
+
+// Copy button component
+.copy-button {
+    @include doc-button(ghost);
+    position: relative;
+
+    .copy-icon {
+        transition: opacity transition(fast);
+    }
+
+    .check-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity transition(fast);
+    }
+
+    &.copied {
+        .copy-icon {
+            opacity: 0;
+        }
+
+        .check-icon {
+            opacity: 1;
+        }
+    }
+}
+
+// Theme toggle button
+.theme-toggle {
+    @include doc-button(ghost);
+    @include doc-button--icon;
+
+    .sun-icon,
+    .moon-icon {
+        transition: all transition(base);
+    }
+
+    [data-theme="light"] & {
+        .sun-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .moon-icon {
+            opacity: 0;
+            transform: rotate(90deg);
+        }
+    }
+
+    [data-theme="dark"] & {
+        .sun-icon {
+            opacity: 0;
+            transform: rotate(-90deg);
+        }
+
+        .moon-icon {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+    }
+}
+
+// Navigation toggle button
+.nav-toggle {
+    @include doc-button(ghost);
+    @include doc-button--icon;
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .line {
+            width: 1rem;
+            height: 2px;
+            background: currentColor;
+            border-radius: 1px;
+            transition: all transition(base);
+        }
+    }
+
+    &.open {
+        .hamburger {
+            .line:nth-child(1) {
+                transform: rotate(45deg) translate(3px, 3px);
+            }
+
+            .line:nth-child(2) {
+                opacity: 0;
+            }
+
+            .line:nth-child(3) {
+                transform: rotate(-45deg) translate(3px, -3px);
+            }
+        }
+    }
+}
+
+// Button group component
+.button-group {
+    display: flex;
+    border-radius: radius(md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+
+    .doc-button {
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid var(--border);
+
+        &:last-child {
+            border-right: none;
+        }
+
+        &:focus {
+            z-index: 1;
+        }
+    }
+}
+
+// Floating action button
+.fab {
+    @include doc-button(primary);
+    position: fixed;
+    bottom: doc-space(xl);
+    right: doc-space(xl);
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: radius(full);
+    box-shadow: shadow(lg);
+    z-index: z-index(fixed);
+
+    &:hover {
+        box-shadow: shadow(xl);
+        transform: translateY(-2px);
+    }
+
+    @include breakpoint(sm) {
+        bottom: doc-space(lg);
+        right: doc-space(lg);
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+// Animations
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

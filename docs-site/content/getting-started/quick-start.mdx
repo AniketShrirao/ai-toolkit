@@ -1,0 +1,767 @@
+---
+title: "Quick Start Tutorial"
+description: "Get up and running with AI Toolkit in 10 minutes. Learn the basics through hands-on examples with document processing and AI analysis."
+category: "getting-started"
+tags: ["tutorial", "quickstart", "document-processing", "api", "examples"]
+difficulty: "beginner"
+estimatedReadTime: 10
+prerequisites: ["Installation completed"]
+---
+
+# Quick Start Tutorial
+
+Welcome to the AI Toolkit! This tutorial will guide you through your first document processing workflow in just 10 minutes. By the end, you'll have uploaded a document, processed it with AI, and retrieved the results.
+
+<Callout type="info" title="Before You Start">
+Make sure you have completed the [installation guide](/getting-started/installation) and have the AI Toolkit running on your system.
+</Callout>
+
+## What You'll Learn
+
+In this tutorial, you'll learn how to:
+
+- Upload your first document via the web dashboard
+- Process documents using the REST API
+- Analyze content with AI models
+- Retrieve and interpret results
+- Set up basic workflows
+
+## Step 1: Verify Your Installation
+
+First, let's make sure everything is working correctly:
+
+<VerificationSteps>
+
+### Check Service Status
+
+<CodeBlock language="bash" title="Terminal">
+# Check if the API server is running
+curl http://localhost:3000/api/health
+</CodeBlock>
+
+You should see a response like this:
+
+<CodeBlock language="json" title="Expected Response">
+{
+  "status": "healthy",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "services": {
+    "database": "connected",
+    "storage": "accessible",
+    "ai": "available"
+  },
+  "version": "1.0.0"
+}
+</CodeBlock>
+
+### Access the Web Dashboard
+
+Open your browser and navigate to:
+- **Development**: http://localhost:3000
+- **Docker**: http://localhost:8080
+
+You should see the AI Toolkit dashboard with a clean interface ready for document upload.
+
+</VerificationSteps>
+
+## Step 2: Upload Your First Document
+
+Let's start by uploading a document through the web interface:
+
+<TutorialStep step={1} title="Using the Web Dashboard">
+
+### Navigate to Document Upload
+
+1. Open the AI Toolkit dashboard in your browser
+2. Click on the **"Documents"** section in the sidebar
+3. Click the **"Upload Document"** button or drag-and-drop area
+
+### Upload a Sample Document
+
+For this tutorial, we'll use a sample markdown file. Create a test file:
+
+<CodeBlock language="markdown" title="sample-portfolio.md">
+# John Doe - Software Developer
+
+## About Me
+I am a passionate software developer with 5 years of experience in web development, 
+specializing in React, Node.js, and cloud technologies.
+
+## Skills
+- **Frontend**: React, TypeScript, HTML5, CSS3
+- **Backend**: Node.js, Express, Python
+- **Database**: PostgreSQL, MongoDB, Redis
+- **Cloud**: AWS, Docker, Kubernetes
+
+## Recent Projects
+
+### E-commerce Platform
+Built a scalable e-commerce platform serving 10,000+ users daily.
+- **Technologies**: React, Node.js, PostgreSQL
+- **Features**: Real-time inventory, payment processing, admin dashboard
+- **Impact**: Increased client revenue by 40%
+
+### AI-Powered Analytics Tool
+Developed an analytics dashboard with machine learning insights.
+- **Technologies**: Python, TensorFlow, React
+- **Features**: Predictive analytics, data visualization, automated reports
+- **Impact**: Reduced analysis time by 60%
+
+## Contact
+- Email: john.doe@example.com
+- LinkedIn: linkedin.com/in/johndoe
+- GitHub: github.com/johndoe
+</CodeBlock>
+
+### Upload Process
+
+1. **Select the file** you just created or use the provided sample
+2. **Choose analysis type**: Select "Full Analysis" for comprehensive processing
+3. **Add tags** (optional): Add relevant tags like "portfolio", "developer", "resume"
+4. **Click "Upload"** to start the processing
+
+<Callout type="success" title="Upload Complete">
+Once uploaded, you'll see the document appear in your document list with a "Processing" status. This will change to "Completed" once analysis is finished.
+</Callout>
+
+</TutorialStep>
+
+## Step 3: Process Documents via API
+
+Now let's learn how to upload and process documents programmatically using the REST API:
+
+<TutorialStep step={2} title="Using the REST API">
+
+### Upload Document via API
+
+<CodeBlock language="bash" title="Upload Document">
+# Upload a document for processing
+curl -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@sample-portfolio.md" \
+  -F "analysisType=full" \
+  -F "tags=portfolio,developer,tutorial" \
+  -H "Content-Type: multipart/form-data"
+</CodeBlock>
+
+Expected response:
+
+<CodeBlock language="json" title="Upload Response">
+{
+  "success": true,
+  "document": {
+    "id": "doc_1234567890_abc123",
+    "filename": "sample-portfolio.md",
+    "type": "md",
+    "size": 1024,
+    "status": "processing",
+    "analysisType": "full",
+    "tags": ["portfolio", "developer", "tutorial"],
+    "uploadedAt": "2024-01-15T10:30:00Z"
+  },
+  "message": "Document uploaded successfully and processing started"
+}
+</CodeBlock>
+
+### Check Processing Status
+
+<CodeBlock language="bash" title="Check Status">
+# Replace {document-id} with the actual ID from the upload response
+curl http://localhost:3000/api/documents/{document-id}
+</CodeBlock>
+
+<CodeBlock language="json" title="Status Response">
+{
+  "id": "doc_1234567890_abc123",
+  "filename": "sample-portfolio.md",
+  "status": "completed",
+  "analysis": {
+    "extractedText": "John Doe - Software Developer...",
+    "wordCount": 156,
+    "keyTerms": ["software developer", "React", "Node.js", "AWS"],
+    "summary": "Portfolio of John Doe, a software developer with 5 years experience...",
+    "sentiment": "positive",
+    "topics": ["web development", "cloud technologies", "project management"]
+  },
+  "processedAt": "2024-01-15T10:31:30Z"
+}
+</CodeBlock>
+
+### List All Documents
+
+<CodeBlock language="bash" title="List Documents">
+# Get all documents with pagination
+curl "http://localhost:3000/api/documents?page=1&limit=10"
+</CodeBlock>
+
+</TutorialStep>
+
+## Step 4: AI-Powered Analysis
+
+Let's explore the AI analysis capabilities:
+
+<TutorialStep step={3} title="AI Analysis Features">
+
+### Generate AI Insights
+
+<CodeBlock language="bash" title="AI Analysis Request">
+# Analyze document content with AI
+curl -X POST http://localhost:3000/api/ai-chat/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Analyze this portfolio and provide feedback on strengths and areas for improvement",
+    "documentId": "doc_1234567890_abc123",
+    "provider": "ollama",
+    "model": "llama2:7b"
+  }'
+</CodeBlock>
+
+Expected AI response:
+
+<CodeBlock language="json" title="AI Analysis Response">
+{
+  "success": true,
+  "response": {
+    "message": "Based on the portfolio analysis:\n\n**Strengths:**\n- Clear technical skill progression\n- Quantified project impacts (40% revenue increase, 60% time reduction)\n- Diverse technology stack\n- Strong project descriptions\n\n**Areas for Improvement:**\n- Add more specific metrics and achievements\n- Include links to live projects or demos\n- Consider adding certifications or education\n- Expand on leadership or collaboration experiences",
+    "model": "llama2:7b",
+    "provider": "ollama",
+    "timestamp": "2024-01-15T10:32:00Z"
+  }
+}
+</CodeBlock>
+
+### Generate Questions from Content
+
+<CodeBlock language="bash" title="Question Generation">
+# Generate interview questions based on the portfolio
+curl -X POST http://localhost:3000/api/ai-chat/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Generate 5 technical interview questions based on this portfolio",
+    "documentId": "doc_1234567890_abc123",
+    "provider": "ollama"
+  }'
+</CodeBlock>
+
+### Extract Key Information
+
+<CodeBlock language="bash" title="Information Extraction">
+# Extract structured data from the document
+curl -X POST http://localhost:3000/api/ai-chat/send \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "Extract the following information in JSON format: name, years of experience, primary skills, contact information",
+    "documentId": "doc_1234567890_abc123",
+    "provider": "ollama"
+  }'
+</CodeBlock>
+
+</TutorialStep>
+
+## Step 5: Working with Different File Types
+
+The AI Toolkit supports various document formats. Let's try different file types:
+
+<TutorialStep step={4} title="Multi-Format Support">
+
+### PDF Documents
+
+<CodeBlock language="bash" title="Upload PDF">
+# Upload a PDF document
+curl -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@sample-report.pdf" \
+  -F "analysisType=full" \
+  -H "Content-Type: multipart/form-data"
+</CodeBlock>
+
+### Excel Spreadsheets
+
+<CodeBlock language="bash" title="Upload Excel">
+# Upload an Excel file
+curl -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@data-analysis.xlsx" \
+  -F "analysisType=data" \
+  -H "Content-Type: multipart/form-data"
+</CodeBlock>
+
+### Process URLs
+
+<CodeBlock language="bash" title="Process Web Content">
+# Process content from a URL
+curl -X POST http://localhost:3000/api/documents/process-url \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/article",
+    "analysisType": "summary"
+  }'
+</CodeBlock>
+
+### Batch Upload
+
+<CodeBlock language="bash" title="Batch Upload">
+# Upload multiple files at once
+curl -X POST http://localhost:3000/api/documents/batch-upload \
+  -F "files=@file1.pdf" \
+  -F "files=@file2.md" \
+  -F "files=@file3.txt" \
+  -F "analysisType=full" \
+  -H "Content-Type: multipart/form-data"
+</CodeBlock>
+
+</TutorialStep>
+
+## Step 6: Create Your First Workflow
+
+Workflows allow you to automate document processing tasks:
+
+<TutorialStep step={5} title="Workflow Automation">
+
+### Create a Simple Workflow
+
+<CodeBlock language="bash" title="Create Workflow">
+# Create a workflow for portfolio analysis
+curl -X POST http://localhost:3000/api/workflows \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Portfolio Analysis Workflow",
+    "description": "Automated analysis of portfolio documents",
+    "steps": [
+      {
+        "type": "extract_text",
+        "config": {
+          "includeMetadata": true
+        }
+      },
+      {
+        "type": "ai_analysis",
+        "config": {
+          "prompt": "Analyze this portfolio and provide professional feedback",
+          "model": "llama2:7b"
+        }
+      },
+      {
+        "type": "generate_summary",
+        "config": {
+          "maxLength": 200
+        }
+      }
+    ],
+    "triggers": {
+      "fileTypes": ["md", "pdf", "txt"],
+      "tags": ["portfolio"]
+    }
+  }'
+</CodeBlock>
+
+### Execute the Workflow
+
+<CodeBlock language="bash" title="Execute Workflow">
+# Execute workflow on a document
+curl -X POST http://localhost:3000/api/workflows/{workflow-id}/execute \
+  -H "Content-Type: application/json" \
+  -d '{
+    "documentId": "doc_1234567890_abc123"
+  }'
+</CodeBlock>
+
+### Monitor Workflow Status
+
+<CodeBlock language="bash" title="Check Workflow Status">
+# Check workflow execution status
+curl http://localhost:3000/api/workflows/{workflow-id}/status
+</CodeBlock>
+
+</TutorialStep>
+
+## Step 7: Explore the Web Dashboard
+
+Let's explore the key features of the web dashboard:
+
+<DashboardTour>
+
+### Document Management
+- **Upload Area**: Drag-and-drop or click to upload files
+- **Document List**: View all processed documents with status indicators
+- **Search & Filter**: Find documents by name, type, tags, or content
+- **Bulk Actions**: Select multiple documents for batch operations
+
+### Analysis Results
+- **Text Extraction**: View extracted text with formatting preserved
+- **AI Insights**: See AI-generated summaries, key points, and analysis
+- **Metadata**: File information, processing time, and statistics
+- **Export Options**: Download results in various formats (JSON, PDF, CSV)
+
+### Workflow Management
+- **Workflow Builder**: Visual interface for creating processing workflows
+- **Execution History**: Track workflow runs and their outcomes
+- **Templates**: Pre-built workflows for common use cases
+- **Scheduling**: Set up automatic processing for new documents
+
+### Settings & Configuration
+- **AI Models**: Configure and test different AI providers and models
+- **Storage**: Manage file storage locations and retention policies
+- **API Keys**: Generate and manage API access tokens
+- **System Health**: Monitor system performance and resource usage
+
+</DashboardTour>
+
+## Sample Files for Testing
+
+Here are some sample files you can use to test different features:
+
+<SampleFiles>
+
+### Sample Portfolio (Markdown)
+<CodeBlock language="markdown" title="portfolio.md" downloadable>
+# Jane Smith - Data Scientist
+
+## Professional Summary
+Experienced data scientist with 7+ years in machine learning, statistical analysis, 
+and business intelligence. Proven track record of delivering data-driven solutions 
+that increase revenue and operational efficiency.
+
+## Core Competencies
+- **Machine Learning**: Scikit-learn, TensorFlow, PyTorch
+- **Data Analysis**: Python, R, SQL, Pandas, NumPy
+- **Visualization**: Tableau, Power BI, Matplotlib, Seaborn
+- **Big Data**: Spark, Hadoop, Kafka
+- **Cloud Platforms**: AWS, GCP, Azure
+
+## Key Achievements
+
+### Predictive Analytics Platform
+- Built ML models predicting customer churn with 92% accuracy
+- Reduced customer acquisition costs by 35%
+- Technologies: Python, TensorFlow, AWS SageMaker
+
+### Real-time Fraud Detection System
+- Developed real-time fraud detection reducing false positives by 50%
+- Processed 1M+ transactions daily with <100ms latency
+- Technologies: Python, Kafka, Redis, PostgreSQL
+
+### Business Intelligence Dashboard
+- Created executive dashboard tracking 50+ KPIs
+- Enabled data-driven decisions resulting in 20% revenue growth
+- Technologies: Tableau, SQL Server, Python
+
+## Education & Certifications
+- M.S. Data Science, Stanford University
+- AWS Certified Machine Learning Specialist
+- Google Cloud Professional Data Engineer
+
+## Contact Information
+- Email: jane.smith@email.com
+- LinkedIn: linkedin.com/in/janesmith-ds
+- Portfolio: janesmith-portfolio.com
+</CodeBlock>
+
+### Sample Business Report (Text)
+<CodeBlock language="text" title="quarterly-report.txt" downloadable>
+Q4 2023 Business Performance Report
+
+Executive Summary
+=================
+This quarter showed strong performance across all key metrics, with revenue 
+growth of 15% year-over-year and customer satisfaction scores reaching 4.2/5.0.
+
+Key Metrics
+===========
+- Total Revenue: $2.4M (+15% YoY)
+- New Customers: 1,250 (+22% YoY)
+- Customer Retention: 89% (+3% YoY)
+- Average Order Value: $156 (+8% YoY)
+- Customer Satisfaction: 4.2/5.0 (+0.3 YoY)
+
+Department Performance
+=====================
+
+Sales Department
+- Exceeded targets by 12%
+- Top performer: Sarah Johnson (125% of target)
+- New client acquisitions: 45 enterprise accounts
+
+Marketing Department
+- Campaign ROI: 340%
+- Website traffic: +28% organic growth
+- Social media engagement: +45%
+
+Product Development
+- 3 major feature releases
+- Bug resolution time: -35%
+- Customer feature requests implemented: 78%
+
+Challenges and Opportunities
+===========================
+- Supply chain delays affected 15% of orders
+- Opportunity to expand into European markets
+- Need for additional customer support staff
+
+Action Items for Q1 2024
+========================
+1. Implement new supply chain management system
+2. Hire 3 additional customer support representatives
+3. Begin market research for European expansion
+4. Launch customer loyalty program pilot
+
+Financial Outlook
+================
+Projected Q1 2024 revenue: $2.6M (+8% quarter-over-quarter)
+Expected new customer growth: 1,400 customers
+Investment in infrastructure: $500K
+</CodeBlock>
+
+### Sample Configuration (JSON)
+<CodeBlock language="json" title="config-sample.json" downloadable>
+{
+  "application": {
+    "name": "AI Toolkit Configuration",
+    "version": "1.0.0",
+    "environment": "production"
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 3000,
+    "ssl": {
+      "enabled": true,
+      "certificatePath": "/etc/ssl/certs/ai-toolkit.crt",
+      "keyPath": "/etc/ssl/private/ai-toolkit.key"
+    }
+  },
+  "database": {
+    "type": "postgresql",
+    "host": "localhost",
+    "port": 5432,
+    "database": "ai_toolkit",
+    "username": "ai_user",
+    "password": "secure_password",
+    "pool": {
+      "min": 2,
+      "max": 10,
+      "acquireTimeoutMillis": 30000,
+      "idleTimeoutMillis": 30000
+    }
+  },
+  "ai": {
+    "providers": {
+      "ollama": {
+        "enabled": true,
+        "host": "localhost",
+        "port": 11434,
+        "models": ["llama2:7b", "codellama:7b", "mistral:7b"],
+        "defaultModel": "llama2:7b",
+        "timeout": 30000
+      },
+      "openai": {
+        "enabled": false,
+        "apiKey": "your-openai-api-key",
+        "models": ["gpt-3.5-turbo", "gpt-4"],
+        "defaultModel": "gpt-3.5-turbo"
+      }
+    }
+  },
+  "storage": {
+    "inputPath": "./data/input",
+    "outputPath": "./data/output",
+    "tempPath": "./temp",
+    "maxFileSize": "100MB",
+    "allowedTypes": ["pdf", "txt", "md", "docx", "xlsx", "csv"]
+  },
+  "processing": {
+    "maxConcurrentJobs": 5,
+    "jobTimeout": 300000,
+    "retryAttempts": 3,
+    "enableOCR": true,
+    "enableAIAnalysis": true
+  },
+  "security": {
+    "rateLimiting": {
+      "enabled": true,
+      "windowMs": 900000,
+      "max": 100
+    },
+    "cors": {
+      "enabled": true,
+      "origins": ["http://localhost:3000", "https://yourdomain.com"]
+    },
+    "authentication": {
+      "jwtSecret": "your-jwt-secret-key",
+      "tokenExpiry": "24h"
+    }
+  },
+  "logging": {
+    "level": "info",
+    "file": {
+      "enabled": true,
+      "path": "./logs/ai-toolkit.log",
+      "maxSize": "10MB",
+      "maxFiles": 5
+    },
+    "console": {
+      "enabled": true,
+      "colorize": true
+    }
+  }
+}
+</CodeBlock>
+
+</SampleFiles>
+
+## Testing Your Setup
+
+Let's run through a comprehensive test to ensure everything is working:
+
+<TestingChecklist>
+
+### ✅ Basic Functionality Test
+
+<CodeBlock language="bash" title="Complete Test Script">
+#!/bin/bash
+
+echo "🚀 AI Toolkit Quick Start Test"
+echo "================================"
+
+# 1. Health Check
+echo "1. Checking system health..."
+curl -s http://localhost:3000/api/health | jq .
+
+# 2. Upload Test Document
+echo "2. Uploading test document..."
+UPLOAD_RESPONSE=$(curl -s -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@portfolio.md" \
+  -F "analysisType=full")
+
+DOCUMENT_ID=$(echo $UPLOAD_RESPONSE | jq -r '.document.id')
+echo "Document ID: $DOCUMENT_ID"
+
+# 3. Wait for Processing
+echo "3. Waiting for processing to complete..."
+sleep 10
+
+# 4. Check Document Status
+echo "4. Checking document status..."
+curl -s http://localhost:3000/api/documents/$DOCUMENT_ID | jq .
+
+# 5. AI Analysis Test
+echo "5. Testing AI analysis..."
+curl -s -X POST http://localhost:3000/api/ai-chat/send \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"message\": \"Summarize this document in 3 bullet points\",
+    \"documentId\": \"$DOCUMENT_ID\"
+  }" | jq .
+
+echo "✅ Test completed successfully!"
+</CodeBlock>
+
+### Expected Results
+
+After running the test, you should see:
+- ✅ Health check returns "healthy" status
+- ✅ Document upload succeeds with a document ID
+- ✅ Document status shows "completed" after processing
+- ✅ AI analysis returns a structured response with insights
+
+</TestingChecklist>
+
+## Common Issues and Solutions
+
+<TroubleshootingSection>
+
+### Issue: Upload Fails with "File Too Large"
+
+**Solution**: Check your file size limits in the configuration:
+
+<CodeBlock language="bash">
+# Check current limits
+curl http://localhost:3000/api/health | jq '.config.maxFileSize'
+
+# Update in .env file
+echo "STORAGE_MAX_FILE_SIZE=200MB" >> .env
+</CodeBlock>
+
+### Issue: AI Analysis Returns Empty Response
+
+**Solution**: Verify Ollama is running and models are available:
+
+<CodeBlock language="bash">
+# Check Ollama status
+curl http://localhost:11434/api/tags
+
+# Pull required model if missing
+ollama pull llama2:7b
+</CodeBlock>
+
+### Issue: Processing Stuck in "Processing" Status
+
+**Solution**: Check the processing queue and restart if needed:
+
+<CodeBlock language="bash">
+# Check processing status
+curl http://localhost:3000/api/health | jq '.services'
+
+# Restart processing service
+npm run restart:processing
+</CodeBlock>
+
+</TroubleshootingSection>
+
+## Next Steps
+
+Congratulations! You've successfully completed the AI Toolkit quick start tutorial. Here's what to explore next:
+
+<NextStepsGrid>
+  <NextStep 
+    title="Advanced Document Processing" 
+    href="/guides/document-processing/advanced-features"
+    description="Learn about OCR, batch processing, and custom extractors"
+    difficulty="intermediate"
+  />
+  <NextStep 
+    title="AI Model Configuration" 
+    href="/guides/ai-integration/model-setup"
+    description="Set up and optimize different AI models for your use case"
+    difficulty="intermediate"
+  />
+  <NextStep 
+    title="Workflow Automation" 
+    href="/guides/workflows/automation"
+    description="Create complex workflows for automated document processing"
+    difficulty="advanced"
+  />
+  <NextStep 
+    title="API Integration" 
+    href="/api-reference/overview"
+    description="Integrate AI Toolkit into your applications"
+    difficulty="intermediate"
+  />
+  <NextStep 
+    title="Production Deployment" 
+    href="/guides/deployment/production"
+    description="Deploy AI Toolkit to production environments"
+    difficulty="advanced"
+  />
+  <NextStep 
+    title="Custom Development" 
+    href="/development/getting-started"
+    description="Extend AI Toolkit with custom features and integrations"
+    difficulty="advanced"
+  />
+</NextStepsGrid>
+
+## Summary
+
+In this tutorial, you learned how to:
+
+- ✅ Verify your AI Toolkit installation
+- ✅ Upload documents via web dashboard and API
+- ✅ Process different file types (Markdown, PDF, Excel, URLs)
+- ✅ Use AI analysis for content insights and question generation
+- ✅ Create and execute automated workflows
+- ✅ Navigate the web dashboard features
+- ✅ Test your setup with sample files
+- ✅ Troubleshoot common issues
+
+You're now ready to start processing your own documents and building AI-powered workflows with the AI Toolkit!
+
+<Callout type="success" title="Ready for More?">
+Join our [community forum](https://github.com/your-org/ai-toolkit/discussions) to share your experiences, ask questions, and learn from other users. Don't forget to star our [GitHub repository](https://github.com/your-org/ai-toolkit) if you found this helpful!
+</Callout>

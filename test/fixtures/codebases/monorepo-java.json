@@ -1,0 +1,54 @@
+{
+  "id": "108280cc-ccbb-407c-ae5b-7cf44360a781",
+  "name": "monorepo-java",
+  "language": "java",
+  "files": [
+    {
+      "path": "packages/core/src/index.js",
+      "content": "// core package\nConcido abutor peccatus arx vehemens. Adaugeo dedico conitor communis tener pectus. Coepi valetudo voluntarius.",
+      "language": "java",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/ui/src/index.js",
+      "content": "// ui package\nVapulus cupressus admiratio reiciendis. Stips delectus vesica caries. Tempore stella cenaculum.",
+      "language": "java",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/api/src/index.js",
+      "content": "// api package\nAtavus usitas soluta traho. Corroboro acies arx avarus. Celebrer celer utrum nulla.",
+      "language": "java",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/utils/src/index.js",
+      "content": "// utils package\nTubineus tabula admoneo demum vulgivagus tego tego. Vulgivagus spiritus pel aer a cumque catena. Victus deinde amplus patruus convoco deserunt culpa amicitia.",
+      "language": "java",
+      "size": 400,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "packages/core/src",
+      "packages/ui/src",
+      "packages/api/src",
+      "packages/utils/src"
+    ],
+    "fileCount": 4,
+    "totalSize": 1600,
+    "languages": {
+      "java": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 8,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

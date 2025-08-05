@@ -1,0 +1,20 @@
+{
+  "id": "f177c5b5-721e-4477-98c4-58266dbb0377",
+  "name": "error-recovery",
+  "steps": [
+    {
+      "id": "1",
+      "type": "document-analysis",
+      "input": {
+        "documentId": "test-doc-1"
+      },
+      "expectedOutput": {
+        "requirements": [],
+        "keyPoints": []
+      },
+      "duration": 5000
+    }
+  ],
+  "expectedDuration": 5000,
+  "complexity": "simple"
+}

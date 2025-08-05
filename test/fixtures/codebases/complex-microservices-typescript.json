@@ -1,0 +1,82 @@
+{
+  "id": "87a3ad23-2db0-437c-95a5-46bd2981735a",
+  "name": "complex-microservices-typescript",
+  "language": "typescript",
+  "files": [
+    {
+      "path": "services/user-service/src/index.ts",
+      "content": "// user-service main entry point\nPatrocinor totam reiciendis pel claustrum accendo reiciendis canis magni somnus. Audeo totidem aureus consectetur arbor. Sed ara compello eaque adamo cado vorago.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/user-service/src/controller.ts",
+      "content": "// user-service controller\nCapillus alias vitiosus crastinus. Deorsum sui autem accusator ceno vitiosus correptius solitudo. Amo adimpleo bellicus vos apto socius vulnero vae aliquam.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/product-service/src/index.ts",
+      "content": "// product-service main entry point\nCurtus aequitas timidus titulus laudantium saepe suus aedificium vorax. Cunabula trado color stillicidium cunctatio eum. Appositus perferendis turba tubineus cedo delectus sponte tui.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/product-service/src/controller.ts",
+      "content": "// product-service controller\nQuidem curo suadeo aeternus. Tempore solitudo bestia. Tergiversatio terror velut curiositas vulpes.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/order-service/src/index.ts",
+      "content": "// order-service main entry point\nTestimonium audax vacuus ante cursus vindico abutor. Debilito claudeo ad artificiose eos. Commodi pariatur auctus deputo atrocitas animus verto vinco vita convoco.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/order-service/src/controller.ts",
+      "content": "// order-service controller\nAperiam amplexus maxime barba advoco adsidue paens. Aspicio ea cunae communis deduco pauper antepono perferendis supra amo. Spes viscus alioqui volva blanditiis quae.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/notification-service/src/index.ts",
+      "content": "// notification-service main entry point\nCensura tamen colligo claro dignissimos vulnero. Aliquam vomito ustilo vinitor earum pel vulgo cogo ubi. Dolor nihil fugiat tamisium cohaero adopto crastinus.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/notification-service/src/controller.ts",
+      "content": "// notification-service controller\nCorrigo delectatio hic abbas. Desino creber amissio adduco voluntarius vesco. Adulatio explicabo comprehendo.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "services/user-service/src",
+      "services/product-service/src",
+      "services/order-service/src",
+      "services/notification-service/src"
+    ],
+    "fileCount": 8,
+    "totalSize": 5600,
+    "languages": {
+      "typescript": 8
+    }
+  },
+  "metrics": {
+    "linesOfCode": 16,
+    "cyclomaticComplexity": 2.5,
+    "maintainabilityIndex": 75,
+    "technicalDebt": 2500
+  }
+}

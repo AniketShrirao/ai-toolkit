@@ -1,0 +1,304 @@
+@use "../../styles/design-system/variables" as *;
+@use "../../styles/design-system/mixins" as *;
+
+.toc {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-relaxed);
+    max-width: 280px;
+
+    @include respond-to('mobile') {
+        max-width: 100%;
+        margin-bottom: var(--spacing-lg);
+    }
+}
+
+.tocSticky {
+    position: sticky;
+    top: calc(var(--header-height) + var(--spacing-lg));
+    max-height: calc(100vh - var(--header-height) - var(--spacing-xl));
+    overflow-y: auto;
+
+    @include respond-to('mobile') {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+    }
+}
+
+.tocHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.tocTitle {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.tocToggle {
+    background: none;
+    border: none;
+    padding: var(--spacing-xs);
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+
+    &:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-text-primary);
+    }
+
+    &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+.tocToggleIcon {
+    width: 16px;
+    height: 16px;
+    transition: transform var(--transition-fast);
+}
+
+.tocToggleIconCollapsed {
+    transform: rotate(-90deg);
+}
+
+.tocContent {
+    transition: all var(--transition-normal);
+    overflow: hidden;
+}
+
+.tocContentCollapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.tocList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tocList--level-1 {
+    >.tocItem {
+        margin-bottom: var(--spacing-xs);
+    }
+}
+
+.tocList--level-2,
+.tocList--level-3,
+.tocList--level-4 {
+    margin-top: var(--spacing-xs);
+    padding-left: var(--spacing-md);
+    border-left: 1px solid var(--color-border-light);
+
+    >.tocItem {
+        margin-bottom: var(--spacing-xxs);
+    }
+}
+
+.tocItem {
+    margin: 0;
+}
+
+.tocLink {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+    font-size: inherit;
+    line-height: inherit;
+
+    &:hover {
+        background: var(--color-surface-hover);
+        color: var(--color-text-primary);
+    }
+
+    &:focus {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+}
+
+.tocLinkActive {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    font-weight: var(--font-weight-medium);
+
+    &:hover {
+        background: var(--color-primary-light);
+        color: var(--color-primary);
+    }
+}
+
+.tocLinkParentActive {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.tocNumber {
+    flex-shrink: 0;
+    margin-right: var(--spacing-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    font-size: var(--font-size-xs);
+    min-width: 20px;
+}
+
+.tocTitle {
+    flex: 1;
+    word-break: break-word;
+    hyphens: auto;
+}
+
+.tocChildren {
+    margin-top: var(--spacing-xxs);
+}
+
+// Dark theme adjustments
+[data-theme="dark"] {
+    .toc {
+        background: var(--color-surface-dark);
+        border-color: var(--color-border-dark);
+    }
+
+    .tocHeader {
+        border-bottom-color: var(--color-border-light-dark);
+    }
+
+    .tocTitle {
+        color: var(--color-text-primary-dark);
+    }
+
+    .tocToggle {
+        color: var(--color-text-secondary-dark);
+
+        &:hover {
+            background: var(--color-surface-hover-dark);
+            color: var(--color-text-primary-dark);
+        }
+    }
+
+    .tocLink {
+        color: var(--color-text-secondary-dark);
+
+        &:hover {
+            background: var(--color-surface-hover-dark);
+            color: var(--color-text-primary-dark);
+        }
+    }
+
+    .tocLinkActive {
+        background: var(--color-primary-dark);
+        color: var(--color-primary-light);
+
+        &:hover {
+            background: var(--color-primary-dark);
+            color: var(--color-primary-light);
+        }
+    }
+
+    .tocLinkParentActive {
+        color: var(--color-text-primary-dark);
+    }
+
+    .tocNumber {
+        color: var(--color-text-tertiary-dark);
+    }
+
+    .tocList--level-2,
+    .tocList--level-3,
+    .tocList--level-4 {
+        border-left-color: var(--color-border-light-dark);
+    }
+}
+
+// Responsive adjustments
+@include respond-to('tablet') {
+    .toc {
+        max-width: 240px;
+        padding: var(--spacing-sm);
+    }
+
+    .tocLink {
+        padding: var(--spacing-xxs) var(--spacing-xs);
+    }
+
+    .tocList--level-2,
+    .tocList--level-3,
+    .tocList--level-4 {
+        padding-left: var(--spacing-sm);
+    }
+}
+
+@include respond-to('mobile') {
+    .toc {
+        padding: var(--spacing-sm);
+    }
+
+    .tocHeader {
+        margin-bottom: var(--spacing-xs);
+        padding-bottom: var(--spacing-xs);
+    }
+
+    .tocLink {
+        padding: var(--spacing-xs);
+    }
+
+    .tocList--level-2,
+    .tocList--level-3,
+    .tocList--level-4 {
+        padding-left: var(--spacing-sm);
+    }
+}
+
+// Print styles
+@media print {
+    .toc {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+        background: #f9f9f9;
+    }
+
+    .tocToggle {
+        display: none;
+    }
+
+    .tocContent {
+        max-height: none !important;
+        opacity: 1 !important;
+    }
+
+    .tocLink {
+        color: #333 !important;
+
+        &:hover {
+            background: none !important;
+        }
+    }
+
+    .tocLinkActive {
+        background: #e6e6e6 !important;
+        color: #000 !important;
+    }
+}

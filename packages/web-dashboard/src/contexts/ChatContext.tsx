@@ -377,6 +377,11 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const maxRetries = 3;
     
     try {
+      // Check if AI service is connected before attempting to send
+      if (!aiChat.isConnected) {
+        throw new Error('AI service not connected. Please check your configuration and try again.');
+      }
+
       // Check if streaming is enabled
       if (state.aiConfig?.enableStreaming) {
         // Handle streaming response

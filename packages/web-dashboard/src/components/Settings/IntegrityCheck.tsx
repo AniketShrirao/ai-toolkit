@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import './IntegrityCheck.css';
+import './IntegrityCheck.scss';
 
 interface IntegrityReport {
   timestamp: Date;

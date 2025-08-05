@@ -19,10 +19,17 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          @use "@styles/variables" as *;
-          @use "@styles/colors" as *;
-          @use "@styles/spacing" as *;
-          @use "@styles/mixins" as *;
+          @use "@ai-toolkit/ui-styles/scss/abstracts/variables" as *;
+          @use "@ai-toolkit/ui-styles/scss/abstracts/mixins" as *;
+          @use "@ai-toolkit/ui-styles/scss/abstracts/functions" as *;
+          @use "@ai-toolkit/ui-styles/scss/components/forms" as *;
+          @use "@ai-toolkit/ui-styles/scss/components/cards" as *;
+          @use "@ai-toolkit/ui-styles/scss/components/buttons" as *;
+          @use "@ai-toolkit/ui-styles/scss/components/badges" as *;
+          @use "@ai-toolkit/ui-styles/scss/utilities/colors" as *;
+          @use "@ai-toolkit/ui-styles/scss/utilities/spacing" as *;
+          @use "@ai-toolkit/ui-styles/scss/utilities/layout" as *;
+          @use "@ai-toolkit/ui-styles/scss/utilities/dashboard" as *;
         `,
       },
     },

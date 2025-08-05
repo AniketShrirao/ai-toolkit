@@ -1,0 +1,20 @@
+{
+  "id": "7f6f9828-5e10-44b4-b5d8-608f2db71e64",
+  "name": "performance-intensive",
+  "steps": [
+    {
+      "id": "1",
+      "type": "document-analysis",
+      "input": {
+        "documentId": "test-doc-1"
+      },
+      "expectedOutput": {
+        "requirements": [],
+        "keyPoints": []
+      },
+      "duration": 5000
+    }
+  ],
+  "expectedDuration": 5000,
+  "complexity": "simple"
+}

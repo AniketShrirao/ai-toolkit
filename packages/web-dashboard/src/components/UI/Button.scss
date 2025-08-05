@@ -1,0 +1,200 @@
+.button {
+    @include button-base;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: space(2);
+    position: relative;
+    overflow: hidden;
+    font-family: $font-family-base;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all transition(base) ease(ease-out);
+    user-select: none;
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px var(--primary-alpha);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
+    }
+}
+
+// Button Variants
+.button-primary {
+    background-color: var(--primary);
+    color: var(--text-inverse);
+    border: 1px solid var(--primary);
+
+    &:hover:not(:disabled) {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: shadow(md);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+        background-color: var(--primary-active);
+        border-color: var(--primary-active);
+    }
+}
+
+.button-secondary {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+
+    &:hover:not(:disabled) {
+        background-color: var(--bg-tertiary);
+        border-color: var(--border-secondary);
+        transform: translateY(-1px);
+        box-shadow: shadow(sm);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+        background-color: var(--bg-primary);
+    }
+}
+
+.button-outline {
+    background-color: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+
+    &:hover:not(:disabled) {
+        background-color: var(--primary);
+        color: var(--text-inverse);
+        transform: translateY(-1px);
+        box-shadow: shadow(sm);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+        background-color: var(--primary-hover);
+    }
+}
+
+.button-ghost {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid transparent;
+
+    &:hover:not(:disabled) {
+        background-color: var(--bg-secondary);
+        border-color: var(--border);
+        transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+        background-color: var(--bg-tertiary);
+    }
+}
+
+// Button Sizes
+.button-sm {
+    padding: space(2) space(3);
+    font-size: font-size(sm);
+    min-height: space(8);
+    border-radius: radius(md);
+}
+
+.button-md {
+    padding: space(3) space(4);
+    font-size: font-size(base);
+    min-height: space(10);
+    border-radius: radius(md);
+}
+
+.button-lg {
+    padding: space(4) space(6);
+    font-size: font-size(lg);
+    min-height: space(12);
+    border-radius: radius(lg);
+}
+
+// Loading State
+.button-loading {
+    pointer-events: none;
+    position: relative;
+
+    .button-content {
+        opacity: 0.7;
+    }
+}
+
+.button-spinner {
+    width: space(4);
+    height: space(4);
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: radius(full);
+    animation: spin 1s linear infinite;
+    margin-right: space(2);
+}
+
+.button-content-loading {
+    opacity: 0.7;
+}
+
+// Responsive adjustments
+@include breakpoint(sm) {
+    .button {
+        min-height: 44px; // WCAG AA minimum touch target
+
+        &.button-sm {
+            min-height: 36px;
+            padding: space(2) space(3);
+        }
+    }
+}
+
+// Accessibility enhancements
+@include reduced-motion {
+    .button {
+        transition: none;
+
+        &:hover:not(:disabled) {
+            transform: none;
+        }
+
+        &:active:not(:disabled) {
+            transform: none;
+        }
+    }
+
+    .button-spinner {
+        animation: none;
+    }
+}
+
+@include high-contrast {
+    .button {
+        border-width: 2px;
+        font-weight: $font-weight-bold;
+
+        &:focus {
+            outline: 3px solid var(--text-primary);
+            outline-offset: 2px;
+        }
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

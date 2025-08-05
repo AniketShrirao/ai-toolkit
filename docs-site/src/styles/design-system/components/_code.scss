@@ -1,0 +1,520 @@
+// Enhanced Code Component Styles for Documentation
+
+// Base code block component
+.code-block {
+    @include doc-code-block;
+    position: relative;
+    margin: var(--spacing-lg) 0;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+
+    .code-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--spacing-sm) var(--spacing-md);
+        background: var(--surface-secondary);
+        border-bottom: 1px solid var(--border);
+
+        .code-language {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .code-actions {
+            display: flex;
+            gap: var(--spacing-sm);
+
+            .copy-button {
+                background: none;
+                border: 1px solid var(--border);
+                border-radius: var(--border-radius-sm);
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: var(--font-size-xs);
+                color: var(--text-tertiary);
+                cursor: pointer;
+                transition: all var(--transition-fast);
+
+                &:hover {
+                    background: var(--surface-tertiary);
+                    color: var(--text-secondary);
+                }
+
+                &.copied {
+                    background: var(--success-light);
+                    color: var(--success-dark);
+                    border-color: var(--success);
+                }
+            }
+        }
+    }
+
+    .code-content {
+        padding: var(--spacing-md);
+        overflow-x: auto;
+        background: var(--surface-primary);
+
+        pre {
+            margin: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            border-radius: 0;
+            font-family: var(--font-family-mono);
+            font-size: var(--font-size-sm);
+            line-height: var(--line-height-relaxed);
+        }
+
+        code {
+            background: none;
+            border: none;
+            padding: 0;
+            border-radius: 0;
+            font-size: inherit;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+    }
+
+    &.has-header .code-content {
+        border-radius: 0;
+    }
+
+    // Downloadable code blocks
+    &.downloadable {
+        .code-header::after {
+            content: "📥";
+            margin-left: var(--spacing-sm);
+            opacity: 0.7;
+        }
+    }
+
+    // Different code block themes
+    &.theme-terminal {
+        background: #1a1a1a;
+        border-color: #333;
+
+        .code-header {
+            background: #2d2d2d;
+            border-bottom-color: #444;
+            color: #fff;
+
+            .code-language {
+                color: #888;
+            }
+        }
+
+        .code-content {
+            background: #1a1a1a;
+
+            code {
+                color: #00ff00;
+            }
+        }
+    }
+
+    &.theme-editor {
+        .code-header {
+            background: #f8f9fa;
+            border-bottom-color: #e9ecef;
+
+            .code-language {
+                color: #6c757d;
+            }
+        }
+
+        .code-content {
+            background: #ffffff;
+        }
+    }
+}
+
+// Inline code component
+.inline-code {
+    @include doc-inline-code;
+
+    &.highlighted {
+        background: var(--warning-light);
+        border-color: var(--warning);
+    }
+}
+
+// Code example component with tabs
+.code-example {
+    @include doc-card;
+    padding: 0;
+    overflow: hidden;
+
+    .example-tabs {
+        display: flex;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
+
+        .tab-button {
+            @include doc-button(ghost);
+            padding: doc-space(md) doc-space(lg);
+            border-radius: 0;
+            border-bottom: 2px solid transparent;
+            @include text-style(sm, $font-weight-medium);
+
+            &.active {
+                background: var(--surface);
+                border-bottom-color: var(--primary);
+                color: var(--primary);
+            }
+
+            &:hover:not(.active) {
+                background: var(--bg-tertiary);
+            }
+        }
+    }
+
+    .example-content {
+        .tab-panel {
+            display: none;
+
+            &.active {
+                display: block;
+            }
+
+            .code-block {
+                margin: 0;
+                border: none;
+                border-radius: 0;
+            }
+        }
+    }
+}
+
+// Live code editor component
+.live-code-editor {
+    @include doc-card;
+    padding: 0;
+
+    .editor-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: doc-space(md) doc-space(lg);
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border);
+
+        .editor-title {
+            @include text-style(sm, $font-weight-medium);
+            color: var(--text-primary);
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: doc-space(sm);
+
+            .run-button {
+                @include doc-button(primary);
+                padding: doc-space(xs) doc-space(md);
+                min-height: auto;
+                @include text-style(xs);
+            }
+
+            .reset-button {
+                @include doc-button(secondary);
+                padding: doc-space(xs) doc-space(md);
+                min-height: auto;
+                @include text-style(xs);
+            }
+        }
+    }
+
+    .editor-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 400px;
+
+        @include breakpoint(md) {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .editor-pane {
+            .pane-header {
+                padding: doc-space(sm) doc-space(lg);
+                background: var(--bg-tertiary);
+                border-bottom: 1px solid var(--border);
+                @include text-style(xs, $font-weight-medium);
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+
+            .pane-content {
+                height: 100%;
+                overflow: auto;
+
+                .code-editor {
+                    height: 100%;
+                    font-family: $font-family-mono;
+                    @include text-style(sm);
+                    padding: doc-space(lg);
+                    border: none;
+                    background: var(--surface);
+                    color: var(--code-text);
+                    resize: none;
+                    outline: none;
+                }
+
+                .preview-frame {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    background: var(--surface);
+                }
+            }
+        }
+
+        .editor-divider {
+            width: 1px;
+            background: var(--border);
+
+            @include breakpoint(md) {
+                width: 100%;
+                height: 1px;
+            }
+        }
+    }
+}
+
+// Enhanced syntax highlighting with copy functionality
+.code-block-container {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+
+    .copy-button {
+        position: absolute;
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        background: var(--surface-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--border-radius-sm);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--font-size-xs);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+        z-index: 10;
+
+        &:hover {
+            background: var(--surface-tertiary);
+            color: var(--text-primary);
+        }
+
+        &.copied {
+            background: var(--success-light);
+            color: var(--success-dark);
+            border-color: var(--success);
+        }
+    }
+}
+
+// Enhanced syntax highlighting themes
+.hljs {
+    background: var(--code-bg) !important;
+    color: var(--code-text) !important;
+    padding: 0 !important; // Remove default padding as we handle it in container
+    border-radius: 0 !important;
+
+    // Keywords (if, else, function, class, etc.)
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-built_in,
+    .hljs-name,
+    .hljs-tag {
+        color: var(--syntax-keyword, #7c3aed) !important;
+        font-weight: var(--font-weight-semibold);
+    }
+
+    // Strings and attributes
+    .hljs-string,
+    .hljs-attr,
+    .hljs-template-variable,
+    .hljs-template-tag,
+    .hljs-addition {
+        color: var(--syntax-string, #059669) !important;
+    }
+
+    // Numbers and literals
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-subst {
+        color: var(--syntax-number, #dc2626) !important;
+    }
+
+    // Comments
+    .hljs-comment,
+    .hljs-quote,
+    .hljs-deletion {
+        color: var(--syntax-comment, #6b7280) !important;
+        font-style: italic;
+    }
+
+    // Functions and methods
+    .hljs-function,
+    .hljs-title,
+    .hljs-section,
+    .hljs-attribute {
+        color: var(--syntax-function, #2563eb) !important;
+        font-weight: var(--font-weight-medium);
+    }
+
+    // Types and classes
+    .hljs-type,
+    .hljs-class,
+    .hljs-symbol,
+    .hljs-bullet,
+    .hljs-meta {
+        color: var(--primary, #3b82f6) !important;
+    }
+
+    // Operators and punctuation
+    .hljs-operator,
+    .hljs-punctuation {
+        color: var(--text-primary) !important;
+    }
+
+    // Emphasis and strong
+    .hljs-emphasis {
+        font-style: italic;
+    }
+
+    .hljs-strong {
+        font-weight: var(--font-weight-bold);
+    }
+
+    // Links in code
+    .hljs-link {
+        color: var(--primary) !important;
+        text-decoration: underline;
+    }
+
+    // Language-specific enhancements
+    &.language-bash,
+    &.language-shell {
+        .hljs-built_in {
+            color: var(--syntax-function, #2563eb) !important;
+        }
+
+        .hljs-variable {
+            color: var(--syntax-number, #dc2626) !important;
+        }
+
+        // Command prompts
+        .hljs-meta {
+            color: var(--text-tertiary) !important;
+            user-select: none;
+        }
+    }
+
+    &.language-json {
+        .hljs-attr {
+            color: var(--syntax-function, #2563eb) !important;
+        }
+
+        .hljs-string {
+            color: var(--syntax-string, #059669) !important;
+        }
+
+        .hljs-number {
+            color: var(--syntax-number, #dc2626) !important;
+        }
+
+        .hljs-literal {
+            color: var(--syntax-keyword, #7c3aed) !important;
+        }
+    }
+
+    &.language-css {
+
+        .hljs-selector-class,
+        .hljs-selector-id {
+            color: var(--syntax-function, #2563eb) !important;
+        }
+
+        .hljs-property {
+            color: var(--primary, #3b82f6) !important;
+        }
+
+        .hljs-value {
+            color: var(--syntax-string, #059669) !important;
+        }
+    }
+
+    &.language-html,
+    &.language-xml {
+        .hljs-tag {
+            color: var(--syntax-keyword, #7c3aed) !important;
+        }
+
+        .hljs-name {
+            color: var(--syntax-function, #2563eb) !important;
+        }
+
+        .hljs-attr {
+            color: var(--primary, #3b82f6) !important;
+        }
+    }
+
+    &.language-javascript,
+    &.language-typescript {
+        .hljs-title.function_ {
+            color: var(--syntax-function, #2563eb) !important;
+        }
+
+        .hljs-variable.language_ {
+            color: var(--syntax-keyword, #7c3aed) !important;
+        }
+
+        .hljs-params {
+            color: var(--text-primary) !important;
+        }
+    }
+}
+
+// Line highlighting for code blocks
+.hljs-ln-line.highlighted {
+    background-color: rgba(var(--primary-rgb, 59, 130, 246), 0.1) !important;
+    border-left: 3px solid var(--primary) !important;
+    padding-left: calc(var(--spacing-md) - 3px) !important;
+}
+
+// Line numbers
+.hljs-ln-numbers {
+    color: var(--text-tertiary) !important;
+    border-right: 1px solid var(--border) !important;
+    padding-right: var(--spacing-sm) !important;
+    margin-right: var(--spacing-sm) !important;
+    user-select: none;
+    text-align: right;
+    min-width: 2rem;
+}
+
+.hljs-ln-code {
+    padding-left: var(--spacing-sm) !important;
+}
+
+// Diff highlighting
+.hljs-addition {
+    background-color: rgba(34, 197, 94, 0.1) !important;
+    color: var(--success) !important;
+    display: block;
+    width: 100%;
+}
+
+.hljs-deletion {
+    background-color: rgba(239, 68, 68, 0.1) !important;
+    color: var(--error) !important;
+    display: block;
+    width: 100%;
+}

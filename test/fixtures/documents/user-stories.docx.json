@@ -1,0 +1,13 @@
+{
+  "id": "6318c579-c665-4379-8610-84f89afd25c9",
+  "name": "user-stories.docx",
+  "type": "docx",
+  "content": "# User Stories\n\n## Epic: User Management\n\n### Story 1: User Registration\n**As a** new user\n**I want to** create an account\n**So that** I can access the platform\n\n**Acceptance Criteria:**\n- User can register with email and password\n- Email verification is required\n- Password must meet security requirements\n- User receives welcome email\n\n### Story 2: User Login\n**As a** registered user\n**I want to** log into my account\n**So that** I can access my personal data\n\n**Acceptance Criteria:**\n- User can login with email/password\n- Invalid credentials show error message\n- Successful login redirects to dashboard\n- Remember me option available\n\n### Story 3: Password Reset\n**As a** user who forgot password\n**I want to** reset my password\n**So that** I can regain access to my account\n\n**Acceptance Criteria:**\n- User can request password reset via email\n- Reset link expires after 24 hours\n- New password must meet requirements\n- User is notified of successful reset\n\n## Epic: Product Management\n\n### Story 4: Browse Products\n**As a** customer\n**I want to** browse available products\n**So that** I can find items to purchase\n\n**Acceptance Criteria:**\n- Products are displayed in grid layout\n- Pagination is available for large catalogs\n- Product images and basic info are shown\n- Categories filter is available",
+  "size": 1307,
+  "metadata": {
+    "author": "Boyd Von",
+    "createdAt": "2025-07-15T18:40:25.950Z",
+    "modifiedAt": "2025-08-03T17:27:53.267Z",
+    "wordCount": 215
+  }
+}

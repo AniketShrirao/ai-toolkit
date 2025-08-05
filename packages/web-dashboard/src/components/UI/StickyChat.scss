@@ -1,5 +1,4 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+// Styles are globally available via Vite config
 
 // Chat-specific variables
 $chat-bubble-size: 60px;
@@ -7,18 +6,18 @@ $chat-expanded-width: 380px;
 $chat-expanded-height: 500px;
 $chat-header-height: 60px;
 $chat-border-radius: 12px;
-$chat-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-$chat-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.16);
+$chat-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+$chat-shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.15);
 
 // Color variables using the color function
-$primary-color: color(primary, 600);
-$success-color: color(success, 600);
-$warning-color: color(warning, 600);
-$error-color: color(error, 600);
+$primary-color: get-color(primary, 600);
+$success-color: get-color(success, 600);
+$warning-color: get-color(warning, 600);
+$error-color: get-color(error, 600);
 $surface-color: #ffffff;
-$border-color: color(neutral, 200);
-$text-color: color(neutral, 900);
-$text-muted: color(neutral, 500);
+$border-color: get-color(neutral, 200);
+$text-color: get-color(neutral, 900);
+$text-muted: get-color(neutral, 500);
 
 // Animation timings
 $chat-expand-duration: 0.3s;
@@ -34,33 +33,34 @@ $z-chat-bubble: 1001;
   z-index: $z-sticky-chat;
   user-select: none;
   position: relative; // Ensure proper positioning context
-  
+
   // Smooth transitions for all state changes
   transition: all $chat-expand-duration cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &.dragging {
     cursor: grabbing;
-    
+
     .chat-bubble {
       cursor: grabbing;
       transform: scale(1.05);
     }
   }
-  
+
   // Collapsed state (bubble only)
   &.collapsed {
     .chat-bubble {
       animation: bubbleEntrance $bubble-bounce-duration cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
   }
-  
+
   // Expanded state
   &.expanded {
+
     // Ensure expanded chat doesn't interfere with positioning
     .chat-expanded {
       animation: desktopExpandEntrance $chat-expand-duration cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     // Mobile-specific expanded animation
     @media (max-width: 768px) {
       .chat-expanded {
@@ -83,29 +83,29 @@ $z-chat-bubble: 1001;
   justify-content: center;
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     transform: scale(1.1);
     box-shadow: $chat-shadow-hover;
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
-  
+
   .bubble-content {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  
+
   .chat-icon {
     font-size: 24px;
     color: white;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    // Removed drop-shadow for cleaner look
   }
-  
+
   .notification-badge {
     position: absolute;
     top: -8px;
@@ -121,7 +121,8 @@ $z-chat-bubble: 1001;
     font-size: 11px;
     font-weight: 600;
     border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    // Reduced shadow for cleaner look
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     animation: badgePulse 2s infinite;
   }
 }
@@ -132,24 +133,24 @@ $z-chat-bubble: 1001;
   height: $chat-expanded-height;
   background: $surface-color;
   border-radius: $chat-border-radius;
-  box-shadow: $chat-shadow-hover;
+  box-shadow: $chat-shadow;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border: 1px solid $border-color;
   position: absolute;
-  
+
   // Ensure it doesn't go off-screen
   max-width: calc(100vw - 40px);
   max-height: calc(100vh - 100px);
-  
+
   // Position based on bubble location
   .sticky-chat.position-bottom-right & {
     bottom: 70px;
     right: 0;
     transform-origin: bottom right;
   }
-  
+
   .sticky-chat.position-bottom-left & {
     bottom: 70px;
     left: 0;
@@ -167,7 +168,7 @@ $z-chat-bubble: 1001;
   justify-content: space-between;
   padding: 0 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  
+
   .header-content {
     flex: 1;
     display: flex;
@@ -177,93 +178,93 @@ $z-chat-bubble: 1001;
     padding: 8px 0;
     border-radius: 6px;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
-    
+
     &:focus {
       outline: 2px solid rgba(255, 255, 255, 0.5);
       outline-offset: 2px;
     }
   }
-  
+
   .header-info {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
-  
+
   .chat-title {
     font-size: 14px;
     font-weight: 600;
     margin: 0;
     line-height: 1.2;
   }
-  
+
   .status-indicator {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 12px;
     opacity: 0.9;
-    
+
     .status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: currentColor;
-      
+
       &.connected {
         background: $success-color;
         animation: statusPulse 2s infinite;
       }
-      
+
       &.connecting {
         background: $warning-color;
         animation: statusBlink 1s infinite;
       }
-      
+
       &.error {
         background: $error-color;
       }
-      
+
       &.disconnected {
         background: $text-muted;
       }
     }
-    
+
     .status-text {
       font-weight: 500;
     }
-    
+
     .model-info {
       font-size: 10px;
       opacity: 0.8;
       margin-left: 4px;
-      
+
       @media (max-width: 480px) {
         display: none; // Hide on very small screens
       }
     }
   }
-  
+
   .header-icon {
     font-size: 16px;
     opacity: 0.8;
     transition: opacity 0.2s ease;
-    
+
     .header-content:hover & {
       opacity: 1;
     }
   }
-  
+
   .header-actions {
     display: flex;
     gap: 4px;
     margin-left: 12px;
   }
-  
+
   .minimize-button,
   .close-button {
     width: 28px;
@@ -279,15 +280,15 @@ $z-chat-bubble: 1001;
     font-size: 16px;
     font-weight: 500;
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background: rgba(255, 255, 255, 0.2);
     }
-    
+
     &:active {
       background: rgba(255, 255, 255, 0.3);
     }
-    
+
     &:focus {
       outline: 2px solid rgba(255, 255, 255, 0.5);
       outline-offset: 1px;
@@ -300,7 +301,7 @@ $z-chat-bubble: 1001;
   background: var(--error-bg, #fee);
   border-bottom: 1px solid var(--error-border, #fcc);
   padding: 8px 12px;
-  
+
   .error-content {
     display: flex;
     align-items: center;
@@ -308,11 +309,11 @@ $z-chat-bubble: 1001;
     font-size: 12px;
     color: var(--error-text, #c33);
   }
-  
+
   .error-icon {
     font-size: 14px;
   }
-  
+
   .error-message {
     flex: 1;
     line-height: 1.3;
@@ -325,32 +326,32 @@ $z-chat-bubble: 1001;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  
+
   .sticky-chat-interface {
     height: 100%;
     border: none;
     border-radius: 0;
     box-shadow: none;
-    
+
     .chat-header {
       display: none; // Hide the ChatInterface header since we have our own
     }
-    
+
     .chat-messages {
       flex: 1;
       padding: 12px;
       font-size: 14px;
-      
+
       .message {
         margin-bottom: 12px;
-        
+
         &:last-child {
           margin-bottom: 0;
         }
-        
+
         .message-bubble {
           max-width: 85%;
-          
+
           .message-content {
             padding: 8px 12px;
             font-size: 13px;
@@ -362,43 +363,43 @@ $z-chat-bubble: 1001;
           }
         }
       }
-      
+
       .chat-empty {
         padding: 20px;
         text-align: center;
-        
+
         .empty-icon {
           font-size: 32px;
           margin-bottom: 8px;
         }
-        
+
         .empty-title {
           font-size: 14px;
           margin-bottom: 4px;
         }
-        
+
         .empty-description {
           font-size: 12px;
           color: $text-muted;
         }
       }
     }
-    
+
     .chat-input {
       padding: 5px;
       border-top: 1px solid $border-color;
-      
+
       .input-container {
         .message-input {
           font-size: 13px;
           min-height: 36px;
           max-height: 80px;
         }
-        
+
         .send-button {
           width: 36px;
           height: 36px;
-          
+
           .send-icon {
             font-size: 14px;
           }
@@ -421,28 +422,28 @@ $z-chat-bubble: 1001;
   justify-content: center;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     transform: scale(1.1);
     background: $primary-color;
   }
-  
+
   &:focus {
     outline: 2px solid $primary-color;
     outline-offset: 2px;
   }
-  
+
   .minimized-indicator {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     .chat-icon {
       font-size: 18px;
       color: white;
     }
-    
+
     .notification-badge {
       position: absolute;
       top: -6px;
@@ -469,20 +470,20 @@ $z-chat-bubble: 1001;
       background: linear-gradient(135deg, $success-color 0%, lighten($success-color, 10%) 100%);
     }
   }
-  
+
   &.connecting {
     .chat-bubble {
       background: linear-gradient(135deg, $warning-color 0%, lighten($warning-color, 10%) 100%);
       animation: connectingPulse 1.5s infinite;
     }
   }
-  
+
   &.error {
     .chat-bubble {
       background: linear-gradient(135deg, $error-color 0%, lighten($error-color, 10%) 100%);
     }
   }
-  
+
   &.disconnected {
     .chat-bubble {
       background: linear-gradient(135deg, $text-muted 0%, lighten($text-muted, 10%) 100%);
@@ -496,10 +497,12 @@ $z-chat-bubble: 1001;
     transform: scale(0) rotate(180deg);
     opacity: 0;
   }
+
   50% {
     transform: scale(1.2) rotate(90deg);
     opacity: 0.8;
   }
+
   100% {
     transform: scale(1) rotate(0deg);
     opacity: 1;
@@ -511,6 +514,7 @@ $z-chat-bubble: 1001;
     transform: scale(0.8);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -518,37 +522,50 @@ $z-chat-bubble: 1001;
 }
 
 @keyframes badgePulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
 }
 
 @keyframes statusPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.6;
   }
 }
 
 @keyframes statusBlink {
-  0%, 50% {
+
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+
+  51%,
+  100% {
     opacity: 0.3;
   }
 }
 
 @keyframes connectingPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.05);
     opacity: 0.8;
@@ -561,6 +578,7 @@ $z-chat-bubble: 1001;
     transform: translate(-50%, -50%) scale(0.8);
     opacity: 0;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
@@ -573,6 +591,7 @@ $z-chat-bubble: 1001;
     transform: scale(0.8);
     opacity: 0;
   }
+
   100% {
     transform: scale(1);
     opacity: 1;
@@ -598,7 +617,7 @@ $z-chat-bubble: 1001;
     max-width: none;
     height: calc(100vh - 120px);
     max-height: none;
-    
+
     // Better positioning on mobile - use absolute positioning relative to parent
     position: absolute;
     top: 50%;
@@ -606,21 +625,22 @@ $z-chat-bubble: 1001;
     transform: translate(-50%, -50%);
     z-index: 1;
   }
-  
+
   .sticky-chat {
+
     // Touch-friendly positioning
     &[style*="right"] {
       right: 15px !important;
     }
-    
+
     &[style*="left"] {
       left: 15px !important;
     }
-    
+
     &[style*="bottom"] {
       bottom: 15px !important;
     }
-    
+
     // Enhanced expanded state for mobile - override desktop positioning
     &.expanded {
       .chat-expanded {
@@ -636,20 +656,20 @@ $z-chat-bubble: 1001;
       }
     }
   }
-  
+
   .chat-bubble {
     width: 56px;
     height: 56px;
-    
+
     // Enhanced touch interaction
     &:active {
       transform: scale(0.9);
     }
-    
+
     .chat-icon {
       font-size: 22px;
     }
-    
+
     .notification-badge {
       top: -6px;
       right: -6px;
@@ -658,37 +678,37 @@ $z-chat-bubble: 1001;
       font-size: 10px;
     }
   }
-  
+
   .chat-header {
     padding: 12px 16px;
-    
+
     .header-content {
       padding: 6px 0;
     }
-    
+
     .chat-title {
       font-size: 13px;
     }
-    
+
     .status-indicator {
       font-size: 11px;
-      
+
       .status-dot {
         width: 5px;
         height: 5px;
       }
-      
+
       .model-info {
         display: none; // Hide on mobile to save space
       }
     }
-    
+
     .minimize-button,
     .close-button {
       width: 32px;
       height: 32px;
       font-size: 18px;
-      
+
       // Larger touch targets
       &::before {
         content: '';
@@ -700,25 +720,25 @@ $z-chat-bubble: 1001;
       }
     }
   }
-  
+
   .chat-content {
     .sticky-chat-interface {
       .chat-messages {
         padding: 10px;
         font-size: 13px;
-        
+
         // Enhanced mobile scrolling
         -webkit-overflow-scrolling: touch;
-        
+
         .message {
           margin-bottom: 10px;
-          
+
           .message-bubble {
             max-width: 90%;
             padding: 8px 12px;
             font-size: 12px;
             line-height: 1.4;
-            
+
             .message-content {
               padding: 6px 10px;
 
@@ -728,32 +748,32 @@ $z-chat-bubble: 1001;
             }
           }
         }
-        
+
         .chat-empty {
           padding: 15px;
-          
+
           .empty-icon {
             font-size: 28px;
             margin-bottom: 6px;
           }
-          
+
           .empty-title {
             font-size: 13px;
             margin-bottom: 3px;
           }
-          
+
           .empty-description {
             font-size: 11px;
           }
         }
       }
-      
+
       .chat-input {
         padding: 10px;
-        
+
         .input-container {
           gap: 8px;
-          
+
           .message-input {
             font-size: 12px;
             min-height: 40px;
@@ -761,12 +781,12 @@ $z-chat-bubble: 1001;
             padding: 8px 12px;
             border-radius: 8px;
           }
-          
+
           .send-button {
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            
+
             .send-icon {
               font-size: 12px;
             }
@@ -783,39 +803,39 @@ $z-chat-bubble: 1001;
     height: calc(100vh - 100px);
     border-radius: 12px;
   }
-  
+
   .sticky-chat {
     &[style*="right"] {
       right: 8px !important;
     }
-    
+
     &[style*="left"] {
       left: 8px !important;
     }
-    
+
     &[style*="bottom"] {
       bottom: 8px !important;
     }
   }
-  
+
   .chat-bubble {
     width: 52px;
     height: 52px;
-    
+
     .chat-icon {
       font-size: 20px;
     }
   }
-  
+
   .sticky-chat-minimized {
     width: 36px;
     height: 36px;
-    
+
     .minimized-indicator {
       .chat-icon {
         font-size: 16px;
       }
-      
+
       .notification-badge {
         min-width: 14px;
         height: 14px;
@@ -825,19 +845,19 @@ $z-chat-bubble: 1001;
       }
     }
   }
-  
+
   .chat-header {
     padding: 10px 12px;
-    
+
     .chat-title {
       font-size: 12px;
     }
-    
+
     .status-indicator {
       font-size: 10px;
       gap: 4px;
     }
-    
+
     .minimize-button,
     .close-button {
       width: 28px;
@@ -845,34 +865,34 @@ $z-chat-bubble: 1001;
       font-size: 16px;
     }
   }
-  
+
   .chat-content {
     .sticky-chat-interface {
       .chat-messages {
         padding: 8px;
-        
+
         .message {
           margin-bottom: 8px;
-          
+
           .message-bubble {
             padding: 6px 10px;
             font-size: 11px;
           }
         }
       }
-      
+
       .chat-input {
         padding: 8px;
-        
+
         .input-container {
           gap: 6px;
-          
+
           .message-input {
             font-size: 11px;
             min-height: 36px;
             padding: 6px 10px;
           }
-          
+
           .send-button {
             width: 36px;
             height: 36px;
@@ -888,11 +908,11 @@ $z-chat-bubble: 1001;
   .chat-bubble {
     border: 2px solid $text-color;
   }
-  
+
   .chat-expanded {
     border: 2px solid $text-color;
   }
-  
+
   .notification-badge {
     border: 2px solid $surface-color;
   }
@@ -900,6 +920,7 @@ $z-chat-bubble: 1001;
 
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
+
   .sticky-chat,
   .chat-bubble,
   .chat-expanded,
@@ -907,7 +928,7 @@ $z-chat-bubble: 1001;
     animation: none !important;
     transition: none !important;
   }
-  
+
   .chat-bubble:hover {
     transform: none;
   }
@@ -915,6 +936,7 @@ $z-chat-bubble: 1001;
 
 // Focus styles for accessibility
 .sticky-chat {
+
   .chat-bubble:focus,
   .minimized-indicator:focus {
     outline: 3px solid $primary-color;
@@ -924,6 +946,7 @@ $z-chat-bubble: 1001;
 
 // Print styles
 @media print {
+
   .sticky-chat,
   .sticky-chat-minimized {
     display: none !important;

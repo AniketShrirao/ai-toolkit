@@ -1,0 +1,54 @@
+{
+  "id": "0bb5ef2c-d23b-4093-9e39-7170a3f4f95c",
+  "name": "legacy-system-python",
+  "language": "python",
+  "files": [
+    {
+      "path": "src/app.py",
+      "content": "// Legacy code - needs refactoring\nfrom flask import Flask\nfrom routes.users import user_bp\n\napp = Flask(__name__)\napp.register_blueprint(user_bp, url_prefix='/api/users')\n\nif __name__ == '__main__':\n    app.run(debug=True)",
+      "language": "python",
+      "size": 1500,
+      "complexity": 5
+    },
+    {
+      "path": "src/routes/users.py",
+      "content": "// Legacy code - needs refactoring\n// users routes for python\nAntepono in conforto advenio ducimus ascisco texo ara demum. Tempore conservo viriliter vicissitudo uterque defluo dolores pauper. Debitis umerus caecus cattus.",
+      "language": "python",
+      "size": 800,
+      "complexity": 4
+    },
+    {
+      "path": "src/models/User.py",
+      "content": "// Legacy code - needs refactoring\n// User model for python\nAccommodo sortitus incidunt quasi cursim architecto aegrus comedo. Clamo amitto volva baiulus adeo umbra. Vacuus aggero minus adopto corrupti advoco tersus beatae.",
+      "language": "python",
+      "size": 600,
+      "complexity": 4
+    },
+    {
+      "path": "src/config/database.py",
+      "content": "// Legacy code - needs refactoring\n// Configuration for python\nSonitus confero aperte deorsum carpo solio articulus. Conforto thymum veritatis earum vulariter vir videlicet minus. Corpus supellex reiciendis qui curia vix cuppedia.",
+      "language": "python",
+      "size": 400,
+      "complexity": 3
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "python": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 18,
+    "cyclomaticComplexity": 4,
+    "maintainabilityIndex": 60,
+    "technicalDebt": 4000
+  }
+}

@@ -7,7 +7,8 @@ import { SystemMonitoring } from './SystemMonitoring';
 import { WorkflowConfiguration } from './WorkflowConfiguration';
 import { UserPreferences } from './UserPreferences';
 import { IntegrityCheck } from './IntegrityCheck';
-import './Settings.css';
+import './Settings.scss';
+
 
 type SettingsTab = 'ai-chat' | 'cloudllm' | 'ollama' | 'processing' | 'monitoring' | 'workflows' | 'preferences' | 'debug';
 

@@ -1,0 +1,13 @@
+{
+  "id": "7c9bdc8b-f653-45f4-87fc-4f4c6bb3b5fe",
+  "name": "complex-project-spec.txt",
+  "type": "txt",
+  "content": "# Complex E-commerce Platform Specification\n\n## Executive Summary\nOmnis esse vetus sollicito spargo tergiversatio tergeo curia. Stella tibi modi tam defessus. Adipisci arcesso caelestis totidem.\nFuga audacia ulterius. Thesis teneo cado cibo terminatio. Arto tristis necessitatibus certe tendo terebro non cuius decet quidem.\n\n## System Architecture\n### Frontend Components\n- React-based user interface\n- Mobile-responsive design\n- Progressive Web App capabilities\n\n### Backend Services\n- Microservices architecture\n- API Gateway implementation\n- Database clustering\n\n### Third-party Integrations\n- Payment processing (Stripe, PayPal)\n- Shipping providers (FedEx, UPS)\n- Analytics platforms (Google Analytics)\n\n## Detailed Requirements\n\n### User Management System\n1. Registration and Authentication\n   - Multi-factor authentication\n   - Social login integration\n   - Role-based access control\n\n2. User Profiles\n   - Personal information management\n   - Preference settings\n   - Order history tracking\n\n### Product Catalog\n1. Product Information Management\n   - Rich product descriptions\n   - Image gallery support\n   - Inventory tracking\n   - Category management\n\n2. Search and Filtering\n   - Full-text search capabilities\n   - Advanced filtering options\n   - Recommendation engine\n\n### Order Management\n1. Shopping Cart\n   - Persistent cart across sessions\n   - Guest checkout option\n   - Promotional code support\n\n2. Checkout Process\n   - Multiple payment methods\n   - Address validation\n   - Order confirmation system\n\n### Performance Requirements\n- Page load time < 3 seconds\n- Support for 10,000 concurrent users\n- 99.95% uptime requirement\n- Mobile performance optimization\n\n### Security Requirements\n- PCI DSS compliance\n- Data encryption (AES-256)\n- Regular security audits\n- GDPR compliance\n\n## Implementation Timeline\nPhase 1: Core functionality (3 months)\nPhase 2: Advanced features (2 months)\nPhase 3: Performance optimization (1 month)\nPhase 4: Testing and deployment (1 month)\n\n## Risk Assessment\n- Technical complexity: High\n- Resource availability: Medium\n- Market competition: High\n- Regulatory compliance: Medium",
+  "size": 2129,
+  "metadata": {
+    "author": "Hazel Wilkinson",
+    "createdAt": "2024-12-29T16:34:35.632Z",
+    "modifiedAt": "2025-08-03T20:20:30.409Z",
+    "wordCount": 286
+  }
+}

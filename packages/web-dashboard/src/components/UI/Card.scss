@@ -1,10 +1,7 @@
 // Modern Card component styles based on reference design
 // Implements elevated shadows, glass-morphism effects, and modern styling patterns
 
-@use '../../styles/variables' as *;
-@use '../../styles/colors' as *;
-@use '../../styles/spacing' as *;
-@use '../../styles/mixins' as *;
+// Styles are globally available via Vite config
 
 // Base card styles with modern reference-based design
 .card {

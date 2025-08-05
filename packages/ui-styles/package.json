@@ -1,0 +1,59 @@
+{
+  "name": "@ai-toolkit/ui-styles",
+  "version": "1.0.0",
+  "description": "Shared UI styles and design system for AI Toolkit",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sass": "scss/index.scss",
+  "style": "dist/index.css",
+  "exports": {
+    ".": {
+      "sass": "./scss/index.scss",
+      "style": "./dist/index.css",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./scss": "./scss/index.scss",
+    "./scss/*": "./scss/*",
+    "./scss/abstracts/variables": "./scss/abstracts/_variables.scss",
+    "./scss/abstracts/mixins": "./scss/abstracts/_mixins.scss",
+    "./scss/abstracts/functions": "./scss/abstracts/_functions.scss",
+    "./scss/components/forms": "./scss/components/_forms.scss",
+    "./scss/components/cards": "./scss/components/_cards.scss",
+    "./scss/components/buttons": "./scss/components/_buttons.scss",
+    "./scss/components/badges": "./scss/components/_badges.scss",
+    "./css": "./dist/index.css"
+  },
+  "files": [
+    "dist/",
+    "scss/",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run build:scss && npm run build:types",
+    "build:scss": "sass scss/:dist/ --style=compressed --source-map",
+    "build:types": "tsc",
+    "watch": "npm run build:scss -- --watch",
+    "clean": "rm -rf dist/",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "sass",
+    "scss",
+    "styles",
+    "design-system",
+    "ui",
+    "css"
+  ],
+  "author": "AI Toolkit Team",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.69.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "sass": "^1.69.0"
+  }
+}

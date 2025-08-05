@@ -1,0 +1,105 @@
+// Settings Component Styles
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: space(6);
+    padding: space(6);
+}
+
+.settings-header {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    h1 {
+        @include text-style(3xl, bold);
+        @include text-color(primary);
+        margin: 0;
+    }
+
+    p {
+        @include text-style(lg);
+        @include text-color(secondary);
+        margin: 0;
+    }
+}
+
+.settings-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: space(8);
+
+    @include breakpoint(md) {
+        grid-template-columns: 1fr;
+        gap: space(4);
+    }
+}
+
+.settings-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-nav {
+    display: flex;
+    flex-direction: column;
+    gap: space(1);
+
+    @include breakpoint(md) {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: space(2);
+    }
+}
+
+.settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+    padding: space(3) space(4);
+    border: none;
+    background: none;
+    border-radius: radius(md);
+    cursor: pointer;
+    transition: all transition(base);
+    @include text-style(base, medium);
+    @include text-color(secondary);
+    text-align: left;
+
+    &:hover {
+        @include bg-color(secondary);
+        @include text-color(primary);
+    }
+
+    &.active {
+        @include bg-color(primary);
+        color: white;
+
+        .nav-icon {
+            color: white;
+        }
+    }
+
+    @include breakpoint(md) {
+        flex-shrink: 0;
+        min-width: 120px;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
+.nav-icon {
+    @include font-size(lg);
+    flex-shrink: 0;
+}
+
+.nav-label {
+    @include breakpoint(md) {
+        display: none;
+    }
+}
+
+.settings-content {
+    min-width: 0;
+}

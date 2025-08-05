@@ -1,0 +1,259 @@
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-primary);
+}
+
+.header {
+    flex-shrink: 0;
+    z-index: 1020;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    min-height: 0; // Prevent flex item from overflowing
+}
+
+.sidebar {
+    flex-shrink: 0;
+    width: 280px;
+
+    // Desktop and tablet styles
+    @media (min-width: 768px) {
+        display: block;
+    }
+
+    // Hide on mobile
+    @media (max-width: 767px) {
+        display: none;
+    }
+}
+
+.content {
+    flex: 1;
+    min-width: 0; // Prevent flex item from overflowing
+    display: flex;
+    flex-direction: column;
+}
+
+.breadcrumbsContainer {
+    flex-shrink: 0;
+    padding: 1rem 1.5rem 0;
+
+    // Tablet adjustments
+    @media (max-width: 1023px) and (min-width: 768px) {
+        padding: 1rem 1.25rem 0;
+    }
+
+    // Mobile adjustments
+    @media (max-width: 767px) {
+        padding: 1rem 1rem 0;
+    }
+}
+
+.pageContent {
+    flex: 1;
+    padding: 1.5rem;
+    max-width: 100%;
+
+    // Optimal reading width for long-form content
+    width: 100%;
+    max-width: min(100%, 75ch);
+
+    // Tablet adjustments
+    @media (max-width: 1023px) and (min-width: 768px) {
+        padding: 1.25rem;
+        max-width: 100%;
+    }
+
+    // Mobile adjustments
+    @media (max-width: 767px) {
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    // Very small screens
+    @media (max-width: 480px) {
+        padding: 0.75rem;
+    }
+}
+
+// Layout variations
+.layout[data-layout="responsive"] {
+
+    // Responsive grid layout for larger screens
+    @media (min-width: 1024px) {
+        .main {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 0;
+        }
+
+        .sidebar {
+            width: auto;
+        }
+    }
+
+    // Tablet layout
+    @media (max-width: 1023px) and (min-width: 768px) {
+        .main {
+            display: flex;
+        }
+
+        .sidebar {
+            width: 240px;
+        }
+    }
+
+    // Mobile layout
+    @media (max-width: 767px) {
+        .main {
+            display: block;
+        }
+
+        .content {
+            width: 100%;
+        }
+    }
+}
+
+// Content width variations
+.pageContent {
+
+    // Default: optimal reading width
+    &[data-width="reading"] {
+        max-width: min(100%, 75ch);
+    }
+
+    // Wide: for tables, code blocks, etc.
+    &[data-width="wide"] {
+        max-width: min(100%, 120ch);
+    }
+
+    // Full: use all available space
+    &[data-width="full"] {
+        max-width: 100%;
+    }
+}
+
+// Responsive spacing utilities
+.layout {
+
+    // Compact spacing for mobile
+    @media (max-width: 767px) {
+        --content-spacing: 0.75rem;
+        --section-spacing: 1rem;
+    }
+
+    // Standard spacing for tablet
+    @media (max-width: 1023px) and (min-width: 768px) {
+        --content-spacing: 1rem;
+        --section-spacing: 1.25rem;
+    }
+
+    // Comfortable spacing for desktop
+    @media (min-width: 1024px) {
+        --content-spacing: 1.5rem;
+        --section-spacing: 2rem;
+    }
+}
+
+// Touch-friendly improvements for mobile
+@media (max-width: 767px) {
+    .layout {
+
+        // Ensure touch targets are at least 44px
+        button,
+        a,
+        [role="button"] {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        // Increase tap target spacing
+        .breadcrumbsContainer a {
+            padding: 0.5rem;
+            margin: -0.25rem;
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .layout {
+        .sidebar {
+            border-right: 2px solid var(--text-primary);
+        }
+
+        .breadcrumbsContainer {
+            border-bottom: 1px solid var(--text-primary);
+        }
+    }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+    .layout * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+// Print styles
+@media print {
+    .layout {
+        display: block;
+        background: white;
+        color: black;
+    }
+
+    .header,
+    .sidebar,
+    .breadcrumbsContainer {
+        display: none;
+    }
+
+    .main {
+        display: block;
+    }
+
+    .content {
+        display: block;
+    }
+
+    .pageContent {
+        padding: 0;
+        max-width: none;
+    }
+}
+
+// Landscape orientation adjustments for mobile
+@media (max-width: 767px) and (orientation: landscape) {
+    .breadcrumbsContainer {
+        padding-top: 0.75rem;
+    }
+
+    .pageContent {
+        padding-top: 0.75rem;
+    }
+}
+
+// Large desktop optimizations
+@media (min-width: 1440px) {
+    .layout {
+        .main {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+    }
+}
+
+// Ultra-wide screen optimizations
+@media (min-width: 1920px) {
+    .pageContent {
+        max-width: min(100%, 100ch);
+    }
+}

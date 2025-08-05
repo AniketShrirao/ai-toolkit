@@ -1,0 +1,54 @@
+{
+  "id": "93818a81-27c3-4e4a-8c82-93ee2bb799fa",
+  "name": "monorepo-typescript",
+  "language": "typescript",
+  "files": [
+    {
+      "path": "packages/core/src/index.ts",
+      "content": "// core package\nNam debilito aduro vorago voluptates cupressus facere alter. Universe comburo cibus acervus denuncio denique acidus tot. Cometes avarus peccatus harum suasoria subseco laudantium valens vito.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/ui/src/index.ts",
+      "content": "// ui package\nCum adamo esse. Cuppedia canonicus vicissitudo vomica aptus. Optio utique caecus quis curso thesaurus.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/api/src/index.ts",
+      "content": "// api package\nConfugo audeo sumo adimpleo peior certus facilis. Apostolus officia ciminatio curiositas. Inventore vulticulus spiritus sustineo commemoro curso cena constans.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/utils/src/index.ts",
+      "content": "// utils package\nVestrum creptio cimentarius tandem. Delibero uxor utroque. Accendo cena triduana cupio viridis atrox adinventitias.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "packages/core/src",
+      "packages/ui/src",
+      "packages/api/src",
+      "packages/utils/src"
+    ],
+    "fileCount": 4,
+    "totalSize": 1600,
+    "languages": {
+      "typescript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 8,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

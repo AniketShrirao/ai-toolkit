@@ -1,0 +1,313 @@
+// Design System Functions
+@use 'sass:map';
+@use 'sass:math';
+@use 'variables' as *;
+
+// Spacing function
+@function space($size) {
+  @return map.get($spacing-scale, $size);
+}
+
+// Task-specific spacing function
+@function task-space($size) {
+  @return map.get($task-spacing, $size);
+}
+
+// Font size function
+@function font-size($size) {
+  @return map.get($font-sizes, $size);
+}
+
+// Border radius function
+@function radius($size) {
+  @return map.get($border-radius, $size);
+}
+
+// Shadow function
+@function shadow($size) {
+  @return map.get($shadows, $size);
+}
+
+// Modern shadow function
+@function modern-shadow($size) {
+  @return map.get($modern-shadows, $size);
+}
+
+// Transition function
+@function transition($speed) {
+  @return map.get($transitions, $speed);
+}
+
+// Easing function
+@function ease($type) {
+  @return map.get($easing, $type);
+}
+
+// Breakpoint function
+@function breakpoint($size) {
+  @return map.get($breakpoints, $size);
+}
+
+// Container function
+@function container($size) {
+  @return map.get($containers, $size);
+}
+
+// Color function to access palette values
+@function get-color($name, $shade: 500) {
+  @return map.get(map.get($colors, $name), $shade);
+}
+
+// Color contrast function to ensure accessibility
+@function color-contrast($color, $light: #ffffff, $dark: #000000) {
+  $color-brightness: (red($color) * 299 + green($color) * 587 + blue($color) * 114) / 1000;
+  @return if($color-brightness > 128, $dark, $light);
+}
+
+// Function to get accessible text color for any background
+@function text-on-color($bg-color) {
+  @return color-contrast($bg-color, get-color(neutral, 900), #ffffff);
+}
+
+// Function to create color with alpha
+@function color-alpha($name, $shade: 500, $alpha: 0.1) {
+  @return rgba(get-color($name, $shade), $alpha);
+}
+
+// Function to get hover state color (darker shade)
+@function color-hover($name, $shade: 500) {
+  $hover-shade: $shade + 100;
+  @if $hover-shade > 900 {
+    $hover-shade: 900;
+  }
+  @return get-color($name, $hover-shade);
+}
+
+// Function to get active state color (even darker shade)
+@function color-active($name, $shade: 500) {
+  $active-shade: $shade + 200;
+  @if $active-shade > 900 {
+    $active-shade: 900;
+  }
+  @return get-color($name, $active-shade);
+}
+
+// Function to validate contrast ratio
+@function contrast-ratio($color1, $color2) {
+  $l1: luminance($color1);
+  $l2: luminance($color2);
+  @return if($l1 > $l2, ($l1 + 0.05) / ($l2 + 0.05), ($l2 + 0.05) / ($l1 + 0.05));
+}
+
+// Helper function to calculate luminance
+@function luminance($color) {
+  $red: math.div(red($color), 255);
+  $green: math.div(green($color), 255);
+  $blue: math.div(blue($color), 255);
+  
+  $red: if($red <= 0.03928, math.div($red, 12.92), math.pow(math.div($red + 0.055, 1.055), 2.4));
+  $green: if($green <= 0.03928, math.div($green, 12.92), math.pow(math.div($green + 0.055, 1.055), 2.4));
+  $blue: if($blue <= 0.03928, math.div($blue, 12.92), math.pow(math.div($blue + 0.055, 1.055), 2.4));
+  
+  @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
+}
+
+// Z-index function
+@function z-index($layer) {
+  @return map.get($z-index, $layer);
+}
+
+// Modern gradient function
+@function modern-gradient($name) {
+  @return map.get($modern-gradients, $name);
+}
+
+// Glass effect function
+@function glass-effect($type) {
+  @return map.get($glass-effects, $type);
+}
+
+// Typography scale function
+@function typography($style, $property) {
+  $style-map: map.get($typography-scale, $style);
+  @if $style-map {
+    @return map.get($style-map, $property);
+  }
+  @return null;
+}
+
+// Responsive value function
+@function responsive-value($mobile, $tablet: null, $desktop: null) {
+  @if $desktop {
+    @return $desktop;
+  } @else if $tablet {
+    @return $tablet;
+  } @else {
+    @return $mobile;
+  }
+}
+
+// Clamp function for fluid typography
+@function fluid-size($min-size, $max-size, $min-vw: 320px, $max-vw: 1200px) {
+  @return clamp(#{$min-size}, #{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}), #{$max-size});
+}
+
+// Strip unit helper function
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return math.div($number, $number * 0 + 1);
+  }
+  @return $number;
+}
+
+// Convert px to rem
+@function rem($pixels, $base: 16px) {
+  @return math.div($pixels, $base) * 1rem;
+}
+
+// Convert px to em
+@function em($pixels, $base: 16px) {
+  @return math.div($pixels, $base) * 1em;
+}
+
+// Percentage function
+@function percentage($value) {
+  @return $value * 100%;
+}
+
+// Power function (for calculations)
+@function pow($base, $exponent) {
+  $result: 1;
+  @if $exponent > 0 {
+    @for $i from 1 through $exponent {
+      $result: $result * $base;
+    }
+  } @else if $exponent < 0 {
+    @for $i from 1 through -$exponent {
+      $result: math.div($result, $base);
+    }
+  }
+  @return $result;
+}
+
+// Map deep get function
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map.get($map, $key);
+  }
+  @return $map;
+}
+
+// String replace function
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
+
+// URL encode function
+@function url-encode($string) {
+  $map: (
+    "%": "%25",
+    "<": "%3C",
+    ">": "%3E",
+    " ": "%20",
+    "!": "%21",
+    "*": "%2A",
+    "'": "%27",
+    '"': "%22",
+    "(": "%28",
+    ")": "%29",
+    ";": "%3B",
+    ":": "%3A",
+    "@": "%40",
+    "&": "%26",
+    "=": "%3D",
+    "+": "%2B",
+    "$": "%24",
+    ",": "%2C",
+    "/": "%2F",
+    "?": "%3F",
+    "#": "%23",
+    "[": "%5B",
+    "]": "%5D"
+  );
+  
+  $result: $string;
+  @each $search, $replace in $map {
+    $result: str-replace($result, $search, $replace);
+  }
+  
+  @return $result;
+}
+
+// SVG URL function
+@function svg-url($svg) {
+  @return url("data:image/svg+xml,#{url-encode($svg)}");
+}
+
+// Triangle function for CSS triangles
+@function triangle($direction, $size, $color) {
+  @if $direction == up {
+    @return (
+      width: 0,
+      height: 0,
+      border-left: $size solid transparent,
+      border-right: $size solid transparent,
+      border-bottom: $size solid $color
+    );
+  } @else if $direction == down {
+    @return (
+      width: 0,
+      height: 0,
+      border-left: $size solid transparent,
+      border-right: $size solid transparent,
+      border-top: $size solid $color
+    );
+  } @else if $direction == left {
+    @return (
+      width: 0,
+      height: 0,
+      border-top: $size solid transparent,
+      border-bottom: $size solid transparent,
+      border-right: $size solid $color
+    );
+  } @else if $direction == right {
+    @return (
+      width: 0,
+      height: 0,
+      border-top: $size solid transparent,
+      border-bottom: $size solid transparent,
+      border-left: $size solid $color
+    );
+  }
+}
+
+// Aspect ratio function
+@function aspect-ratio($width, $height) {
+  @return percentage(math.div($height, $width));
+}
+
+// Golden ratio function
+@function golden-ratio($value, $increment: 0) {
+  $golden: 1.618;
+  @return $value * pow($golden, $increment);
+}
+
+// Modular scale function
+@function modular-scale($increment, $value: 1rem, $ratio: 1.2) {
+  @return $value * pow($ratio, $increment);
+}
+
+// Dashboard-specific color functions
+@function dashboard-color($palette, $variant: base) {
+  @return map.get(map.get($dashboard-color-palettes, $palette), $variant);
+}
+
+@function dashboard-gradient($name) {
+  @return map.get($dashboard-gradients, $name);
+}

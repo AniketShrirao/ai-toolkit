@@ -1,0 +1,279 @@
+// Theme System for Documentation Site
+// Simple, working theme implementation
+
+// Light theme (default)
+:root {
+    // Background colors
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --surface: #ffffff;
+
+    // Text colors
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    --text-disabled: #d1d5db;
+    --text-inverse: #ffffff;
+
+    // Border colors
+    --border: #e5e7eb;
+    --border-secondary: #d1d5db;
+    --border-focus: #3b82f6;
+
+    // Interactive colors
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #dbeafe;
+    --primary-dark: #1e40af;
+
+    // Status colors
+    --success: #059669;
+    --success-light: #d1fae5;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --error: #dc2626;
+    --error-light: #fecaca;
+    --info: #3b82f6;
+    --info-light: #dbeafe;
+
+    // Code colors
+    --code-bg: #f8fafc;
+    --code-border: #e2e8f0;
+    --code-text: #1e293b;
+
+    // Navigation
+    --nav-bg: #ffffff;
+    --nav-border: #e5e7eb;
+    --nav-hover: #f3f4f6;
+    --nav-active: #dbeafe;
+
+    // Layout variables
+    --doc-header-height: 4rem;
+    --doc-sidebar-width: 280px;
+    --doc-sidebar-width-mobile: 320px;
+    --doc-content-max-width: 1200px;
+    --doc-toc-width: 240px;
+
+    // Syntax highlighting
+    --syntax-keyword: #7c3aed;
+    --syntax-string: #059669;
+    --syntax-number: #dc2626;
+    --syntax-comment: #6b7280;
+    --syntax-function: #2563eb;
+}
+
+// Dark theme
+[data-theme="dark"] {
+    // Background colors
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --surface: #1e293b;
+
+    // Text colors
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-disabled: #64748b;
+    --text-inverse: #0f172a;
+
+    // Border colors
+    --border: #334155;
+    --border-secondary: #475569;
+    --border-focus: #60a5fa;
+
+    // Interactive colors
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --primary-light: #1e3a8a;
+    --primary-dark: #93c5fd;
+
+    // Status colors
+    --success: #34d399;
+    --success-light: #064e3b;
+    --warning: #fbbf24;
+    --warning-light: #78350f;
+    --error: #f87171;
+    --error-light: #7f1d1d;
+    --info: #60a5fa;
+    --info-light: #1e3a8a;
+
+    // Code colors
+    --code-bg: #1e293b;
+    --code-border: #334155;
+    --code-text: #f8fafc;
+
+    // Navigation
+    --nav-bg: #1e293b;
+    --nav-border: #334155;
+    --nav-hover: #334155;
+    --nav-active: #1e3a8a;
+
+    // Syntax highlighting (dark theme)
+    --syntax-keyword: #a78bfa;
+    --syntax-string: #6ee7b7;
+    --syntax-number: #fca5a5;
+    --syntax-comment: #94a3b8;
+    --syntax-function: #93c5fd;
+}
+
+// Theme transition
+* {
+    transition: background-color 200ms ease-in-out,
+        color 200ms ease-in-out,
+        border-color 200ms ease-in-out;
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+// System theme preference - applies when no explicit theme is set
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+        // Apply dark theme variables when system prefers dark and no explicit theme is set
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --surface: #1e293b;
+
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: #94a3b8;
+        --text-disabled: #64748b;
+        --text-inverse: #0f172a;
+
+        --border: #334155;
+        --border-secondary: #475569;
+        --border-focus: #60a5fa;
+
+        --primary: #60a5fa;
+        --primary-hover: #3b82f6;
+        --primary-light: #1e3a8a;
+        --primary-dark: #93c5fd;
+
+        --success: #34d399;
+        --success-light: #064e3b;
+        --warning: #fbbf24;
+        --warning-light: #78350f;
+        --error: #f87171;
+        --error-light: #7f1d1d;
+        --info: #60a5fa;
+        --info-light: #1e3a8a;
+
+        --code-bg: #1e293b;
+        --code-border: #334155;
+        --code-text: #f8fafc;
+
+        --nav-bg: #1e293b;
+        --nav-border: #334155;
+        --nav-hover: #334155;
+        --nav-active: #1e3a8a;
+
+        --syntax-keyword: #a78bfa;
+        --syntax-string: #6ee7b7;
+        --syntax-number: #fca5a5;
+        --syntax-comment: #94a3b8;
+        --syntax-function: #93c5fd;
+    }
+}
+
+// Enhanced theme system with resolved theme support
+[data-resolved-theme="dark"] {
+    // Ensure dark theme styles are applied regardless of theme setting
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --surface: #1e293b;
+
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-disabled: #64748b;
+    --text-inverse: #0f172a;
+
+    --border: #334155;
+    --border-secondary: #475569;
+    --border-focus: #60a5fa;
+
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --primary-light: #1e3a8a;
+    --primary-dark: #93c5fd;
+
+    --success: #34d399;
+    --success-light: #064e3b;
+    --warning: #fbbf24;
+    --warning-light: #78350f;
+    --error: #f87171;
+    --error-light: #7f1d1d;
+    --info: #60a5fa;
+    --info-light: #1e3a8a;
+
+    --code-bg: #1e293b;
+    --code-border: #334155;
+    --code-text: #f8fafc;
+
+    --nav-bg: #1e293b;
+    --nav-border: #334155;
+    --nav-hover: #334155;
+    --nav-active: #1e3a8a;
+
+    --syntax-keyword: #a78bfa;
+    --syntax-string: #6ee7b7;
+    --syntax-number: #fca5a5;
+    --syntax-comment: #94a3b8;
+    --syntax-function: #93c5fd;
+}
+
+[data-resolved-theme="light"] {
+    // Ensure light theme styles are applied regardless of theme setting
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --surface: #ffffff;
+
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    --text-disabled: #d1d5db;
+    --text-inverse: #ffffff;
+
+    --border: #e5e7eb;
+    --border-secondary: #d1d5db;
+    --border-focus: #3b82f6;
+
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #dbeafe;
+    --primary-dark: #1e40af;
+
+    --success: #059669;
+    --success-light: #d1fae5;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --error: #dc2626;
+    --error-light: #fecaca;
+    --info: #3b82f6;
+    --info-light: #dbeafe;
+
+    --code-bg: #f8fafc;
+    --code-border: #e2e8f0;
+    --code-text: #1e293b;
+
+    --nav-bg: #ffffff;
+    --nav-border: #e5e7eb;
+    --nav-hover: #f3f4f6;
+    --nav-active: #dbeafe;
+
+    --syntax-keyword: #7c3aed;
+    --syntax-string: #059669;
+    --syntax-number: #dc2626;
+    --syntax-comment: #6b7280;
+    --syntax-function: #2563eb;
+}

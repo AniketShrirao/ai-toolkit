@@ -1,0 +1,406 @@
+// Documentation Card Component Styles
+// Extends AI Toolkit card styles with documentation-specific variants
+
+// Base documentation card
+.doc-card {
+    @include doc-card;
+
+    // Card variants
+    &--elevated {
+        @include modern-shadow(elevated);
+
+        &:hover {
+            @include modern-shadow(floating);
+            transform: translateY(-4px);
+        }
+    }
+
+    &--glass {
+        @include glass-morphism(0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    &--bordered {
+        border: 2px solid var(--border);
+
+        &:hover {
+            border-color: var(--primary);
+        }
+    }
+
+    // Card sizes
+    &--sm {
+        padding: doc-space(md);
+    }
+
+    &--md {
+        padding: doc-space(lg);
+    }
+
+    &--lg {
+        padding: doc-space(xl);
+    }
+
+    &--xl {
+        padding: doc-space(2xl);
+    }
+}
+
+// Interactive card
+.interactive-card {
+    @include doc-card;
+    cursor: pointer;
+    transition: all transition(base);
+
+    &:hover {
+        @include modern-shadow(floating);
+        transform: translateY(-4px);
+        border-color: var(--primary);
+    }
+
+    &:active {
+        transform: translateY(-2px);
+    }
+
+    &.selected {
+        border-color: var(--primary);
+        background: var(--primary-light);
+    }
+}
+
+// Tutorial card
+.tutorial-card {
+    @include doc-card;
+
+    .tutorial-header {
+        display: flex;
+        align-items: flex-start;
+        gap: doc-space(md);
+        margin-bottom: doc-space(lg);
+
+        .tutorial-icon {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            background: var(--primary-light);
+            border-radius: radius(lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
+                color: var(--primary);
+            }
+        }
+
+        .tutorial-meta {
+            flex: 1;
+
+            .tutorial-title {
+                @include doc-heading(4);
+                margin-bottom: doc-space(sm);
+            }
+
+            .tutorial-difficulty {
+                display: inline-flex;
+                align-items: center;
+                padding: doc-space(xs) doc-space(sm);
+                border-radius: radius(full);
+                @include text-style(xs, $font-weight-medium);
+
+                &.beginner {
+                    background: var(--success-light);
+                    color: var(--success);
+                }
+
+                &.intermediate {
+                    background: var(--warning-light);
+                    color: var(--warning);
+                }
+
+                &.advanced {
+                    background: var(--error-light);
+                    color: var(--error);
+                }
+            }
+        }
+    }
+
+    .tutorial-description {
+        @include doc-body-text;
+        margin-bottom: doc-space(lg);
+    }
+
+    .tutorial-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: doc-space(lg);
+        border-top: 1px solid var(--border);
+
+        .tutorial-duration {
+            @include text-style(sm);
+            color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: doc-space(sm);
+        }
+
+        .tutorial-link {
+            @include doc-button(primary);
+            padding: doc-space(sm) doc-space(lg);
+            @include text-style(sm);
+        }
+    }
+}
+
+// Package card
+.package-card {
+    @include doc-card;
+
+    .package-header {
+        @include doc-card-header;
+
+        .package-name {
+            font-family: $font-family-mono;
+            @include text-style(lg, $font-weight-semibold);
+            color: var(--text-primary);
+            margin-bottom: doc-space(sm);
+        }
+
+        .package-version {
+            display: inline-flex;
+            align-items: center;
+            padding: doc-space(xs) doc-space(sm);
+            background: var(--info-light);
+            color: var(--info);
+            border-radius: radius(full);
+            @include text-style(xs, $font-weight-medium);
+            font-family: $font-family-mono;
+        }
+    }
+
+    .package-description {
+        @include doc-body-text;
+        margin-bottom: doc-space(lg);
+    }
+
+    .package-stats {
+        display: flex;
+        gap: doc-space(lg);
+        margin-bottom: doc-space(lg);
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: doc-space(sm);
+            @include text-style(sm);
+            color: var(--text-tertiary);
+
+            .stat-icon {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
+
+    .package-actions {
+        display: flex;
+        gap: doc-space(md);
+
+        .install-command {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: doc-space(sm);
+            padding: doc-space(sm) doc-space(md);
+            background: var(--code-bg);
+            border: 1px solid var(--code-border);
+            border-radius: radius(md);
+            font-family: $font-family-mono;
+            @include text-style(sm);
+            color: var(--code-text);
+
+            .command-text {
+                flex: 1;
+                @include truncate;
+            }
+
+            .copy-button {
+                @include doc-button(ghost);
+                padding: doc-space(xs);
+                min-height: auto;
+                min-width: auto;
+            }
+        }
+    }
+}
+
+// Status card
+.status-card {
+    @include doc-card;
+
+    .status-header {
+        display: flex;
+        align-items: center;
+        gap: doc-space(md);
+        margin-bottom: doc-space(lg);
+
+        .status-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: radius(full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+
+            &.success {
+                background: var(--success-light);
+                color: var(--success);
+            }
+
+            &.warning {
+                background: var(--warning-light);
+                color: var(--warning);
+            }
+
+            &.error {
+                background: var(--error-light);
+                color: var(--error);
+            }
+
+            &.info {
+                background: var(--info-light);
+                color: var(--info);
+            }
+        }
+
+        .status-content {
+            flex: 1;
+
+            .status-title {
+                @include text-style(base, $font-weight-semibold);
+                color: var(--text-primary);
+                margin-bottom: doc-space(xs);
+            }
+
+            .status-subtitle {
+                @include text-style(sm);
+                color: var(--text-secondary);
+            }
+        }
+    }
+
+    .status-body {
+        @include text-style(sm);
+        color: var(--text-secondary);
+    }
+}
+
+// Comparison card
+.comparison-card {
+    @include doc-card;
+
+    .comparison-header {
+        text-align: center;
+        margin-bottom: doc-space(xl);
+
+        .plan-name {
+            @include doc-heading(4);
+            margin-bottom: doc-space(sm);
+        }
+
+        .plan-price {
+            @include text-style(3xl, $font-weight-bold);
+            color: var(--primary);
+            margin-bottom: doc-space(sm);
+
+            .currency {
+                @include text-style(lg);
+                color: var(--text-secondary);
+            }
+        }
+
+        .plan-description {
+            @include text-style(sm);
+            color: var(--text-secondary);
+        }
+    }
+
+    .comparison-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 doc-space(xl) 0;
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: doc-space(md);
+            padding: doc-space(md) 0;
+            border-bottom: 1px solid var(--border);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .feature-icon {
+                width: 1.25rem;
+                height: 1.25rem;
+                color: var(--success);
+
+                &.unavailable {
+                    color: var(--text-disabled);
+                }
+            }
+
+            .feature-text {
+                @include text-style(sm);
+                color: var(--text-secondary);
+
+                &.unavailable {
+                    color: var(--text-disabled);
+                    text-decoration: line-through;
+                }
+            }
+        }
+    }
+
+    .comparison-action {
+        text-align: center;
+
+        .cta-button {
+            @include doc-button(primary);
+            width: 100%;
+
+            &.secondary {
+                @include doc-button(secondary);
+            }
+        }
+    }
+
+    &.featured {
+        border: 2px solid var(--primary);
+        position: relative;
+
+        &::before {
+            content: 'Popular';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: var(--text-inverse);
+            padding: doc-space(xs) doc-space(lg);
+            border-radius: 0 0 radius(md) radius(md);
+            @include text-style(xs, $font-weight-semibold);
+        }
+    }
+}

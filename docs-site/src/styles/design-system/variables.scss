@@ -1,0 +1,154 @@
+// Documentation Site Variables
+// Extends AI Toolkit design system with documentation-specific overrides
+
+// Documentation-specific layout constants
+$doc-header-height: 4rem !default; // 64px
+$doc-sidebar-width: 280px !default; // 280px
+$doc-sidebar-width-mobile: 320px !default; // 320px
+$doc-content-max-width: 1200px !default; // 1200px
+$doc-toc-width: 240px !default; // 240px
+
+// Documentation-specific spacing
+$doc-spacing: (
+    xs: 0.25rem,
+    // 4px
+    sm: 0.5rem,
+    // 8px
+    md: 0.75rem,
+    // 12px
+    lg: 1rem,
+    // 16px
+    xl: 1.5rem,
+    // 24px
+    2xl: 2rem,
+    // 32px
+    3xl: 3rem // 48px
+    ) !default;
+
+// Documentation-specific colors
+$doc-colors: (
+    // Code highlighting colors
+    code-bg: #f8fafc,
+    code-border: #e2e8f0,
+    code-text: #1e293b,
+
+    // Syntax highlighting
+    syntax-keyword: #7c3aed,
+    syntax-string: #059669,
+    syntax-number: #dc2626,
+    syntax-comment: #6b7280,
+    syntax-function: #2563eb,
+
+    // Documentation specific
+    doc-bg: #ffffff,
+    doc-surface: #ffffff,
+    doc-border: #e5e7eb,
+    doc-accent: #3b82f6,
+
+    // Navigation
+    nav-bg: #ffffff,
+    nav-border: #e5e7eb,
+    nav-hover: #f3f4f6,
+    nav-active: #dbeafe,
+
+    // Content
+    content-bg: #ffffff,
+    content-border: #e5e7eb,
+
+    // Interactive elements
+    link: #2563eb,
+    link-hover: #1d4ed8,
+    link-visited: #7c3aed) !default;
+
+// Documentation-specific theme variables for CSS custom properties
+$doc-theme-light: (
+    // Background colors
+    bg-primary: #ffffff,
+    bg-secondary: #f9fafb,
+    bg-tertiary: #f3f4f6,
+    surface: #ffffff,
+
+    // Text colors
+    text-primary: #111827,
+    text-secondary: #6b7280,
+    text-tertiary: #9ca3af,
+    text-disabled: #d1d5db,
+    text-inverse: #ffffff,
+
+    // Border colors
+    border: #e5e7eb,
+    border-secondary: #d1d5db,
+    border-focus: #3b82f6,
+
+    // Interactive colors
+    primary: #3b82f6,
+    primary-hover: #2563eb,
+    primary-light: #dbeafe,
+    primary-dark: #1e40af,
+
+    // Status colors
+    success: #059669,
+    success-light: #d1fae5,
+    warning: #d97706,
+    warning-light: #fef3c7,
+    error: #dc2626,
+    error-light: #fecaca,
+    info: #3b82f6,
+    info-light: #dbeafe,
+
+    // Code colors
+    code-bg: #f8fafc,
+    code-border: #e2e8f0,
+    code-text: #1e293b,
+
+    // Navigation
+    nav-bg: #ffffff,
+    nav-border: #e5e7eb,
+    nav-hover: #f3f4f6,
+    nav-active: #dbeafe) !default;
+
+$doc-theme-dark: (
+    // Background colors
+    bg-primary: #0f172a,
+    bg-secondary: #1e293b,
+    bg-tertiary: #334155,
+    surface: #1e293b,
+
+    // Text colors
+    text-primary: #f8fafc,
+    text-secondary: #cbd5e1,
+    text-tertiary: #94a3b8,
+    text-disabled: #64748b,
+    text-inverse: #0f172a,
+
+    // Border colors
+    border: #334155,
+    border-secondary: #475569,
+    border-focus: #60a5fa,
+
+    // Interactive colors
+    primary: #60a5fa,
+    primary-hover: #3b82f6,
+    primary-light: #1e3a8a,
+    primary-dark: #93c5fd,
+
+    // Status colors
+    success: #34d399,
+    success-light: #064e3b,
+    warning: #fbbf24,
+    warning-light: #78350f,
+    error: #f87171,
+    error-light: #7f1d1d,
+    info: #60a5fa,
+    info-light: #1e3a8a,
+
+    // Code colors
+    code-bg: #1e293b,
+    code-border: #334155,
+    code-text: #f8fafc,
+
+    // Navigation
+    nav-bg: #1e293b,
+    nav-border: #334155,
+    nav-hover: #334155,
+    nav-active: #1e3a8a) !default;

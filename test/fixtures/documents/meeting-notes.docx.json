@@ -1,0 +1,13 @@
+{
+  "id": "55154c36-c4cb-4baf-aa9b-c00c4ad6b1a6",
+  "name": "meeting-notes.docx",
+  "type": "docx",
+  "content": "# Project Kickoff Meeting Notes\n\n**Date:** 2025-08-04\n**Attendees:** Laverne Toy-Macejkovic, Tabitha McLaughlin, Emma McDermott, Ben Koepp, Melvin Greenfelder\n\n## Agenda Items\n\n### 1. Project Overview\n- Discussed project scope and objectives\n- Reviewed timeline and milestones\n- Identified key stakeholders\n\n### 2. Technical Requirements\n- Database requirements: PostgreSQL\n- Frontend framework: React\n- Backend: Node.js with Express\n- Deployment: AWS infrastructure\n\n### 3. Action Items\n- [ ] Set up development environment (Quinten)\n- [ ] Create project repository (Genoveva)\n- [ ] Design database schema (Stephon)\n- [ ] Prepare UI mockups (Marquise)\n\n### 4. Risks and Concerns\n- Tight timeline may require additional resources\n- Third-party API dependencies need evaluation\n- Security requirements need clarification\n\n### 5. Next Meeting\n**Date:** 2026-05-21\n**Agenda:** Review initial development progress",
+  "size": 909,
+  "metadata": {
+    "author": "Frank Gutmann",
+    "createdAt": "2025-05-13T08:54:26.761Z",
+    "modifiedAt": "2025-08-04T02:12:24.766Z",
+    "wordCount": 128
+  }
+}

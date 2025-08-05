@@ -6,4 +6,5 @@ export * from './services/PromptManagerImpl.js';
 export * from './services/OpenAIService.js';
 export * from './services/AnthropicService.js';
 export * from './services/CloudLLMServiceFactory.js';
+export * from './services/CloudLLMManager.js';
 //# sourceMappingURL=index.js.map

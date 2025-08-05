@@ -1,0 +1,133 @@
+// DocumentViewer Component Styles
+@use '@ai-toolkit/ui-styles' as ui;
+@use 'sass:map';
+
+.document-viewer-overview {
+    display: flex;
+    flex-direction: column;
+    gap: space(6);
+}
+
+.document-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: space(4);
+}
+
+.document-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: space(1);
+
+    label {
+        @include text-style(sm, medium);
+        @include text-color(secondary);
+    }
+
+    span {
+        @include text-color(primary);
+    }
+}
+
+.analysis-summary {
+    padding: space(6);
+    @include bg-color(secondary);
+    border-radius: radius(md);
+}
+
+.analysis-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: space(4);
+    margin-top: space(4);
+}
+
+.analysis-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-number {
+    @include font-size(4xl);
+    font-weight: $font-weight-bold;
+    color: var(--primary);
+}
+
+.stat-label {
+    @include text-style(sm);
+    @include text-color(secondary);
+}
+
+.no-data {
+    padding: space(8);
+    text-align: center;
+    @include text-color(secondary);
+    font-style: italic;
+}
+
+.requirements-view {
+    display: flex;
+    flex-direction: column;
+    gap: space(8);
+}
+
+.requirements-section {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+}
+
+.requirement-card {
+    border-left: 4px solid var(--primary);
+}
+
+.requirement-header {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+    margin-bottom: space(3);
+}
+
+.requirement-hours {
+    @include text-style(sm);
+    @include text-color(secondary);
+    @include bg-color(secondary);
+    padding: space(1) space(2);
+    border-radius: radius(sm);
+}
+
+.requirement-description {
+    margin-bottom: space(3);
+    line-height: map.get($line-heights, relaxed);
+}
+
+.acceptance-criteria {
+    margin-top: space(3);
+
+    h4 {
+        @include text-style(sm, semibold);
+        margin-bottom: space(2);
+        @include text-color(secondary);
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: space(1) 0;
+        padding-left: space(4);
+        position: relative;
+
+        &::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+    }
+}

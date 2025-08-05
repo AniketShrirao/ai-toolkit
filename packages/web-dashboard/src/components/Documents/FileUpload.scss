@@ -1,0 +1,108 @@
+// FileUpload Component Styles
+
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+}
+
+.file-upload-dropzone {
+    border: 2px dashed var(--border);
+    border-radius: radius(md);
+    padding: space(8);
+    text-align: center;
+    cursor: pointer;
+    transition: all transition(base);
+    @include bg-color(secondary);
+
+    &:hover,
+    &.dragover {
+        @include border-color(primary);
+        background-color: var(--primary-alpha);
+    }
+}
+
+.file-upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: space(2);
+}
+
+.file-upload-icon {
+    @include font-size(5xl);
+    opacity: 0.6;
+}
+
+.file-upload-input {
+    display: none;
+}
+
+.file-upload-error {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+    padding: space(3);
+    @include bg-color(error);
+    @include border-color(error);
+    border: 1px solid;
+    border-radius: radius(md);
+    @include text-color(error);
+}
+
+.error-icon {
+    @include font-size(xl);
+}
+
+.file-upload-list {
+    display: flex;
+    flex-direction: column;
+    gap: space(3);
+}
+
+.file-upload-item {
+    padding: space(4);
+    @include border-color(primary);
+    border: 1px solid;
+    border-radius: radius(md);
+    @include bg-color(primary);
+}
+
+.file-upload-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+}
+
+.file-upload-item-header {
+    display: flex;
+    align-items: center;
+    gap: space(2);
+}
+
+.file-upload-item-icon {
+    @include font-size(xl);
+}
+
+.file-upload-item-name {
+    font-weight: $font-weight-medium;
+    flex: 1;
+}
+
+.file-upload-item-size {
+    @include text-style(sm);
+    @include text-color(secondary);
+}
+
+.file-upload-item-progress {
+    margin-top: space(2);
+}
+
+.file-upload-item-error {
+    margin-top: space(2);
+    padding: space(2);
+    @include bg-color(error);
+    border-radius: radius(sm);
+    @include text-color(error);
+    @include text-style(sm);
+}

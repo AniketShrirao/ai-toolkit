@@ -1,0 +1,82 @@
+{
+  "id": "9d66845b-08c2-48df-9d4a-195fd7e6f497",
+  "name": "complex-microservices-java",
+  "language": "java",
+  "files": [
+    {
+      "path": "services/user-service/src/index.js",
+      "content": "// user-service main entry point\nUsque abundans defleo cilicium taceo trepide at. Dolor tibi thesis defungo veniam accedo. Aegrotatio amita vere adduco totus vestrum cattus.",
+      "language": "java",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/user-service/src/controller.js",
+      "content": "// user-service controller\nTraho tenus derideo studio adinventitias incidunt curvo. Adipiscor tum terebro defetiscor adeo accedo capto. Viriliter enim culpo vicinus supra stillicidium utroque natus ad.",
+      "language": "java",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/product-service/src/index.js",
+      "content": "// product-service main entry point\nVolva cibus pectus denique. Aranea adfero cedo beatae arx. Consuasor curto conturbo curis tabesco argumentum cruentus.",
+      "language": "java",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/product-service/src/controller.js",
+      "content": "// product-service controller\nAbbas ut brevis carpo bardus territo. Cohaero terreo demonstro officia decipio comis templum arbustum audentia. Incidunt tabgo derideo.",
+      "language": "java",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/order-service/src/index.js",
+      "content": "// order-service main entry point\nTemperantia charisma coerceo tamisium sublime aedificium corpus tantum. Celebrer calamitas aegrus odit delectus arceo. Votum cohors suggero provident patruus suffoco cinis creta demo.",
+      "language": "java",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/order-service/src/controller.js",
+      "content": "// order-service controller\nSufficio vapulus sumptus accusantium. Caste amiculum blandior adficio comedo comminor absconditus amitto apto tepidus. Aperiam vita ut vapulus deserunt sopor.",
+      "language": "java",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "services/notification-service/src/index.js",
+      "content": "// notification-service main entry point\nVia correptius adfero tepesco viscus claudeo. Neque accusantium textor nesciunt vaco vereor. Magni desparatus atrocitas necessitatibus collum demoror a tempora tui cupiditate.",
+      "language": "java",
+      "size": 800,
+      "complexity": 3
+    },
+    {
+      "path": "services/notification-service/src/controller.js",
+      "content": "// notification-service controller\nTempore cibo demo velociter in conscendo. Cavus volaticus paulatim. Tantillus ait tutis.",
+      "language": "java",
+      "size": 600,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "services/user-service/src",
+      "services/product-service/src",
+      "services/order-service/src",
+      "services/notification-service/src"
+    ],
+    "fileCount": 8,
+    "totalSize": 5600,
+    "languages": {
+      "java": 8
+    }
+  },
+  "metrics": {
+    "linesOfCode": 16,
+    "cyclomaticComplexity": 2.5,
+    "maintainabilityIndex": 75,
+    "technicalDebt": 2500
+  }
+}

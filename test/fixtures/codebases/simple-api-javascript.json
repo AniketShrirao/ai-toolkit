@@ -1,0 +1,54 @@
+{
+  "id": "4875f844-d834-4958-b1c1-cc24f14a8fd5",
+  "name": "simple-api-javascript",
+  "language": "javascript",
+  "files": [
+    {
+      "path": "src/app.js",
+      "content": "const express = require('express');\nconst userRoutes = require('./routes/users');\n\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\napp.use('/api/users', userRoutes);\n\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});",
+      "language": "javascript",
+      "size": 1500,
+      "complexity": 3
+    },
+    {
+      "path": "src/routes/users.js",
+      "content": "// users routes for javascript\nSum vesper consequuntur vestigium at. Armarium deficio cras ambitus tui summopere. Ater terra adeo.",
+      "language": "javascript",
+      "size": 800,
+      "complexity": 2
+    },
+    {
+      "path": "src/models/User.js",
+      "content": "// User model for javascript\nVenio dedecor aveho textus tumultus tergo trepide. Vesica comprehendo tamen harum tabgo officiis. Libero veritas demoror animadverto aveho terra clementia aptus charisma.",
+      "language": "javascript",
+      "size": 600,
+      "complexity": 2
+    },
+    {
+      "path": "src/config/database.js",
+      "content": "// Configuration for javascript\nVoveo chirographum cur modi deorsum aegre aspernatur antiquus adnuo vulgo. Solutio nulla maiores ustulo demum ventosus carbo addo contra. Canonicus vivo brevis cometes taceo.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 1
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "javascript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 18,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

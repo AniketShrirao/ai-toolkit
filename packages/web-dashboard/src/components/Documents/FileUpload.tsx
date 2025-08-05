@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Button, ProgressBar } from '@components/UI';
 import { DocumentUpload, DocumentType } from '@ai-toolkit/shared';
-import './FileUpload.css';
+import './FileUpload.scss';
 
 interface FileUploadProps {
   onFilesSelected: (files: File[]) => void;

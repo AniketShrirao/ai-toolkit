@@ -1,0 +1,318 @@
+// Color utilities
+@use 'sass:map';
+@use '../abstracts/variables' as *;
+@use '../abstracts/functions' as *;
+
+// Color functions are defined in abstracts/functions and imported above
+// Color palette is defined in abstracts/variables and imported above
+
+// CSS custom properties for colors
+:root {
+  // Primary colors
+  --primary: #{get-color(primary, 600)};
+  --primary-hover: #{get-color(primary, 700)};
+  --primary-light: #{get-color(primary, 100)};
+  --primary-dark: #{get-color(primary, 800)};
+  --primary-alpha: #{color-alpha(primary, 600, 0.1)};
+
+  // Secondary colors
+  --secondary: #{get-color(secondary, 600)};
+  --secondary-hover: #{get-color(secondary, 700)};
+  --secondary-light: #{get-color(secondary, 100)};
+
+  // Background colors
+  --bg-primary: #ffffff;
+  --bg-secondary: #{get-color(neutral, 50)};
+  --bg-tertiary: #{get-color(neutral, 100)};
+  --surface: #ffffff;
+  --surface-color: #ffffff;
+  --background-color: #{get-color(neutral, 50)};
+
+  // Text colors
+  --text-primary: #{get-color(neutral, 900)};
+  --text-secondary: #{get-color(neutral, 700)};
+  --text-tertiary: #{get-color(neutral, 600)};
+  --text-disabled: #{get-color(neutral, 400)};
+  --text-inverse: #ffffff;
+
+  // Border colors
+  --border: #{get-color(neutral, 200)};
+  --border-color: #{get-color(neutral, 200)};
+  --border-secondary: #{get-color(neutral, 300)};
+  --border-focus: #{get-color(primary, 500)};
+
+  // Status colors with multiple variants
+  --success: #{get-color(success, 600)};
+  --success-hover: #{get-color(success, 700)};
+  --success-active: #{get-color(success, 800)};
+  --success-light: #{get-color(success, 100)};
+  --success-bg: #{get-color(success, 50)};
+  --success-border: #{get-color(success, 300)};
+  --success-text: #{get-color(success, 800)};
+
+  --warning: #{get-color(warning, 600)};
+  --warning-hover: #{get-color(warning, 700)};
+  --warning-active: #{get-color(warning, 800)};
+  --warning-light: #{get-color(warning, 100)};
+  --warning-bg: #{get-color(warning, 50)};
+  --warning-border: #{get-color(warning, 300)};
+  --warning-text: #{get-color(warning, 800)};
+
+  --error: #{get-color(error, 600)};
+  --error-hover: #{get-color(error, 700)};
+  --error-active: #{get-color(error, 800)};
+  --error-light: #{get-color(error, 100)};
+  --error-bg: #{get-color(error, 50)};
+  --error-border: #{get-color(error, 300)};
+  --error-text: #{get-color(error, 800)};
+
+  --info: #{get-color(info, 600)};
+  --info-hover: #{get-color(info, 700)};
+  --info-active: #{get-color(info, 800)};
+  --info-light: #{get-color(info, 100)};
+  --info-bg: #{get-color(info, 50)};
+  --info-border: #{get-color(info, 300)};
+  --info-text: #{get-color(info, 800)};
+
+  // Alpha variants
+  --primary-alpha: #{color-alpha(primary, 600, 0.1)};
+  --error-alpha: #{color-alpha(error, 600, 0.1)};
+  --success-alpha: #{color-alpha(success, 600, 0.1)};
+  --warning-alpha: #{color-alpha(warning, 600, 0.1)};
+  --info-alpha: #{color-alpha(info, 600, 0.1)};
+
+  // Legacy support
+  --primary-color: #{get-color(primary, 600)};
+  --secondary-color: #{get-color(secondary, 600)};
+  --success-color: #{get-color(success, 600)};
+  --warning-color: #{get-color(warning, 600)};
+  --error-color: #{get-color(error, 600)};
+
+  // Shadow colors
+  --shadow-sm: #{map.get($shadows, sm)};
+  --shadow-lg: #{map.get($shadows, lg)};
+
+  // Transition values
+  --transition-base: #{map.get($transitions, base)};
+
+  // Border radius values
+  --border-radius-md: #{map.get($border-radius, md)};
+}
+
+// Color utility mixins
+@mixin text-color($variant: primary) {
+  @if $variant ==primary {
+    color: var(--text-primary);
+  }
+
+  @else if $variant ==secondary {
+    color: var(--text-secondary);
+  }
+
+  @else if $variant ==tertiary {
+    color: var(--text-tertiary);
+  }
+
+  @else if $variant ==disabled {
+    color: var(--text-disabled);
+  }
+
+  @else if $variant ==inverse {
+    color: var(--text-inverse);
+  }
+
+  @else if $variant ==success {
+    color: var(--success);
+  }
+
+  @else if $variant ==warning {
+    color: var(--warning);
+  }
+
+  @else if $variant ==error {
+    color: var(--error);
+  }
+
+  @else if $variant ==info {
+    color: var(--info);
+  }
+}
+
+@mixin bg-color($variant: primary) {
+  @if $variant ==primary {
+    background-color: var(--bg-primary);
+  }
+
+  @else if $variant ==secondary {
+    background-color: var(--bg-secondary);
+  }
+
+  @else if $variant ==tertiary {
+    background-color: var(--bg-tertiary);
+  }
+
+  @else if $variant ==surface {
+    background-color: var(--surface);
+  }
+
+  @else if $variant ==success {
+    background-color: var(--success-bg);
+  }
+
+  @else if $variant ==warning {
+    background-color: var(--warning-bg);
+  }
+
+  @else if $variant ==error {
+    background-color: var(--error-bg);
+  }
+
+  @else if $variant ==info {
+    background-color: var(--info-bg);
+  }
+}
+
+@mixin border-color($variant: primary) {
+  @if $variant ==primary {
+    border-color: var(--border);
+  }
+
+  @else if $variant ==secondary {
+    border-color: var(--border-secondary);
+  }
+
+  @else if $variant ==focus {
+    border-color: var(--border-focus);
+  }
+
+  @else if $variant ==success {
+    border-color: var(--success);
+  }
+
+  @else if $variant ==warning {
+    border-color: var(--warning);
+  }
+
+  @else if $variant ==error {
+    border-color: var(--error);
+  }
+
+  @else if $variant ==info {
+    border-color: var(--info);
+  }
+}
+
+// Text color utilities
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.text-disabled {
+  color: var(--text-disabled);
+}
+
+.text-inverse {
+  color: var(--text-inverse);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.text-warning {
+  color: var(--warning);
+}
+
+.text-error {
+  color: var(--error);
+}
+
+.text-info {
+  color: var(--info);
+}
+
+// Background color utilities
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-tertiary {
+  background-color: var(--bg-tertiary);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-success {
+  background-color: var(--success);
+}
+
+.bg-warning {
+  background-color: var(--warning);
+}
+
+.bg-error {
+  background-color: var(--error);
+}
+
+.bg-info {
+  background-color: var(--info);
+}
+
+.bg-success-light {
+  background-color: var(--success-light);
+}
+
+.bg-warning-light {
+  background-color: var(--warning-light);
+}
+
+.bg-error-light {
+  background-color: var(--error-light);
+}
+
+.bg-info-light {
+  background-color: var(--info-light);
+}
+
+// Border color utilities
+.border-primary {
+  border-color: var(--border);
+}
+
+.border-secondary {
+  border-color: var(--border-secondary);
+}
+
+.border-focus {
+  border-color: var(--border-focus);
+}
+
+.border-success {
+  border-color: var(--success);
+}
+
+.border-warning {
+  border-color: var(--warning);
+}
+
+.border-error {
+  border-color: var(--error);
+}
+
+.border-info {
+  border-color: var(--info);
+}

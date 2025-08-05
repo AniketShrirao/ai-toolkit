@@ -3,6 +3,7 @@ import { Layout } from '@components/Layout';
 import { WebSocketProvider } from '@hooks/useWebSocket';
 import { SettingsProvider } from '@hooks/useSettings';
 import { ChatProvider } from './contexts/ChatContext';
+import { ToastProvider } from './contexts/ToastContext';
 import { Dashboard } from '@components/Dashboard';
 import { Documents } from '@components/Documents';
 import { Settings } from '@components/Settings';
@@ -31,11 +32,13 @@ function App() {
   return (
     <SettingsProvider>
       <WebSocketProvider>
-        <ChatProvider>
-          <Layout activeView={activeView} onViewChange={setActiveView}>
-            {renderContent()}
-          </Layout>
-        </ChatProvider>
+        <ToastProvider>
+          <ChatProvider>
+            <Layout activeView={activeView} onViewChange={setActiveView}>
+              {renderContent()}
+            </Layout>
+          </ChatProvider>
+        </ToastProvider>
       </WebSocketProvider>
     </SettingsProvider>
   );

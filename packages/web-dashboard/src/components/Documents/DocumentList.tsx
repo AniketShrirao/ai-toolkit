@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Input, Button, Badge, Card, CardContent } from '@components/UI';
 import { DocumentListItem, DocumentFilter, DocumentType, DocumentStatus } from '@ai-toolkit/shared';
-import './DocumentList.css';
+import './DocumentList.scss';
+
 
 interface DocumentListProps {
   documents: DocumentListItem[];

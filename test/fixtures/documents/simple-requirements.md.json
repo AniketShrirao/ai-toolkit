@@ -1,0 +1,13 @@
+{
+  "id": "2421e293-6fe3-46f6-9b92-a74bbf870ae0",
+  "name": "simple-requirements.md",
+  "type": "md",
+  "content": "# Project Requirements\n\n## Overview\nVolutabrum depulso comminor virgo capio tergiversatio culpa confugo. Undique catena vero taedium tum titulus saepe. Illo thymbra delectus averto stultus turbo at terra terga.\n\n## Functional Requirements\n1. User Authentication\n   - Users must be able to register with email and password\n   - Users must be able to login and logout\n   - Password reset functionality required\n\n2. Data Management\n   - CRUD operations for user data\n   - Data validation and sanitization\n   - Backup and recovery procedures\n\n## Non-Functional Requirements\n- Performance: Response time < 2 seconds\n- Security: Data encryption at rest and in transit\n- Scalability: Support for 1000+ concurrent users\n- Availability: 99.9% uptime requirement\n\n## Acceptance Criteria\n- All features must be tested\n- Documentation must be provided\n- Code coverage > 80%",
+  "size": 861,
+  "metadata": {
+    "author": "Rebecca Schimmel",
+    "createdAt": "2025-03-02T22:23:02.961Z",
+    "modifiedAt": "2025-08-04T03:32:38.973Z",
+    "wordCount": 129
+  }
+}

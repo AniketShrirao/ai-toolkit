@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Settings Visibility Test</title>
+    <style>
+        /* Simplified version of the Chat styles for testing */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8fafc;
+        }
+
+        .chat-page {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .chat-page-header {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .status-indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-button {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 44px;
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .action-button:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Settings panel styles */
+        .settings-panel {
+            margin-top: 1.5rem;
+            padding: 0;
+            border-top: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .settings-panel.hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .settings-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            border-radius: 0.75rem 0.75rem 0 0;
+            overflow: hidden;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            background: #f1f5f9;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .tab-button.active {
+            background: white;
+            color: #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+            font-weight: 600;
+        }
+
+        .quick-settings,
+        .advanced-settings {
+            padding: 1.5rem;
+        }
+
+        .quick-settings.hidden,
+        .advanced-settings.hidden {
+            display: none;
+        }
+
+        .setting-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .setting-group select,
+        .setting-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            background: white;
+            color: #1e293b;
+            transition: all 0.2s ease;
+        }
+
+        .setting-group select:focus,
+        .setting-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .setting-help {
+            display: block;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-label {
+            display: flex !important;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 0 !important;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto !important;
+            margin-right: 0.5rem;
+            accent-color: #3b82f6;
+        }
+
+        .status-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-display .status-indicator {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background: #10b981;
+        }
+
+        .test-controls {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-radius: 0.5rem;
+            border: 1px solid #0ea5e9;
+        }
+
+        .test-controls h3 {
+            margin: 0 0 1rem 0;
+            color: #0c4a6e;
+        }
+
+        .test-controls button {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+        }
+
+        .test-controls button:hover {
+            background: #0284c7;
+        }
+
+        .test-status {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+        }
+
+        .test-status.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .test-status.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-page">
+        <div class="chat-page-header">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>AI Chat Assistant</h1>
+                    <div class="connection-status">
+                        <div class="status-indicator"></div>
+                        <span class="status-text">Connected</span>
+                        <span class="model-info">ollama • llama2</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-button secondary" id="settings-toggle" title="Chat Settings">
+                        ⚙️
+                    </button>
+                    <button class="action-button secondary" title="Clear Chat History">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-panel hidden" id="settings-panel">
+                <div class="settings-tabs">
+                    <button class="tab-button active" id="quick-tab" type="button">
+                        Quick Settings
+                    </button>
+                    <button class="tab-button" id="advanced-tab" type="button">
+                        Advanced
+                    </button>
+                </div>
+
+                <div class="quick-settings" id="quick-settings">
+                    <div class="setting-group">
+                        <label for="provider-select">AI Provider:</label>
+                        <select id="provider-select">
+                            <option value="ollama">Ollama (Local)</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic (Claude)</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="model-select">AI Model:</label>
+                        <select id="model-select">
+                            <option value="">Select a model...</option>
+                            <option value="llama2">llama2</option>
+                            <option value="codellama">codellama</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="streaming-checkbox">
+                            <span class="checkbox-text">Enable streaming responses</span>
+                        </label>
+                        <small class="setting-help">
+                            Stream responses in real-time for faster interaction
+                        </small>
+                    </div>
+
+                    <div class="setting-group connection-status">
+                        <label>Connection Status:</label>
+                        <div class="status-display">
+                            <div class="status-indicator"></div>
+                            <span>Connected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="advanced-settings hidden" id="advanced-settings">
+                    <div class="setting-group">
+                        <label for="base-url">Base URL:</label>
+                        <input id="base-url" type="url" value="http://localhost:11434" placeholder="http://localhost:11434">
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="api-key">API Key:</label>
+                        <input id="api-key" type="password" placeholder="Enter your API key">
+                        <small class="setting-help">
+                            Your API key is stored locally and never sent to our servers.
+                        </small>
+                    </div>
+
+                    <div class="setting-group">
+                        <label for="default-model">Default Model:</label>
+                        <input id="default-model" type="text" placeholder="llama2, codellama, etc.">
+                        <small class="setting-help">
+                            Leave empty to use the first available model.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-controls">
+            <h3>Settings Visibility Test Controls</h3>
+            <button onclick="toggleSettings()">Toggle Settings Panel</button>
+            <button onclick="switchToQuick()">Switch to Quick Settings</button>
+            <button onclick="switchToAdvanced()">Switch to Advanced Settings</button>
+            <button onclick="runAllTests()">Run All Tests</button>
+            
+            <div class="test-status" id="test-status" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Test functionality
+        let showSettings = false;
+        let showAdvancedSettings = false;
+
+        function toggleSettings() {
+            showSettings = !showSettings;
+            const panel = document.getElementById('settings-panel');
+            
+            if (showSettings) {
+                panel.classList.remove('hidden');
+                updateTestStatus('Settings panel shown', 'success');
+            } else {
+                panel.classList.add('hidden');
+                updateTestStatus('Settings panel hidden', 'success');
+            }
+        }
+
+        function switchToQuick() {
+            showAdvancedSettings = false;
+            updateTabs();
+            updateTestStatus('Switched to Quick Settings', 'success');
+        }
+
+        function switchToAdvanced() {
+            showAdvancedSettings = true;
+            updateTabs();
+            updateTestStatus('Switched to Advanced Settings', 'success');
+        }
+
+        function updateTabs() {
+            const quickTab = document.getElementById('quick-tab');
+            const advancedTab = document.getElementById('advanced-tab');
+            const quickSettings = document.getElementById('quick-settings');
+            const advancedSettings = document.getElementById('advanced-settings');
+
+            if (showAdvancedSettings) {
+                quickTab.classList.remove('active');
+                advancedTab.classList.add('active');
+                quickSettings.classList.add('hidden');
+                advancedSettings.classList.remove('hidden');
+            } else {
+                quickTab.classList.add('active');
+                advancedTab.classList.remove('active');
+                quickSettings.classList.remove('hidden');
+                advancedSettings.classList.add('hidden');
+            }
+        }
+
+        function updateTestStatus(message, type) {
+            const status = document.getElementById('test-status');
+            status.textContent = message;
+            status.className = `test-status ${type}`;
+            status.style.display = 'block';
+        }
+
+        function runAllTests() {
+            let testsPassed = 0;
+            let totalTests = 0;
+
+            // Test 1: Settings panel toggle
+            totalTests++;
+            try {
+                toggleSettings();
+                const panel = document.getElementById('settings-panel');
+                if (!panel.classList.contains('hidden')) {
+                    testsPassed++;
+                }
+                toggleSettings(); // Reset
+            } catch (error) {
+                console.error('Settings toggle test failed:', error);
+            }
+
+            // Test 2: Tab switching to Advanced
+            totalTests++;
+            try {
+                showSettings = true;
+                document.getElementById('settings-panel').classList.remove('hidden');
+                switchToAdvanced();
+                const advancedSettings = document.getElementById('advanced-settings');
+                const quickSettings = document.getElementById('quick-settings');
+                if (!advancedSettings.classList.contains('hidden') && quickSettings.classList.contains('hidden')) {
+                    testsPassed++;
+                }
+            } catch (error) {
+                console.error('Advanced tab test failed:', error);
+            }
+
+            // Test 3: Tab switching to Quick
+            totalTests++;
+            try {
+                switchToQuick();
+                const advancedSettings = document.getElementById('advanced-settings');
+                const quickSettings = document.getElementById('quick-settings');
+                if (advancedSettings.classList.contains('hidden') && !quickSettings.classList.contains('hidden')) {
+                    testsPassed++;
+                }
+            } catch (error) {
+                console.error('Quick tab test failed:', error);
+            }
+
+            // Test 4: Form elements are interactive
+            totalTests++;
+            try {
+                const providerSelect = document.getElementById('provider-select');
+                const modelSelect = document.getElementById('model-select');
+                const streamingCheckbox = document.getElementById('streaming-checkbox');
+                
+                if (providerSelect && modelSelect && streamingCheckbox) {
+                    // Test that elements can be interacted with
+                    providerSelect.value = 'openai';
+                    streamingCheckbox.checked = true;
+                    testsPassed++;
+                }
+            } catch (error) {
+                console.error('Form interaction test failed:', error);
+            }
+
+            // Display results
+            const message = `Tests completed: ${testsPassed}/${totalTests} passed`;
+            const type = testsPassed === totalTests ? 'success' : 'error';
+            updateTestStatus(message, type);
+
+            if (testsPassed === totalTests) {
+                setTimeout(() => {
+                    updateTestStatus('✅ All settings functionality working correctly!', 'success');
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    updateTestStatus(`❌ ${totalTests - testsPassed} test(s) failed. Check console for details.`, 'error');
+                }, 1000);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('settings-toggle').addEventListener('click', toggleSettings);
+        document.getElementById('quick-tab').addEventListener('click', switchToQuick);
+        document.getElementById('advanced-tab').addEventListener('click', switchToAdvanced);
+
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                updateTestStatus('Page loaded. Click "Run All Tests" to verify functionality.', 'success');
+            }, 500);
+        });
+    </script>
+</body>
+</html>

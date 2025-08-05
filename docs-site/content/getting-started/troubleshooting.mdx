@@ -1,0 +1,988 @@
+---
+title: "Troubleshooting Guide"
+description: "Comprehensive troubleshooting guide for common AI Toolkit installation and setup issues with step-by-step solutions."
+category: "getting-started"
+tags: ["troubleshooting", "debugging", "issues", "solutions", "support"]
+difficulty: "beginner"
+estimatedReadTime: 20
+prerequisites: ["Installation attempted"]
+---
+
+# Troubleshooting Guide
+
+This comprehensive guide covers common issues you might encounter when installing, configuring, or using the AI Toolkit, along with step-by-step solutions and diagnostic procedures.
+
+<Callout type="info" title="Quick Diagnostic">
+Before diving into specific issues, run our automated diagnostic tool:
+```bash
+npm run system:check
+```
+This will identify most common problems automatically.
+</Callout>
+
+## Installation Issues
+
+### Node.js Version Problems
+
+<TroubleshootingSection issue="Node.js Version Mismatch">
+
+#### Symptoms
+- Build failures with TypeScript errors
+- `npm install` fails with compatibility warnings
+- Error: "Unsupported Node.js version"
+
+#### Diagnosis
+<CodeBlock language="bash" title="Check Node.js Version">
+node --version
+npm --version
+
+# Should show Node.js 18.0.0+ and npm 8.0.0+
+</CodeBlock>
+
+#### Solutions
+
+**Option 1: Update Node.js Directly**
+<CodeBlock language="bash" title="Update Node.js">
+# Windows - Download from nodejs.org
+# macOS with Homebrew
+brew install node
+
+# Linux (Ubuntu/Debian)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</CodeBlock>
+
+**Option 2: Use Node Version Manager (Recommended)**
+<CodeBlock language="bash" title="Install and Use NVM">
+# Install nvm (Linux/macOS)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+
+# Restart terminal or source profile
+source ~/.bashrc
+
+# Install and use Node.js 20
+nvm install 20
+nvm use 20
+nvm alias default 20
+
+# Verify installation
+node --version  # Should show v20.x.x
+</CodeBlock>
+
+**Windows NVM Alternative**
+<CodeBlock language="powershell" title="Windows NVM">
+# Install nvm-windows from GitHub releases
+# https://github.com/coreybutler/nvm-windows/releases
+
+# Then in PowerShell (as Administrator)
+nvm install 20.0.0
+nvm use 20.0.0
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### Dependency Installation Failures
+
+<TroubleshootingSection issue="npm install Failures">
+
+#### Symptoms
+- `npm install` hangs or fails
+- Permission denied errors
+- Package resolution conflicts
+- Network timeout errors
+
+#### Diagnosis
+<CodeBlock language="bash" title="Diagnose npm Issues">
+# Check npm configuration
+npm config list
+
+# Check for permission issues
+npm config get prefix
+
+# Check network connectivity
+npm ping
+
+# Clear npm cache
+npm cache clean --force
+</CodeBlock>
+
+#### Solutions
+
+**Fix Permission Issues (Linux/macOS)**
+<CodeBlock language="bash" title="Fix npm Permissions">
+# Option 1: Change npm's default directory
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Option 2: Fix ownership of npm directory
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+</CodeBlock>
+
+**Clear and Reinstall Dependencies**
+<CodeBlock language="bash" title="Clean Reinstall">
+# Remove node_modules and package-lock.json
+rm -rf node_modules package-lock.json
+
+# Clear npm cache
+npm cache clean --force
+
+# Reinstall with verbose logging
+npm install --verbose
+
+# If still failing, try with legacy peer deps
+npm install --legacy-peer-deps
+</CodeBlock>
+
+**Network and Proxy Issues**
+<CodeBlock language="bash" title="Network Configuration">
+# Check current registry
+npm config get registry
+
+# Use different registry if needed
+npm config set registry https://registry.npmjs.org/
+
+# For corporate networks with proxy
+npm config set proxy http://proxy.company.com:8080
+npm config set https-proxy http://proxy.company.com:8080
+
+# Disable strict SSL if needed (not recommended for production)
+npm config set strict-ssl false
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### Build Failures
+
+<TroubleshootingSection issue="TypeScript Build Errors">
+
+#### Symptoms
+- `npm run build` fails with TypeScript errors
+- Module resolution errors
+- Type definition conflicts
+
+#### Diagnosis
+<CodeBlock language="bash" title="Diagnose Build Issues">
+# Check TypeScript version
+npx tsc --version
+
+# Run build with verbose output
+npm run build -- --verbose
+
+# Check for type errors
+npx tsc --noEmit
+
+# Verify workspace structure
+npm run build:check
+</CodeBlock>
+
+#### Solutions
+
+**Fix Workspace Dependencies**
+<CodeBlock language="bash" title="Fix Workspace Issues">
+# Build packages in correct order
+cd packages/shared
+npm run build
+cd ../..
+
+cd packages/api-server
+npm run build
+cd ../..
+
+cd packages/web-dashboard
+npm run build
+cd ../..
+
+# Or use the root build command
+npm run build:all
+</CodeBlock>
+
+**Resolve Type Conflicts**
+<CodeBlock language="bash" title="Fix Type Issues">
+# Remove all node_modules and rebuild
+npm run clean:all
+npm install
+npm run build
+
+# If specific type errors persist, check tsconfig.json
+cat tsconfig.json
+
+# Ensure proper module resolution
+npm ls @types/node
+</CodeBlock>
+
+</TroubleshootingSection>
+
+## Runtime Issues
+
+### Port Conflicts
+
+<TroubleshootingSection issue="Port Already in Use">
+
+#### Symptoms
+- "EADDRINUSE: address already in use :::3000"
+- "Port 3000 is already in use"
+- Services fail to start
+
+#### Diagnosis
+<CodeBlock language="bash" title="Check Port Usage">
+# Linux/macOS
+lsof -i :3000
+lsof -i :11434  # Ollama port
+
+# Windows
+netstat -ano | findstr :3000
+netstat -ano | findstr :11434
+
+# Check all AI Toolkit related ports
+netstat -tulpn | grep -E "(3000|5173|8080|11434)"
+</CodeBlock>
+
+#### Solutions
+
+**Kill Conflicting Processes**
+<CodeBlock language="bash" title="Free Up Ports">
+# Linux/macOS - Kill process by port
+sudo kill -9 $(lsof -t -i:3000)
+sudo kill -9 $(lsof -t -i:11434)
+
+# Windows - Kill process by PID
+# First find PID from netstat output, then:
+taskkill /PID <PID> /F
+
+# Kill all Node.js processes (use with caution)
+pkill -f node  # Linux/macOS
+taskkill /IM node.exe /F  # Windows
+</CodeBlock>
+
+**Change Default Ports**
+<CodeBlock language="bash" title="Configure Different Ports">
+# Edit .env file
+echo "PORT=3001" >> .env
+echo "WEB_PORT=5174" >> .env
+echo "OLLAMA_PORT=11435" >> .env
+
+# Or set environment variables
+export PORT=3001
+export WEB_PORT=5174
+
+# Start with custom port
+npm run dev -- --port 3001
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### Database Connection Issues
+
+<TroubleshootingSection issue="Database Connection Failures">
+
+#### Symptoms
+- "Database connection failed"
+- "SQLITE_CANTOPEN" errors
+- "Database is locked" errors
+
+#### Diagnosis
+<CodeBlock language="bash" title="Diagnose Database Issues">
+# Check database file exists and permissions
+ls -la data/ai-toolkit.db
+
+# Check database integrity
+sqlite3 data/ai-toolkit.db "PRAGMA integrity_check;"
+
+# Check for lock files
+ls -la data/*.db-*
+
+# Test database connection
+npm run db:test
+</CodeBlock>
+
+#### Solutions
+
+**Fix Database Permissions**
+<CodeBlock language="bash" title="Fix Database Access">
+# Ensure data directory exists with proper permissions
+mkdir -p data
+chmod 755 data
+
+# Fix database file permissions
+chmod 644 data/ai-toolkit.db
+
+# Remove lock files if they exist
+rm -f data/ai-toolkit.db-wal data/ai-toolkit.db-shm
+</CodeBlock>
+
+**Recreate Database**
+<CodeBlock language="bash" title="Reset Database">
+# Backup existing data (optional)
+cp data/ai-toolkit.db data/ai-toolkit.db.backup
+
+# Remove corrupted database
+rm -f data/ai-toolkit.db
+
+# Recreate database with migrations
+npm run db:setup
+
+# Or use the initialization script
+npm run db:init
+</CodeBlock>
+
+**PostgreSQL Connection Issues**
+<CodeBlock language="bash" title="PostgreSQL Troubleshooting">
+# Test PostgreSQL connection
+psql -h localhost -U ai_user -d ai_toolkit -c "SELECT version();"
+
+# Check PostgreSQL service status
+sudo systemctl status postgresql  # Linux
+brew services list | grep postgresql  # macOS
+
+# Reset connection pool
+npm run db:pool:reset
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### AI Service Integration Issues
+
+<TroubleshootingSection issue="Ollama Connection Problems">
+
+#### Symptoms
+- "Failed to connect to Ollama server"
+- "AI analysis unavailable"
+- "Model not found" errors
+
+#### Diagnosis
+<CodeBlock language="bash" title="Diagnose Ollama Issues">
+# Check if Ollama is running
+curl http://localhost:11434/api/tags
+
+# Check Ollama service status
+ollama list
+
+# Test model availability
+ollama show llama2:7b
+
+# Check Ollama logs
+ollama logs  # if available
+</CodeBlock>
+
+#### Solutions
+
+**Install and Start Ollama**
+<CodeBlock language="bash" title="Install Ollama">
+# Linux/macOS
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Windows (PowerShell as Administrator)
+iex (irm https://ollama.ai/install.ps1)
+
+# Start Ollama service
+ollama serve
+
+# Or use Docker
+docker run -d -p 11434:11434 --name ollama ollama/ollama
+</CodeBlock>
+
+**Download Required Models**
+<CodeBlock language="bash" title="Install AI Models">
+# Download recommended models
+ollama pull llama2:7b
+ollama pull codellama:7b
+ollama pull mistral:7b
+
+# Verify models are available
+ollama list
+
+# Test model functionality
+ollama run llama2:7b "Hello, how are you?"
+</CodeBlock>
+
+**Configure AI Service Connection**
+<CodeBlock language="bash" title="Configure AI Connection">
+# Update .env file with correct Ollama settings
+echo "OLLAMA_HOST=localhost" >> .env
+echo "OLLAMA_PORT=11434" >> .env
+echo "OLLAMA_DEFAULT_MODEL=llama2:7b" >> .env
+
+# Test connection from AI Toolkit
+curl -X POST http://localhost:3000/api/ai-chat/test \
+  -H "Content-Type: application/json" \
+  -d '{"provider": "ollama"}'
+</CodeBlock>
+
+</TroubleshootingSection>
+
+## Platform-Specific Issues
+
+### Windows-Specific Problems
+
+<TroubleshootingSection issue="Windows Installation Issues">
+
+#### Common Windows Issues
+
+**PowerShell Execution Policy**
+<CodeBlock language="powershell" title="Fix PowerShell Policy">
+# Check current execution policy
+Get-ExecutionPolicy
+
+# Set execution policy (run as Administrator)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Or bypass for current session
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+</CodeBlock>
+
+**Path Length Limitations**
+<CodeBlock language="cmd" title="Enable Long Paths">
+# Enable long path support (Windows 10/11)
+# Run as Administrator in Command Prompt
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1
+
+# Or use Git Bash for installation
+git config --global core.longpaths true
+</CodeBlock>
+
+**Windows Defender Issues**
+<CodeBlock language="powershell" title="Configure Windows Defender">
+# Add exclusions for development folders
+Add-MpPreference -ExclusionPath "C:\path\to\ai-toolkit"
+Add-MpPreference -ExclusionPath "$env:APPDATA\npm"
+Add-MpPreference -ExclusionProcess "node.exe"
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### macOS-Specific Problems
+
+<TroubleshootingSection issue="macOS Installation Issues">
+
+#### Common macOS Issues
+
+**Xcode Command Line Tools**
+<CodeBlock language="bash" title="Install Xcode Tools">
+# Install Xcode command line tools
+xcode-select --install
+
+# Verify installation
+xcode-select -p
+
+# If issues persist, reinstall
+sudo xcode-select --reset
+xcode-select --install
+</CodeBlock>
+
+**Homebrew Issues**
+<CodeBlock language="bash" title="Fix Homebrew">
+# Update Homebrew
+brew update
+brew upgrade
+
+# Fix permissions
+sudo chown -R $(whoami) $(brew --prefix)/*
+
+# Reinstall if needed
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/uninstall.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+</CodeBlock>
+
+**Gatekeeper Issues**
+<CodeBlock language="bash" title="Handle Gatekeeper">
+# Allow unsigned applications (use with caution)
+sudo spctl --master-disable
+
+# Or allow specific applications
+sudo spctl --add /path/to/application
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### Linux-Specific Problems
+
+<TroubleshootingSection issue="Linux Installation Issues">
+
+#### Common Linux Issues
+
+**Missing System Dependencies**
+<CodeBlock language="bash" title="Install System Dependencies">
+# Ubuntu/Debian
+sudo apt update
+sudo apt install -y build-essential python3 python3-pip curl git
+
+# CentOS/RHEL/Fedora
+sudo yum groupinstall -y "Development Tools"
+sudo yum install -y python3 python3-pip curl git
+
+# Or for newer versions
+sudo dnf groupinstall -y "Development Tools"
+sudo dnf install -y python3 python3-pip curl git
+</CodeBlock>
+
+**Permission Issues**
+<CodeBlock language="bash" title="Fix Linux Permissions">
+# Fix npm global directory permissions
+sudo chown -R $USER:$USER ~/.npm
+sudo chown -R $USER:$USER /usr/local/lib/node_modules
+
+# Add user to necessary groups
+sudo usermod -a -G docker $USER
+
+# Fix file permissions in project
+chmod -R 755 ai-toolkit/
+</CodeBlock>
+
+**SELinux Issues (CentOS/RHEL)**
+<CodeBlock language="bash" title="Handle SELinux">
+# Check SELinux status
+sestatus
+
+# Temporarily disable (not recommended for production)
+sudo setenforce 0
+
+# Or configure proper SELinux policies
+sudo setsebool -P httpd_can_network_connect 1
+</CodeBlock>
+
+</TroubleshootingSection>
+
+## Application-Specific Issues
+
+### File Upload Problems
+
+<TroubleshootingSection issue="Document Upload Failures">
+
+#### Symptoms
+- "File too large" errors
+- "Unsupported file type" errors
+- Upload hangs or times out
+
+#### Diagnosis
+<CodeBlock language="bash" title="Diagnose Upload Issues">
+# Check file size limits
+curl http://localhost:3000/api/health | jq '.config.maxFileSize'
+
+# Check supported file types
+curl http://localhost:3000/api/health | jq '.config.supportedTypes'
+
+# Test with small file
+echo "test content" > test.txt
+curl -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@test.txt"
+</CodeBlock>
+
+#### Solutions
+
+**Increase File Size Limits**
+<CodeBlock language="bash" title="Configure File Limits">
+# Update .env file
+echo "STORAGE_MAX_FILE_SIZE=200MB" >> .env
+
+# Or set in configuration
+echo "MAX_FILE_SIZE=209715200" >> .env  # 200MB in bytes
+
+# Restart the application
+npm restart
+</CodeBlock>
+
+**Fix File Type Support**
+<CodeBlock language="bash" title="Configure File Types">
+# Update supported file types in .env
+echo 'ALLOWED_FILE_TYPES=pdf,txt,md,docx,xlsx,csv,png,jpg' >> .env
+
+# Check MIME type configuration
+curl -X POST http://localhost:3000/api/documents/upload \
+  -F "file=@document.pdf" \
+  -H "Content-Type: multipart/form-data"
+</CodeBlock>
+
+**Storage Permission Issues**
+<CodeBlock language="bash" title="Fix Storage Permissions">
+# Ensure upload directories exist with proper permissions
+mkdir -p data/input data/output data/temp
+chmod 755 data/input data/output data/temp
+
+# Check disk space
+df -h
+
+# Clean up old files if needed
+find data/temp -type f -mtime +7 -delete
+</CodeBlock>
+
+</TroubleshootingSection>
+
+### Performance Issues
+
+<TroubleshootingSection issue="Slow Performance">
+
+#### Symptoms
+- Slow document processing
+- High memory usage
+- Timeouts during analysis
+
+#### Diagnosis
+<CodeBlock language="bash" title="Performance Diagnostics">
+# Check system resources
+top
+htop  # if available
+
+# Check Node.js memory usage
+node --max-old-space-size=4096 --inspect dist/index.js
+
+# Monitor API response times
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3000/api/health
+
+# Check database performance
+npm run db:analyze
+</CodeBlock>
+
+#### Solutions
+
+**Optimize Memory Usage**
+<CodeBlock language="bash" title="Memory Optimization">
+# Increase Node.js memory limit
+export NODE_OPTIONS="--max-old-space-size=4096"
+
+# Or set in package.json
+"start": "node --max-old-space-size=4096 dist/index.js"
+
+# Configure garbage collection
+export NODE_OPTIONS="--max-old-space-size=4096 --optimize-for-size"
+</CodeBlock>
+
+**Optimize Processing**
+<CodeBlock language="bash" title="Processing Optimization">
+# Reduce concurrent processing jobs
+echo "MAX_CONCURRENT_JOBS=2" >> .env
+
+# Increase processing timeout
+echo "JOB_TIMEOUT=600000" >> .env  # 10 minutes
+
+# Enable processing queue
+echo "ENABLE_QUEUE=true" >> .env
+</CodeBlock>
+
+**Database Optimization**
+<CodeBlock language="bash" title="Database Tuning">
+# Optimize SQLite database
+sqlite3 data/ai-toolkit.db "VACUUM;"
+sqlite3 data/ai-toolkit.db "ANALYZE;"
+
+# Configure connection pooling for PostgreSQL
+echo "DATABASE_POOL_MIN=2" >> .env
+echo "DATABASE_POOL_MAX=10" >> .env
+</CodeBlock>
+
+</TroubleshootingSection>
+
+## Error Code Reference
+
+### Common Error Codes
+
+<ErrorCodeReference>
+
+#### VALIDATION_ERROR (400)
+**Cause**: Invalid input data or parameters
+**Solutions**:
+- Check request format and required fields
+- Validate file types and sizes
+- Ensure proper JSON structure
+
+<CodeBlock language="bash" title="Example Fix">
+# Check API documentation for required fields
+curl http://localhost:3000/api-docs
+
+# Validate JSON format
+echo '{"key": "value"}' | jq .
+</CodeBlock>
+
+#### AUTHENTICATION_ERROR (401)
+**Cause**: Missing or invalid authentication credentials
+**Solutions**:
+- Provide valid API key or token
+- Check authentication configuration
+- Verify user permissions
+
+<CodeBlock language="bash" title="Example Fix">
+# Generate new API token
+npm run auth:generate-token
+
+# Test authentication
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  http://localhost:3000/api/documents
+</CodeBlock>
+
+#### CONNECTION_ERROR (503)
+**Cause**: Service unavailable or connection timeout
+**Solutions**:
+- Check service status
+- Verify network connectivity
+- Restart services if needed
+
+<CodeBlock language="bash" title="Example Fix">
+# Check service health
+curl http://localhost:3000/api/health
+
+# Restart services
+npm run restart
+</CodeBlock>
+
+#### FILE_ERROR (422)
+**Cause**: File processing or storage issues
+**Solutions**:
+- Check file permissions
+- Verify storage space
+- Validate file format
+
+<CodeBlock language="bash" title="Example Fix">
+# Check storage space
+df -h
+
+# Fix file permissions
+chmod 644 data/input/*
+</CodeBlock>
+
+</ErrorCodeReference>
+
+## Diagnostic Tools
+
+### Built-in Diagnostics
+
+<DiagnosticTools>
+
+#### System Health Check
+<CodeBlock language="bash" title="Comprehensive Health Check">
+# Run full system diagnostic
+npm run system:check
+
+# Check specific components
+npm run check:api
+npm run check:database
+npm run check:ai
+npm run check:storage
+npm run check:network
+</CodeBlock>
+
+#### Log Analysis
+<CodeBlock language="bash" title="Log Analysis">
+# View application logs
+npm run logs
+
+# View specific log levels
+npm run logs:error
+npm run logs:warn
+
+# Follow logs in real-time
+npm run logs:follow
+
+# Export logs for analysis
+npm run logs:export > system-logs.txt
+</CodeBlock>
+
+#### Performance Monitoring
+<CodeBlock language="bash" title="Performance Monitoring">
+# Monitor system performance
+npm run monitor
+
+# Generate performance report
+npm run perf:report
+
+# Check memory usage
+npm run memory:check
+
+# Profile application
+npm run profile
+</CodeBlock>
+
+</DiagnosticTools>
+
+### External Diagnostic Tools
+
+<ExternalTools>
+
+#### Network Diagnostics
+<CodeBlock language="bash" title="Network Testing">
+# Test connectivity
+ping google.com
+nslookup localhost
+telnet localhost 3000
+
+# Check port accessibility
+nc -zv localhost 3000
+nc -zv localhost 11434
+</CodeBlock>
+
+#### System Resource Monitoring
+<CodeBlock language="bash" title="Resource Monitoring">
+# Monitor CPU and memory
+top -p $(pgrep -f "node.*ai-toolkit")
+
+# Check disk I/O
+iotop  # Linux
+iostat 1  # Linux/macOS
+
+# Monitor network usage
+nethogs  # Linux
+nettop  # macOS
+</CodeBlock>
+
+</ExternalTools>
+
+## Getting Help
+
+### Self-Help Resources
+
+<SelfHelpResources>
+
+#### Documentation
+- [Installation Guide](/getting-started/installation)
+- [Quick Start Tutorial](/getting-started/quick-start)
+- [API Reference](/api-reference/overview)
+- [Configuration Guide](/guides/configuration)
+
+#### Community Resources
+- [GitHub Issues](https://github.com/your-org/ai-toolkit/issues)
+- [Discussion Forum](https://github.com/your-org/ai-toolkit/discussions)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/ai-toolkit)
+
+</SelfHelpResources>
+
+### Creating Support Requests
+
+<SupportRequest>
+
+When creating a support request, please include:
+
+#### System Information
+<CodeBlock language="bash" title="Gather System Info">
+# Generate system report
+npm run system:info > system-info.txt
+
+# Include the following information:
+echo "OS: $(uname -a)" >> system-info.txt
+echo "Node.js: $(node --version)" >> system-info.txt
+echo "npm: $(npm --version)" >> system-info.txt
+echo "AI Toolkit: $(npm list @ai-toolkit/core --depth=0)" >> system-info.txt
+</CodeBlock>
+
+#### Error Information
+- Complete error messages and stack traces
+- Steps to reproduce the issue
+- Expected vs. actual behavior
+- Configuration files (with sensitive data removed)
+
+#### Log Files
+<CodeBlock language="bash" title="Collect Logs">
+# Export recent logs
+npm run logs:export --since="1 hour ago" > error-logs.txt
+
+# Include system logs if relevant
+journalctl -u ai-toolkit --since="1 hour ago" > system-logs.txt  # Linux
+</CodeBlock>
+
+</SupportRequest>
+
+## Prevention and Best Practices
+
+### Regular Maintenance
+
+<MaintenanceTasks>
+
+#### Daily Tasks
+<CodeBlock language="bash" title="Daily Maintenance">
+# Check system health
+npm run health:check
+
+# Monitor disk space
+df -h
+
+# Check for failed processes
+npm run status
+</CodeBlock>
+
+#### Weekly Tasks
+<CodeBlock language="bash" title="Weekly Maintenance">
+# Update dependencies
+npm update
+
+# Clean temporary files
+npm run clean:temp
+
+# Backup database
+npm run db:backup
+
+# Check for security updates
+npm audit
+</CodeBlock>
+
+#### Monthly Tasks
+<CodeBlock language="bash" title="Monthly Maintenance">
+# Full system update
+npm run update:all
+
+# Optimize database
+npm run db:optimize
+
+# Review and rotate logs
+npm run logs:rotate
+
+# Performance analysis
+npm run perf:analyze
+</CodeBlock>
+
+</MaintenanceTasks>
+
+### Monitoring Setup
+
+<MonitoringSetup>
+
+#### Health Monitoring
+<CodeBlock language="bash" title="Setup Health Monitoring">
+# Create health check script
+cat > health-monitor.sh << 'EOF'
+#!/bin/bash
+HEALTH_URL="http://localhost:3000/api/health"
+RESPONSE=$(curl -s $HEALTH_URL)
+STATUS=$(echo $RESPONSE | jq -r '.status')
+
+if [ "$STATUS" != "healthy" ]; then
+  echo "$(date): AI Toolkit unhealthy - $RESPONSE" >> health.log
+  # Send alert (email, Slack, etc.)
+fi
+EOF
+
+chmod +x health-monitor.sh
+
+# Add to crontab for regular checks
+echo "*/5 * * * * /path/to/health-monitor.sh" | crontab -
+</CodeBlock>
+
+#### Log Monitoring
+<CodeBlock language="bash" title="Setup Log Monitoring">
+# Monitor for errors in logs
+tail -f logs/ai-toolkit.log | grep -i error
+
+# Set up log rotation
+cat > /etc/logrotate.d/ai-toolkit << 'EOF'
+/path/to/ai-toolkit/logs/*.log {
+    daily
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 644 user group
+}
+EOF
+</CodeBlock>
+
+</MonitoringSetup>
+
+<Callout type="success" title="Still Need Help?">
+If you've tried the solutions in this guide and are still experiencing issues, please:
+
+1. **Check our [FAQ](/resources/faq)** for additional common questions
+2. **Search [existing issues](https://github.com/your-org/ai-toolkit/issues)** to see if others have encountered the same problem
+3. **Create a new issue** with detailed information using our [issue template](https://github.com/your-org/ai-toolkit/issues/new)
+4. **Join our [community discussion](https://github.com/your-org/ai-toolkit/discussions)** for help from other users
+
+Our community is here to help you succeed with the AI Toolkit!
+</Callout>

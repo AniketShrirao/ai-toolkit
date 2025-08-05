@@ -1,0 +1,51 @@
+// Documentation Site Functions
+// Extends AI Toolkit design system functions with documentation-specific functions
+
+@use 'sass:map';
+@use 'variables' as *;
+
+// Documentation-specific spacing function
+@function doc-space($size) {
+    @return map.get($doc-spacing, $size);
+}
+
+// Documentation color function
+@function doc-color($name) {
+    @return map.get($doc-colors, $name);
+}
+
+// Theme color function for light/dark themes
+@function theme-color($name, $theme: light) {
+    @if $theme ==dark {
+        @return map.get($doc-theme-dark, $name);
+    }
+
+    @else {
+        @return map.get($doc-theme-light, $name);
+    }
+}
+
+// Documentation layout function
+@function doc-layout($property) {
+    @if $property ==header-height {
+        @return $doc-header-height;
+    }
+
+    @else if $property ==sidebar-width {
+        @return $doc-sidebar-width;
+    }
+
+    @else if $property ==sidebar-width-mobile {
+        @return $doc-sidebar-width-mobile;
+    }
+
+    @else if $property ==content-max-width {
+        @return $doc-content-max-width;
+    }
+
+    @else if $property ==toc-width {
+        @return $doc-toc-width;
+    }
+
+    @return null;
+}

@@ -1,0 +1,54 @@
+{
+  "id": "862cfd68-45ba-4e44-aca3-10661e3786cb",
+  "name": "legacy-system-csharp",
+  "language": "csharp",
+  "files": [
+    {
+      "path": "src/app.cs",
+      "content": "// Legacy code - needs refactoring\n// csharp application code",
+      "language": "csharp",
+      "size": 1500,
+      "complexity": 5
+    },
+    {
+      "path": "src/routes/users.cs",
+      "content": "// Legacy code - needs refactoring\n// users routes for csharp\nLibero aeneus solio clam texo. Minima porro crinis temptatio. Velit delicate voluptas deprecator demo censura crux canto solium doloribus.",
+      "language": "csharp",
+      "size": 800,
+      "complexity": 4
+    },
+    {
+      "path": "src/models/User.cs",
+      "content": "// Legacy code - needs refactoring\n// User model for csharp\nTonsor necessitatibus victus adhuc placeat talus comedo ustilo bellum. Commodi ut absque caecus labore curatio tremo ulterius adsum. Facilis amissio appositus ducimus vergo officiis alioqui advenio comburo.",
+      "language": "csharp",
+      "size": 600,
+      "complexity": 4
+    },
+    {
+      "path": "src/config/database.cs",
+      "content": "// Legacy code - needs refactoring\n// Configuration for csharp\nAurum torrens volubilis virgo copiose vos esse bardus cilicium iusto. Sono taedium aranea thesis conculco aegrotatio. Apostolus canonicus ademptio.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 3
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "csharp": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 11,
+    "cyclomaticComplexity": 4,
+    "maintainabilityIndex": 60,
+    "technicalDebt": 4000
+  }
+}

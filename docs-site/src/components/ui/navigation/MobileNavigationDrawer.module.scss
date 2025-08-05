@@ -1,0 +1,259 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 85vw;
+    background-color: var(--surface);
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+
+    &.open {
+        transform: translateX(0);
+    }
+}
+
+.drawerContent {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.drawerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    background-color: var(--surface);
+}
+
+.drawerTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+    }
+
+    &:focus {
+        outline: 2px solid var(--primary-500);
+        outline-offset: 2px;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+}
+
+.closeIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.drawerBody {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem 0;
+
+    // Custom scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--border);
+        border-radius: 3px;
+
+        &:hover {
+            background-color: var(--border-secondary);
+        }
+    }
+}
+
+.navigationSection {
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.sectionTitle {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 0.75rem 0;
+    padding: 0 1.25rem;
+}
+
+.navigationTree {
+    padding: 0 1.25rem;
+}
+
+.drawerFooter {
+    flex-shrink: 0;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+    background-color: var(--bg-secondary);
+}
+
+.swipeHint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-tertiary);
+    font-size: 0.8125rem;
+}
+
+.swipeIcon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+.swipeText {
+    font-weight: 500;
+}
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+// Touch-friendly improvements
+@media (max-width: 480px) {
+    .drawer {
+        width: 100vw;
+        max-width: none;
+    }
+
+    .drawerHeader {
+        padding: 1.25rem 1rem;
+    }
+
+    .closeButton {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .closeIcon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .sectionTitle {
+        padding: 0 1rem;
+    }
+
+    .navigationTree {
+        padding: 0 1rem;
+    }
+
+    .drawerFooter {
+        padding: 1.25rem 1rem;
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .drawer {
+        border-right: 2px solid var(--text-primary);
+    }
+
+    .drawerHeader {
+        border-bottom: 2px solid var(--text-primary);
+    }
+
+    .drawerFooter {
+        border-top: 2px solid var(--text-primary);
+    }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+    .drawer {
+        transition: none;
+    }
+
+    .overlay {
+        animation: none;
+    }
+
+    .closeButton {
+        transition: none;
+
+        &:active {
+            transform: none;
+        }
+    }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+    .drawer {
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}

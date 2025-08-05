@@ -5,7 +5,8 @@ import { DocumentList } from './DocumentList';
 import { DocumentViewer } from './DocumentViewer';
 import { useDocuments } from '@hooks/useDocuments';
 import { DocumentListItem, DocumentAnalysis } from '@ai-toolkit/shared';
-import './Documents.css';
+import './Documents.scss';
+
 
 export const Documents: React.FC = () => {
   const [showUpload, setShowUpload] = useState(false);

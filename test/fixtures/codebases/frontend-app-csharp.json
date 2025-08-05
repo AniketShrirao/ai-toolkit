@@ -1,0 +1,38 @@
+{
+  "id": "fc6e5149-2f1f-4d5b-98b9-574a0f3b9473",
+  "name": "frontend-app-csharp",
+  "language": "csharp",
+  "files": [
+    {
+      "path": "src/components/Header.tsx",
+      "content": "import React from 'react';\n\ninterface HeaderProps {\n  // Props interface\n}\n\nexport const Header: React.FC<HeaderProps> = () => {\n  return (\n    <div>\n      <h1>Header</h1>\n    </div>\n  );\n};",
+      "language": "typescript",
+      "size": 500,
+      "complexity": 2
+    },
+    {
+      "path": "src/pages/Dashboard.tsx",
+      "content": "import React from 'react';\n\ninterface DashboardProps {\n  // Props interface\n}\n\nexport const Dashboard: React.FC<DashboardProps> = () => {\n  return (\n    <div>\n      <h1>Dashboard</h1>\n    </div>\n  );\n};",
+      "language": "typescript",
+      "size": 1200,
+      "complexity": 4
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src/components",
+      "src/pages"
+    ],
+    "fileCount": 2,
+    "totalSize": 1700,
+    "languages": {
+      "typescript": 2
+    }
+  },
+  "metrics": {
+    "linesOfCode": 26,
+    "cyclomaticComplexity": 3,
+    "maintainabilityIndex": 70,
+    "technicalDebt": 3000
+  }
+}

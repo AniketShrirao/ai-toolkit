@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, CardHeader, CardContent, Badge } from '@components/UI';
 import { DocumentListItem, DocumentAnalysis, Requirement, KeyPoint, ActionItem } from '@ai-toolkit/shared';
-import './DocumentViewer.css';
+import './DocumentViewer.scss';
 
 interface DocumentViewerProps {
   document: DocumentListItem;

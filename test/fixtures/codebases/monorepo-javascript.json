@@ -1,0 +1,54 @@
+{
+  "id": "cd070677-412c-4093-8fba-6ccbbc8a50d4",
+  "name": "monorepo-javascript",
+  "language": "javascript",
+  "files": [
+    {
+      "path": "packages/core/src/index.js",
+      "content": "// core package\nVesica depopulo audio amor adflicto depono tergum id admitto. Neque tepesco vergo arguo traho. Claustrum teres certe cuppedia aedificium coniuratio toties decimus stips.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/ui/src/index.js",
+      "content": "// ui package\nSed vado civis eligendi aperio tibi aurum delibero vesper. Statim candidus dens comparo ventito claudeo appello strues ascit. Valetudo sapiente assumenda.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/api/src/index.js",
+      "content": "// api package\nAntepono creber sublime barba solum turbo demergo praesentium vulgus. Adulescens nobis coruscus cornu volo vesica tepidus cunabula. Conqueror voro cui verus cumque cognatus copiose pecus ambulo trado.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/utils/src/index.js",
+      "content": "// utils package\nCernuus supellex curis velut. Conitor valetudo condico solitudo pecus occaecati provident assentator careo. Admoveo adhaero beatae termes tero asporto volo pectus.",
+      "language": "javascript",
+      "size": 400,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "packages/core/src",
+      "packages/ui/src",
+      "packages/api/src",
+      "packages/utils/src"
+    ],
+    "fileCount": 4,
+    "totalSize": 1600,
+    "languages": {
+      "javascript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 8,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

@@ -3,6 +3,22 @@ import { TestDataManager } from "./utils/TestDataManager.js";
 import { MockOllamaServer } from "./utils/MockOllamaServer.js";
 import { TestLogger } from "./utils/TestLogger.js";
 
+// Import testing library matchers
+import '@testing-library/jest-dom';
+
+// Mock fetch globally for all tests
+import { vi } from 'vitest';
+
+// Create a mock fetch function
+const mockFetch = vi.fn();
+global.fetch = mockFetch;
+
+// Make mockFetch available globally
+declare global {
+  var mockFetch: typeof vi.fn;
+}
+global.mockFetch = mockFetch;
+
 // Global test setup
 let testDataManager: TestDataManager;
 let mockOllamaServer: MockOllamaServer;
@@ -47,6 +63,10 @@ beforeEach(() => {
   if (testDataManager) {
     testDataManager.clearCache();
   }
+  
+  // Reset fetch mock before each test
+  vi.clearAllMocks();
+  mockFetch.mockClear();
 });
 
 afterEach(() => {

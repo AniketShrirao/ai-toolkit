@@ -1,0 +1,14 @@
+{
+  "id": "fbf7f8e0-7863-41bf-8482-e1e66c6b2e67",
+  "name": "simple-requirements.pdf",
+  "type": "pdf",
+  "content": "# Project Requirements\n\n## Overview\nCorporis sequi veritas patria ipsam aptus. Adicio cedo iure truculenter alter architecto desipio comburo attero. Solitudo aufero amicitia temptatio quisquam sit animadverto atqui aeger solium.\n\n## Functional Requirements\n1. User Authentication\n   - Users must be able to register with email and password\n   - Users must be able to login and logout\n   - Password reset functionality required\n\n2. Data Management\n   - CRUD operations for user data\n   - Data validation and sanitization\n   - Backup and recovery procedures\n\n## Non-Functional Requirements\n- Performance: Response time < 2 seconds\n- Security: Data encryption at rest and in transit\n- Scalability: Support for 1000+ concurrent users\n- Availability: 99.9% uptime requirement\n\n## Acceptance Criteria\n- All features must be tested\n- Documentation must be provided\n- Code coverage > 80%",
+  "size": 879,
+  "metadata": {
+    "author": "Doreen Dietrich",
+    "createdAt": "2025-06-12T14:40:04.825Z",
+    "modifiedAt": "2025-08-04T09:51:57.099Z",
+    "pages": 1,
+    "wordCount": 130
+  }
+}

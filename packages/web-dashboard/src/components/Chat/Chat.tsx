@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ChatInterface } from '../UI/ChatInterface';
 import { useChatContext } from '../../contexts/ChatContext';
-import { useAIService, AIServiceConfig } from '../../hooks/useAIService';
+import { AIServiceConfig } from '../../hooks/useAIService';
+import { useToastHelpers } from '../../contexts/ToastContext';
 import './Chat.scss';
 
 export const Chat: React.FC = () => {
@@ -23,6 +24,8 @@ export const Chat: React.FC = () => {
     syncScrollPosition,
     aiConfig,
   } = useChatContext();
+
+  const { showConfirmation, showSuccess, showError } = useToastHelpers();
 
   const [showSettings, setShowSettings] = useState(false);
   const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
@@ -47,10 +50,22 @@ export const Chat: React.FC = () => {
   }, [sendMessage]);
 
   const handleClearChat = useCallback(() => {
-    if (window.confirm('Are you sure you want to clear the chat history?')) {
-      clearMessages();
+    if (messages.length === 0) {
+      showError('No messages to clear');
+      return;
     }
-  }, [clearMessages]);
+
+    showConfirmation(
+      'Are you sure you want to clear the chat history? This action cannot be undone.',
+      () => {
+        clearMessages();
+        showSuccess('Chat history cleared successfully');
+      },
+      {
+        duration: 8000, // Give user more time to read and decide
+      }
+    );
+  }, [clearMessages, messages.length, showConfirmation, showSuccess, showError]);
 
   const handleModelChange = useCallback(async (model: string) => {
     try {
@@ -272,17 +287,22 @@ export const Chat: React.FC = () => {
         </div>
 
         {showSettings && (
-          <div className="settings-panel">
+          <div className="settings-panel" style={{ border: '3px solid #dc2626', backgroundColor: '#fef2f2' }}>
+            <div style={{ padding: '10px', color: '#dc2626', fontWeight: 'bold', borderBottom: '1px solid #dc2626' }}>
+              DEBUG: Settings Panel Visible (showSettings: {showSettings.toString()})
+            </div>
             <div className="settings-tabs">
               <button
                 className={`tab-button ${!showAdvancedSettings ? 'active' : ''}`}
                 onClick={() => setShowAdvancedSettings(false)}
+                type="button"
               >
                 Quick Settings
               </button>
               <button
                 className={`tab-button ${showAdvancedSettings ? 'active' : ''}`}
                 onClick={() => setShowAdvancedSettings(true)}
+                type="button"
               >
                 Advanced
               </button>
@@ -290,7 +310,10 @@ export const Chat: React.FC = () => {
 
             {!showAdvancedSettings ? (
               // Quick Settings Tab
-              <div className="quick-settings">
+              <div className="quick-settings" style={{ display: 'block', backgroundColor: '#f0f9ff', border: '2px solid #0ea5e9' }}>
+                <div style={{ padding: '10px', color: '#0c4a6e', fontWeight: 'bold' }}>
+                  DEBUG: Quick Settings Active (showAdvancedSettings: {showAdvancedSettings.toString()})
+                </div>
                 <div className="setting-group">
                   <label htmlFor="provider-select">AI Provider:</label>
                   <select
@@ -350,7 +373,10 @@ export const Chat: React.FC = () => {
               </div>
             ) : (
               // Advanced Settings Tab
-              <div className="advanced-settings">
+              <div className="advanced-settings" style={{ display: 'block', backgroundColor: '#fef3c7', border: '2px solid #f59e0b' }}>
+                <div style={{ padding: '10px', color: '#92400e', fontWeight: 'bold' }}>
+                  DEBUG: Advanced Settings Active (showAdvancedSettings: {showAdvancedSettings.toString()})
+                </div>
                 <div className="setting-group">
                   <label htmlFor="base-url">Base URL:</label>
                   <input

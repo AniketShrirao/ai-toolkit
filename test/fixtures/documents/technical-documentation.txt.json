@@ -1,0 +1,13 @@
+{
+  "id": "682bea96-0cd3-4dda-ad2e-0cba8dd58a97",
+  "name": "technical-documentation.txt",
+  "type": "txt",
+  "content": "# API Documentation\n\n## Authentication\nAll API requests require authentication using JWT tokens.\n\n### Endpoints\n\n#### POST /api/auth/login\nAuthenticate user and return JWT token.\n\n**Request Body:**\n```json\n{\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword\"\n}\n```\n\n**Response:**\n```json\n{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\",\n  \"user\": {\n    \"id\": \"123\",\n    \"email\": \"user@example.com\",\n    \"role\": \"user\"\n  }\n}\n```\n\n#### GET /api/users\nRetrieve list of users (admin only).\n\n**Query Parameters:**\n- page: Page number (default: 1)\n- limit: Items per page (default: 10)\n- search: Search term\n\n**Response:**\n```json\n{\n  \"users\": [...],\n  \"pagination\": {\n    \"page\": 1,\n    \"limit\": 10,\n    \"total\": 100\n  }\n}\n```\n\n## Error Handling\nAll errors follow the standard format:\n\n```json\n{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Invalid input data\",\n    \"details\": {...}\n  }\n}\n```\n\n## Rate Limiting\n- 100 requests per minute per IP\n- 1000 requests per hour per authenticated user",
+  "size": 1020,
+  "metadata": {
+    "author": "Ms. Lois Mitchell",
+    "createdAt": "2024-12-06T02:02:05.973Z",
+    "modifiedAt": "2025-08-04T08:30:25.968Z",
+    "wordCount": 136
+  }
+}

@@ -1,9 +1,4 @@
 // Modern SaaS Dashboard component based on dashboard-interface.png reference
-@use '../../styles/spacing' as *;
-@use '../../styles/colors' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as *;
-
 .dashboard {
   background: var(--dashboard-background);
   min-height: 100vh;

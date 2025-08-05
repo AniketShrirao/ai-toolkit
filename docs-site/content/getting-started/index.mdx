@@ -1,0 +1,119 @@
+---
+title: "Getting Started with AI Toolkit"
+description: "Learn how to install and set up the AI Toolkit for document processing and analysis."
+category: "getting-started"
+tags: ["installation", "setup", "quickstart"]
+difficulty: "beginner"
+estimatedReadTime: 5
+prerequisites: []
+---
+
+# Getting Started with AI Toolkit
+
+Welcome to the AI Toolkit documentation! This guide will help you get up and running with the AI Toolkit in just a few minutes.
+
+## Table of Contents
+
+## What is AI Toolkit?
+
+The AI Toolkit is a comprehensive solution for document processing, analysis, and AI-powered insights. It provides:
+
+- **Document Processing**: Extract text, images, and metadata from various document formats
+- **AI Analysis**: Leverage local AI models for content analysis and insights
+- **Web Dashboard**: User-friendly interface for managing documents and viewing results
+- **API Access**: RESTful API for programmatic access to all features
+
+<Callout type="info" title="Prerequisites">
+Before you begin, make sure you have Node.js 18+ and npm installed on your system.
+</Callout>
+
+## Quick Installation
+
+The fastest way to get started is using our installation script:
+
+<CodeBlock language="bash" title="Quick Install">
+npm install -g @ai-toolkit/cli
+ai-toolkit init my-project
+cd my-project
+npm start
+</CodeBlock>
+
+## Manual Installation
+
+If you prefer to set up the project manually:
+
+### 1. Clone the Repository
+
+<CodeBlock language="bash">
+git clone https://github.com/your-org/ai-toolkit.git
+cd ai-toolkit
+</CodeBlock>
+
+### 2. Install Dependencies
+
+<CodeBlock language="bash">
+npm install
+</CodeBlock>
+
+### 3. Configure Environment
+
+Copy the example environment file and configure your settings:
+
+<CodeBlock language="bash">
+cp .env.example .env
+</CodeBlock>
+
+Edit the `.env` file with your configuration:
+
+<CodeBlock language="bash" title=".env">
+# Database Configuration
+DATABASE_URL=postgresql://user:password@localhost:5432/ai_toolkit
+
+# AI Model Configuration
+OLLAMA_HOST=http://localhost:11434
+DEFAULT_MODEL=llama2
+
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+</CodeBlock>
+
+### 4. Start the Application
+
+<CodeBlock language="bash">
+npm run dev
+</CodeBlock>
+
+## Verify Installation
+
+Once the application is running, you can verify the installation by:
+
+1. **Web Dashboard**: Open http://localhost:3000 in your browser
+2. **API Health Check**: Visit http://localhost:3000/api/health
+3. **Upload a Test Document**: Try uploading a sample PDF or text file
+
+<Callout type="success" title="Success!">
+If you can see the dashboard and upload a document, your installation is complete!
+</Callout>
+
+## Next Steps
+
+Now that you have AI Toolkit running, here are some recommended next steps:
+
+- [Upload Your First Document](/getting-started/first-document)
+- [Configure AI Models](/guides/ai-integration/model-setup)
+- [Explore the API](/api-reference/overview)
+- [Set Up for Production](/guides/deployment/production)
+
+## Troubleshooting
+
+Having issues? Check our [troubleshooting guide](/resources/troubleshooting) or:
+
+- Ensure all prerequisites are installed
+- Check that ports 3000 and 11434 are available
+- Verify your environment configuration
+- Review the application logs for error messages
+
+<Callout type="warning" title="Common Issues">
+The most common installation issues are related to Node.js version compatibility and port conflicts. Make sure you're using Node.js 18+ and that the required ports are available.
+</Callout>

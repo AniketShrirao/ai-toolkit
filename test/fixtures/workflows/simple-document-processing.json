@@ -1,0 +1,20 @@
+{
+  "id": "bbc13b26-48f7-40a1-a92d-a34044e1508a",
+  "name": "simple-document-processing",
+  "steps": [
+    {
+      "id": "1",
+      "type": "document-analysis",
+      "input": {
+        "documentId": "test-doc-1"
+      },
+      "expectedOutput": {
+        "requirements": [],
+        "keyPoints": []
+      },
+      "duration": 5000
+    }
+  ],
+  "expectedDuration": 5000,
+  "complexity": "simple"
+}

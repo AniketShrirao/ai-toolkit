@@ -41,8 +41,6 @@ export class CloudLLMManager {
   }
 
   async initialize(): Promise<void> {
-    await this.apiKeyManager.initialize();
-    
     // Load API keys from environment if available
     await this.apiKeyManager.loadFromEnvironment();
     
@@ -294,10 +292,8 @@ export class CloudLLMManager {
         const service = provider === 'ollama' ? undefined : this.services.get(provider);
         const result = await operation(service, provider);
         
-        // Update usage stats for successful requests
-        if (provider !== 'ollama') {
-          await this.apiKeyManager.updateUsageStats(provider, false);
-        }
+        // Note: Usage stats tracking would be implemented here if needed
+        // The ApiKeyManager interface doesn't currently support updateUsageStats
         
         return result;
       } catch (error) {
@@ -308,10 +304,8 @@ export class CloudLLMManager {
           throw error;
         }
         
-        // Update usage stats for rate limit hits
-        if (provider !== 'ollama' && this.isRateLimitError(error as Error)) {
-          await this.apiKeyManager.updateUsageStats(provider, true);
-        }
+        // Note: Rate limit tracking would be implemented here if needed
+        // The ApiKeyManager interface doesn't currently support updateUsageStats
         
         console.warn(`Provider ${provider} failed, trying next fallback:`, error);
       }

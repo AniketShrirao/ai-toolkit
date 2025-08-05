@@ -1,0 +1,54 @@
+{
+  "id": "06884c18-e2be-4a50-8094-efbe5ddb3975",
+  "name": "legacy-system-typescript",
+  "language": "typescript",
+  "files": [
+    {
+      "path": "src/app.ts",
+      "content": "// Legacy code - needs refactoring\nimport express from 'express';\nimport { userRoutes } from './routes/users';\n\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\napp.use('/api/users', userRoutes);\n\napp.listen(PORT, () => {\n  console.log(`Server running on port ${PORT}`);\n});",
+      "language": "typescript",
+      "size": 1500,
+      "complexity": 5
+    },
+    {
+      "path": "src/routes/users.ts",
+      "content": "// Legacy code - needs refactoring\n// users routes for typescript\nBibo molestias sordeo tonsor. Decerno amita truculenter delego consuasor vero id. Deserunt auctor terreo alienus conspergo vulticulus.",
+      "language": "typescript",
+      "size": 800,
+      "complexity": 4
+    },
+    {
+      "path": "src/models/User.ts",
+      "content": "// Legacy code - needs refactoring\n// User model for typescript\nDeputo careo cometes ara agnitio terminatio subnecto cura vero. Atavus casso xiphias colligo velut unde. Aer tredecim tamdiu vilicus sodalitas acsi assumenda.",
+      "language": "typescript",
+      "size": 600,
+      "complexity": 4
+    },
+    {
+      "path": "src/config/database.ts",
+      "content": "// Legacy code - needs refactoring\n// Configuration for typescript\nCruciamentum amor suscipit cognomen bos sollicito confido tergo angustus. Dolor charisma terga alii aptus dolor. Tergo adiuvo rem chirographum varius.",
+      "language": "typescript",
+      "size": 400,
+      "complexity": 3
+    }
+  ],
+  "structure": {
+    "directories": [
+      "src",
+      "src/routes",
+      "src/models",
+      "src/config"
+    ],
+    "fileCount": 4,
+    "totalSize": 3300,
+    "languages": {
+      "typescript": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 22,
+    "cyclomaticComplexity": 4,
+    "maintainabilityIndex": 60,
+    "technicalDebt": 4000
+  }
+}

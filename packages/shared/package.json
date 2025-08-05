@@ -1,9 +1,10 @@
 {
   "name": "@ai-toolkit/shared",
   "version": "1.0.0",
+  "type": "module",
   "description": "Shared utilities and styles for AI Toolkit",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "styles/",
     "utils/",
@@ -23,5 +24,9 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/glob": "^8.1.0",
+    "glob": "^7.2.3"
   }
 }

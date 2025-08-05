@@ -1,0 +1,195 @@
+// Documentation Navigation Component Styles
+
+// Navigation tree component
+.navigation-tree {
+    @include doc-nav-section;
+
+    .nav-item {
+        @include doc-nav-item;
+
+        &.has-children {
+            .nav-item-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .nav-item-toggle {
+                    @include doc-button(ghost);
+                    padding: doc-space(xs);
+                    min-height: auto;
+                    min-width: auto;
+
+                    &:hover {
+                        background: transparent;
+                    }
+                }
+            }
+
+            .nav-children {
+                margin-left: doc-space(md);
+                margin-top: doc-space(sm);
+                border-left: 1px solid var(--border);
+                padding-left: doc-space(md);
+
+                .nav-item {
+                    @include text-style(sm);
+                }
+            }
+
+            &.collapsed .nav-children {
+                display: none;
+            }
+        }
+    }
+
+    .nav-section-title {
+        @include text-style($font-weight-semibold);
+        color: var(--text-primary);
+        padding: doc-space(sm) doc-space(md);
+        margin-bottom: doc-space(sm);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+}
+
+// Mobile navigation drawer
+.mobile-navigation-drawer {
+    @include doc-sidebar;
+
+    .drawer-overlay {
+        @include doc-mobile-overlay;
+    }
+
+    .drawer-content {
+        background: var(--nav-bg);
+        height: 100%;
+        overflow-y: auto;
+        padding: doc-space(lg);
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: doc-space(xl);
+            padding-bottom: doc-space(lg);
+            border-bottom: 1px solid var(--nav-border);
+
+            .drawer-title {
+                @include text-style(lg, $font-weight-semibold);
+                color: var(--text-primary);
+            }
+
+            .drawer-close {
+                @include doc-button(ghost);
+                padding: doc-space(sm);
+                min-height: auto;
+                min-width: auto;
+            }
+        }
+    }
+}
+
+// Header navigation
+.header-navigation {
+    display: flex;
+    align-items: center;
+    gap: doc-space(lg);
+
+    .nav-item {
+        @include doc-nav-item;
+        padding: doc-space(sm) doc-space(md);
+        border-radius: radius(md);
+
+        @media (max-width: #{breakpoint(md)}) {
+            display: none;
+        }
+    }
+
+    .nav-toggle {
+        @include doc-button(ghost);
+        display: none;
+
+        @media (max-width: #{breakpoint(md)}) {
+            display: flex;
+        }
+    }
+}
+
+// Sidebar navigation
+.sidebar-navigation {
+    height: 100%;
+    overflow-y: auto;
+    padding: doc-space(lg);
+
+    .nav-search {
+        margin-bottom: doc-space(xl);
+    }
+
+    .nav-sections {
+        .nav-section {
+            @include doc-nav-section;
+
+            &:not(:last-child) {
+                margin-bottom: doc-space(xl);
+            }
+        }
+    }
+}
+
+// Navigation search
+.navigation-search {
+    position: relative;
+
+    .search-input {
+        @include doc-search-input;
+        width: 100%;
+    }
+
+    .search-results {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: radius(md);
+        box-shadow: shadow(lg);
+        z-index: z-index(dropdown);
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: doc-space(xs);
+
+        .search-result {
+            padding: doc-space(md);
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+
+            &:hover {
+                background: var(--bg-secondary);
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .result-title {
+                @include text-style(sm, $font-weight-medium);
+                color: var(--text-primary);
+                margin-bottom: doc-space(xs);
+            }
+
+            .result-excerpt {
+                @include text-style(xs);
+                color: var(--text-tertiary);
+                @include line-clamp(2);
+            }
+        }
+
+        .no-results {
+            padding: doc-space(lg);
+            text-align: center;
+            color: var(--text-tertiary);
+            @include text-style(sm);
+        }
+    }
+}

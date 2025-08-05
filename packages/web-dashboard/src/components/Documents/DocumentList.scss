@@ -1,0 +1,165 @@
+// DocumentList Component Styles
+@use '@ai-toolkit/ui-styles' as ui;
+
+.document-list {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+}
+
+.document-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: space(4);
+    flex-wrap: wrap;
+}
+
+.document-list-filters {
+    display: flex;
+    gap: space(3);
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.document-filter-select {
+    min-width: 150px;
+}
+
+.document-list-actions {
+    display: flex;
+    gap: space(2);
+}
+
+.document-list-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: space(12);
+    text-align: center;
+    @include text-color(secondary);
+
+    .empty-icon {
+        @include font-size(6xl);
+        opacity: 0.5;
+        margin-bottom: space(4);
+    }
+
+    h3 {
+        @include text-style(xl, semibold);
+        margin-bottom: space(2);
+        @include text-color(primary);
+    }
+
+    p {
+        @include text-style(base);
+        max-width: 400px;
+    }
+}
+
+.document-list-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.document-list-table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 100px;
+    gap: space(4);
+    padding: space(3) space(4);
+    @include bg-color(secondary);
+    border-radius: radius(md) radius(md) 0 0;
+    @include text-style(sm, semibold);
+    @include text-color(secondary);
+}
+
+.document-list-sort-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: space(1);
+    @include text-style(sm, semibold);
+    @include text-color(secondary);
+    transition: color transition(base);
+
+    &:hover {
+        @include text-color(primary);
+    }
+}
+
+.document-list-table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 100px;
+    gap: space(4);
+    padding: space(4);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background-color transition(base);
+
+    &:hover {
+        @include bg-color(secondary);
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.document-list-name {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+}
+
+.document-icon {
+    @include font-size(xl);
+    flex-shrink: 0;
+}
+
+.document-name-info {
+    display: flex;
+    flex-direction: column;
+    gap: space(1);
+    min-width: 0;
+}
+
+.document-name {
+    @include text-style(base, medium);
+    @include text-color(primary);
+    @include truncate;
+}
+
+.document-analysis-indicator {
+    @include text-style(xs);
+    color: var(--success);
+    font-weight: $font-weight-medium;
+}
+
+.document-list-type,
+.document-list-status,
+.document-list-size,
+.document-list-date {
+    display: flex;
+    align-items: center;
+}
+
+.document-list-size,
+.document-list-date {
+    @include text-style(sm);
+    @include text-color(secondary);
+}
+
+.document-list-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.document-list-summary {
+    @include text-style(sm);
+    @include text-color(secondary);
+    text-align: center;
+    padding: space(2);
+}

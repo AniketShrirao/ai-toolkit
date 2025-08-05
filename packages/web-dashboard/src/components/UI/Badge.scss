@@ -1,10 +1,7 @@
 // Badge component styles with enhanced status colors and improved accessibility
 // Implements high-contrast color combinations and consistent spacing
 
-@use '../../styles/variables' as *;
-@use '../../styles/colors' as *;
-@use '../../styles/spacing' as *;
-@use '../../styles/mixins' as *;
+// Styles are globally available via Vite config
 
 .badge {
   @include badge-base;

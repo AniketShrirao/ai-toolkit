@@ -1,0 +1,314 @@
+// IntegrityCheck Component Styles
+
+.integrity-check {
+    display: flex;
+    flex-direction: column;
+    gap: space(6);
+}
+
+.integrity-check-header {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    h2 {
+        @include text-style(2xl, semibold);
+        @include text-color(primary);
+        margin: 0;
+    }
+
+    p {
+        @include text-style(base);
+        @include text-color(secondary);
+        margin: 0;
+    }
+}
+
+.integrity-check-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: space(4);
+    padding: space(4);
+    @include bg-color(secondary);
+    border-radius: radius(md);
+
+    @include breakpoint(md) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.check-type-selector {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    label {
+        @include text-style(sm, medium);
+        @include text-color(primary);
+    }
+
+    select {
+        padding: space(2) space(3);
+        border: 1px solid var(--border);
+        border-radius: radius(md);
+        @include bg-color(primary);
+        @include text-color(primary);
+    }
+}
+
+.check-actions {
+    display: flex;
+    gap: space(2);
+}
+
+.btn {
+    padding: space(2) space(4);
+    border: none;
+    border-radius: radius(md);
+    @include text-style(sm, medium);
+    cursor: pointer;
+    transition: all transition(base);
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    &.btn-primary {
+        background-color: var(--primary);
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: var(--primary-hover);
+        }
+    }
+
+    &.btn-secondary {
+        @include bg-color(secondary);
+        @include text-color(primary);
+
+        &:hover:not(:disabled) {
+            @include bg-color(tertiary);
+        }
+    }
+}
+
+.alert {
+    padding: space(3);
+    border-radius: radius(md);
+    border: 1px solid;
+
+    &.alert-error {
+        @include bg-color(error);
+        @include border-color(error);
+        @include text-color(error);
+    }
+}
+
+.loading-indicator {
+    display: flex;
+    align-items: center;
+    gap: space(3);
+    padding: space(4);
+    @include bg-color(secondary);
+    border-radius: radius(md);
+
+    .spinner {
+        width: space(5);
+        height: space(5);
+        border: 2px solid var(--border);
+        border-top: 2px solid var(--primary);
+        border-radius: radius(full);
+        animation: spin 1s linear infinite;
+    }
+}
+
+.report-section {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+    padding: space(6);
+    border: 1px solid var(--border);
+    border-radius: radius(lg);
+
+    h3 {
+        @include text-style(xl, semibold);
+        @include text-color(primary);
+        margin: 0;
+    }
+}
+
+.report-summary {
+    display: flex;
+    flex-direction: column;
+    gap: space(4);
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: space(4);
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: space(4);
+    @include bg-color(secondary);
+    border-radius: radius(md);
+    text-align: center;
+
+    .card-value {
+        @include text-style(2xl, bold);
+        @include text-color(primary);
+    }
+
+    .card-label {
+        @include text-style(sm);
+        @include text-color(secondary);
+        margin-top: space(1);
+    }
+}
+
+.issues-by-type,
+.issues-by-severity {
+    display: flex;
+    flex-direction: column;
+    gap: space(3);
+
+    h4 {
+        @include text-style(lg, medium);
+        @include text-color(primary);
+        margin: 0;
+    }
+}
+
+.issue-type-grid,
+.severity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: space(2);
+}
+
+.issue-type-item,
+.severity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: space(2) space(3);
+    @include bg-color(secondary);
+    border-radius: radius(sm);
+}
+
+.severity-item {
+    .severity-indicator {
+        width: space(3);
+        height: space(3);
+        border-radius: radius(full);
+        margin-right: space(2);
+    }
+}
+
+.issue-type-name,
+.severity-name {
+    @include text-style(sm, medium);
+    @include text-color(primary);
+}
+
+.issue-type-count,
+.severity-count {
+    @include text-style(sm, bold);
+    color: var(--primary);
+}
+
+.recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+
+    h4 {
+        @include text-style(lg, medium);
+        @include text-color(primary);
+        margin: 0;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: space(5);
+
+        li {
+            @include text-style(base);
+            @include text-color(secondary);
+            margin-bottom: space(1);
+        }
+    }
+}
+
+.issues-details {
+    margin-top: space(4);
+
+    summary {
+        @include text-style(base, medium);
+        @include text-color(primary);
+        cursor: pointer;
+        padding: space(2);
+        @include bg-color(secondary);
+        border-radius: radius(sm);
+    }
+}
+
+.issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: space(3);
+    margin-top: space(3);
+}
+
+.issue-item {
+    padding: space(3);
+    border: 1px solid var(--border);
+    border-radius: radius(md);
+    @include bg-color(primary);
+}
+
+.issue-header {
+    display: flex;
+    gap: space(3);
+    margin-bottom: space(2);
+    flex-wrap: wrap;
+
+    span {
+        @include text-style(xs, medium);
+        padding: space(1) space(2);
+        border-radius: radius(sm);
+        @include bg-color(secondary);
+    }
+}
+
+.issue-message {
+    @include text-style(sm);
+    @include text-color(primary);
+    margin-bottom: space(2);
+}
+
+.issue-context {
+    padding: space(2);
+    @include bg-color(secondary);
+    border-radius: radius(sm);
+    border-left: 3px solid var(--primary);
+
+    code {
+        @include text-style(xs);
+        font-family: $font-family-mono;
+        @include text-color(secondary);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

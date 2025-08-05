@@ -1,0 +1,42 @@
+{
+  "id": "5af1fd65-0262-40ed-a43a-470d40184bc3",
+  "name": "complex-project-analysis",
+  "steps": [
+    {
+      "id": "1",
+      "type": "document-analysis",
+      "input": {
+        "documentId": "complex-spec"
+      },
+      "expectedOutput": {
+        "requirements": [],
+        "keyPoints": []
+      },
+      "duration": 15000
+    },
+    {
+      "id": "2",
+      "type": "estimation",
+      "input": {
+        "requirements": []
+      },
+      "expectedOutput": {
+        "estimate": {}
+      },
+      "duration": 10000
+    },
+    {
+      "id": "3",
+      "type": "communication",
+      "input": {
+        "estimate": {}
+      },
+      "expectedOutput": {
+        "proposal": ""
+      },
+      "duration": 8000
+    }
+  ],
+  "expectedDuration": 33000,
+  "complexity": "complex"
+}

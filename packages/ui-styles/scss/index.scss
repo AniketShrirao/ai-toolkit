@@ -1,0 +1,19 @@
+// AI Toolkit Shared UI Styles
+// Main entry point for the shared design system
+
+@forward 'abstracts/variables';
+@forward 'abstracts/mixins';
+@forward 'abstracts/functions';
+
+@forward 'base/reset';
+@forward 'base/typography';
+
+@forward 'components/buttons';
+@forward 'components/cards';
+@forward 'components/forms';
+@forward 'components/badges';
+
+@forward 'utilities/spacing';
+@forward 'utilities/colors';
+@forward 'utilities/layout';
+@forward 'utilities/dashboard';

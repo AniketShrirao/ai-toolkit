@@ -114,7 +114,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = useCallback(() => {
-    if (autoScroll && messagesEndRef.current) {
+    if (autoScroll && messagesEndRef.current && typeof messagesEndRef.current.scrollIntoView === 'function') {
       messagesEndRef.current.scrollIntoView({ 
         behavior: 'smooth',
         block: 'end'

@@ -1,0 +1,85 @@
+// Card Component Styles
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/functions' as *;
+
+// Card base mixin
+@mixin card-component-base {
+  background-color: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: radius(lg);
+  box-shadow: shadow(sm);
+  transition: box-shadow transition(base) ease(ease-in-out);
+}
+
+@mixin card-component-hover {
+  &:hover {
+    box-shadow: shadow(md);
+  }
+}
+
+@mixin card-component-padding($size: md) {
+  @if $size == sm {
+    padding: space(4);
+  } @else if $size == md {
+    padding: space(6);
+  } @else if $size == lg {
+    padding: space(8);
+  }
+}
+
+// Card component
+.card {
+  @include card-component-base;
+  @include card-component-padding(md);
+  
+  // Size variants
+  &--sm {
+    @include card-component-padding(sm);
+  }
+  
+  &--lg {
+    @include card-component-padding(lg);
+  }
+  
+  // Interactive card
+  &--interactive {
+    cursor: pointer;
+    @include card-component-hover;
+  }
+  
+  // Card header
+  &__header {
+    margin-bottom: space(4);
+    padding-bottom: space(4);
+    border-bottom: 1px solid var(--color-border, #e5e7eb);
+  }
+  
+  // Card title
+  &__title {
+    margin: 0;
+    @include font-size(lg);
+    font-weight: $font-weight-semibold;
+    color: var(--color-text-heading, #111827);
+  }
+  
+  // Card content
+  &__content {
+    color: var(--color-text-primary, #374151);
+    
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Card footer
+  &__footer {
+    margin-top: space(4);
+    padding-top: space(4);
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: space(2);
+  }
+}

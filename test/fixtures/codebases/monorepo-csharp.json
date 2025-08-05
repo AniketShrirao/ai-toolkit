@@ -1,0 +1,54 @@
+{
+  "id": "fb254ae7-5880-4446-9f8a-781964c7edae",
+  "name": "monorepo-csharp",
+  "language": "csharp",
+  "files": [
+    {
+      "path": "packages/core/src/index.js",
+      "content": "// core package\nQuia molestiae crepusculum crustulum suadeo reiciendis. Ocer ciminatio sursum umquam atrocitas agnosco ab turba super rerum. Saepe abduco cognomen natus comminor arbustum nihil trucido.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/ui/src/index.js",
+      "content": "// ui package\nUndique vito utor tergo decipio spargo creta. Villa deripio antiquus. Spero tepidus animus aperte turba curo talio bonus.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/api/src/index.js",
+      "content": "// api package\nSapiente cruciamentum sollicito curis tracto ademptio desino. Adiuvo velut canto vulticulus verbum tepidus allatus. Tardus corona cibo acies.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 2
+    },
+    {
+      "path": "packages/utils/src/index.js",
+      "content": "// utils package\nAdfectus defluo dedico demulceo tredecim demoror. Celer carbo adinventitias. Vaco substantia candidus crinis cruciamentum doloribus suggero uredo sequi.",
+      "language": "csharp",
+      "size": 400,
+      "complexity": 2
+    }
+  ],
+  "structure": {
+    "directories": [
+      "packages/core/src",
+      "packages/ui/src",
+      "packages/api/src",
+      "packages/utils/src"
+    ],
+    "fileCount": 4,
+    "totalSize": 1600,
+    "languages": {
+      "csharp": 4
+    }
+  },
+  "metrics": {
+    "linesOfCode": 8,
+    "cyclomaticComplexity": 2,
+    "maintainabilityIndex": 80,
+    "technicalDebt": 2000
+  }
+}

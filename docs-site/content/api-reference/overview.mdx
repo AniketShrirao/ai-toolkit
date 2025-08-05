@@ -1,0 +1,233 @@
+---
+title: "API Reference Overview"
+description: "Complete reference for the AI Toolkit REST API endpoints and authentication methods."
+category: "api-reference"
+tags: ["api", "rest", "authentication", "endpoints"]
+difficulty: "intermediate"
+estimatedReadTime: 8
+prerequisites: ["getting-started"]
+---
+
+# API Reference Overview
+
+The AI Toolkit provides a comprehensive REST API for programmatic access to all document processing and analysis features.
+
+## Table of Contents
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://your-domain.com/api/v1
+```
+
+For local development:
+
+```
+http://localhost:3000/api/v1
+```
+
+## Authentication
+
+The AI Toolkit API supports multiple authentication methods:
+
+### API Key Authentication
+
+<ApiEndpoint 
+  method="GET" 
+  path="/api/v1/documents" 
+  description="Get all documents with API key authentication"
+/>
+
+Include your API key in the request headers:
+
+<CodeBlock language="bash" title="API Key Authentication">
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Content-Type: application/json" \
+     https://your-domain.com/api/v1/documents
+</CodeBlock>
+
+### JWT Token Authentication
+
+<ApiEndpoint 
+  method="POST" 
+  path="/api/v1/auth/login" 
+  description="Authenticate and receive JWT token"
+/>
+
+<CodeBlock language="bash" title="JWT Authentication">
+# Login to get token
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"username": "your-username", "password": "your-password"}' \
+     https://your-domain.com/api/v1/auth/login
+
+# Use token in subsequent requests
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+     https://your-domain.com/api/v1/documents
+</CodeBlock>
+
+## Rate Limiting
+
+API requests are rate limited to ensure fair usage:
+
+- **Free Tier**: 100 requests per hour
+- **Pro Tier**: 1,000 requests per hour
+- **Enterprise**: Custom limits
+
+Rate limit information is included in response headers:
+
+<CodeBlock language="http" title="Rate Limit Headers">
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640995200
+</CodeBlock>
+
+## Response Format
+
+All API responses follow a consistent JSON format:
+
+<CodeBlock language="json" title="Success Response">
+{
+  "success": true,
+  "data": {
+    // Response data here
+  },
+  "meta": {
+    "timestamp": "2023-12-01T10:00:00Z",
+    "version": "1.0.0"
+  }
+}
+</CodeBlock>
+
+<CodeBlock language="json" title="Error Response">
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid request parameters",
+    "details": {
+      "field": "email",
+      "issue": "Invalid email format"
+    }
+  },
+  "meta": {
+    "timestamp": "2023-12-01T10:00:00Z",
+    "version": "1.0.0"
+  }
+}
+</CodeBlock>
+
+## Error Codes
+
+Common HTTP status codes and their meanings:
+
+| Status Code | Meaning | Description |
+|-------------|---------|-------------|
+| 200 | OK | Request successful |
+| 201 | Created | Resource created successfully |
+| 400 | Bad Request | Invalid request parameters |
+| 401 | Unauthorized | Authentication required |
+| 403 | Forbidden | Insufficient permissions |
+| 404 | Not Found | Resource not found |
+| 429 | Too Many Requests | Rate limit exceeded |
+| 500 | Internal Server Error | Server error |
+
+## API Endpoints Overview
+
+### Documents
+
+<ApiEndpoint method="GET" path="/api/v1/documents" description="List all documents" />
+<ApiEndpoint method="POST" path="/api/v1/documents" description="Upload a new document" />
+<ApiEndpoint method="GET" path="/api/v1/documents/{id}" description="Get document details" />
+<ApiEndpoint method="DELETE" path="/api/v1/documents/{id}" description="Delete a document" />
+
+### Analysis
+
+<ApiEndpoint method="POST" path="/api/v1/documents/{id}/analyze" description="Analyze a document" />
+<ApiEndpoint method="GET" path="/api/v1/documents/{id}/analysis" description="Get analysis results" />
+
+### AI Models
+
+<ApiEndpoint method="GET" path="/api/v1/models" description="List available AI models" />
+<ApiEndpoint method="POST" path="/api/v1/models/{name}/chat" description="Chat with an AI model" />
+
+### System
+
+<ApiEndpoint method="GET" path="/api/v1/health" description="Health check endpoint" />
+<ApiEndpoint method="GET" path="/api/v1/status" description="System status and metrics" />
+
+## SDKs and Libraries
+
+Official SDKs are available for popular programming languages:
+
+<Tabs>
+<TabItem label="JavaScript/Node.js">
+<CodeBlock language="bash">
+npm install @ai-toolkit/sdk
+</CodeBlock>
+
+<CodeBlock language="javascript">
+import { AIToolkit } from '@ai-toolkit/sdk';
+
+const client = new AIToolkit({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://your-domain.com/api/v1'
+});
+
+const documents = await client.documents.list();
+</CodeBlock>
+</TabItem>
+
+<TabItem label="Python">
+<CodeBlock language="bash">
+pip install ai-toolkit-python
+</CodeBlock>
+
+<CodeBlock language="python">
+from ai_toolkit import AIToolkit
+
+client = AIToolkit(
+    api_key='your-api-key',
+    base_url='https://your-domain.com/api/v1'
+)
+
+documents = client.documents.list()
+</CodeBlock>
+</TabItem>
+</Tabs>
+
+## Webhooks
+
+The AI Toolkit can send webhook notifications for various events:
+
+- Document upload completed
+- Analysis finished
+- Error occurred during processing
+
+<CodeBlock language="json" title="Webhook Payload Example">
+{
+  "event": "document.analysis.completed",
+  "timestamp": "2023-12-01T10:00:00Z",
+  "data": {
+    "document_id": "doc_123",
+    "analysis_id": "analysis_456",
+    "status": "completed",
+    "results": {
+      // Analysis results here
+    }
+  }
+}
+</CodeBlock>
+
+## Next Steps
+
+- [Document Management API](/api-reference/documents)
+- [Analysis API](/api-reference/analysis)
+- [Authentication Guide](/guides/api/authentication)
+- [API Examples](/tutorials/api-examples)
+
+<Callout type="info" title="Need Help?">
+If you have questions about the API or need help with integration, check our [API examples](/tutorials/api-examples) or reach out to our support team.
+</Callout>
